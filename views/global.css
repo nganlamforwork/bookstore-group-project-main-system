@@ -1,0 +1,20 @@
+:root {
+	--palette-01: #9b3c00;
+	--palette-02: #b6520f;
+	--palette-03: #d2691e;
+	--palette-04: #ea9247;
+	--palette-05: #ffbb6e;
+}
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+a,
+a:hover {
+	text-decoration: none;
+	list-style: none;
+	color: inherit;
+}
