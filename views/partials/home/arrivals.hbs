@@ -1,0 +1,43 @@
+<div
+  style="padding: 4rem 10rem;"
+  class="text-center d-flex flex-column align-items-center"
+>
+  <h1 class="text-uppercase mb-4 fw-bold header-font fs-2">New arrivals</h1>
+  <ul class="nav nav-pills gap-4">
+    <li class="nav-item">
+      <button
+        class="nav-link active tab-button shadow rounded-0 p-3"
+        aria-current="page"
+        type="submit"
+      >All</button>
+    </li>
+    <li class="nav-item">
+      <button
+        class="nav-link tab-button shadow rounded-0 p-3"
+        aria-current="page"
+        type="submit"
+      >Cook Book</button>
+    </li>
+  </ul>
+  <div class="book-cards-container mt-4 row">
+    <div class="col-3">
+      {{> bookcard}}
+      </div>
+    <div class="col-3">
+      {{> bookcard}}
+      </div>
+    <div class="col-3">
+      {{> bookcard}}
+      </div>
+    <div class="col-3">
+      {{> bookcard}}
+      </div>
+  </div>
+</div>
+
+<style>
+  .tab-button{ background-color: white; color: black !important; transition: all 0.4s
+  ease-in-out;} .tab-button:hover{background-color: var(--palette-02)
+  !important;color: white !important;} .tab-button.active{ background-color:
+  var(--palette-02) !important; color: white !important;}
+</style>

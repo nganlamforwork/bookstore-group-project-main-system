@@ -68,6 +68,7 @@ app.use('/admin', adminRoutes);
 // Handling invalid routes
 app.use((req, res, next) => {
 	res.status(404).render('error', {
+		layout: false,
 		code: 404,
 		msg: 'Page not found',
 		description: 'The page you’re looking for doesn’t exist.',
@@ -78,6 +79,7 @@ app.use((req, res, next) => {
 app.use((err, req, res, next) => {
 	const statusCode = err instanceof CustomError ? err.statusCode : 500;
 	res.status(statusCode).render('error', {
+		layout: false,
 		code: statusCode,
 		msg: 'Server error',
 		description: err.message,

@@ -1,19 +1,27 @@
-<nav class="navbar navbar-expand-lg navbar-light" style="background-color: var(--palette-03)">
+<nav
+  class="navbar navbar-expand-lg navbar-light"
+  style="background-color: var(--palette-03)"
+>
   <div class="container-fluid">
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
-      aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse align-items-center justify-content-center" id="navbarNavDropdown">
-      <ul class="navbar-nav">
+    <div
+      class="collapse navbar-collapse align-items-center justify-content-center p-3"
+      id="navbarNavDropdown"
+    >
+      <ul class="navbar-nav gap-3">
         <li class="nav-item">
           <a class="nav-link active text-light" aria-current="page" href="/">
             Home
           </a>
         </li>
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle text-light" href="#" id="navbarDropdownMenuLink" role="button"
-            data-bs-toggle="dropdown" aria-expanded="false">
+          <a
+            class="nav-link dropdown-toggle text-light"
+            href="#"
+            id="navbarDropdownMenuLink"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
             Categories
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
@@ -35,18 +43,24 @@
           </ul>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-light" href="#">
+          <a class="nav-link text-light" href="/brands">
             Brands
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-light" href="#">
+          <a class="nav-link text-light" href="/bestsellers">
             Best Sellers
           </a>
         </li>
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle text-light" href="#" id="navbarDropdownMenuLink" role="button"
-            data-bs-toggle="dropdown" aria-expanded="false">
+          <a
+            class="nav-link dropdown-toggle text-light"
+            href="#"
+            id="navbarDropdownMenuLink"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
             Pages
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
@@ -71,3 +85,7 @@
     </div>
   </div>
 </nav>
+
+<style>
+  .website-header{ font-family: var(--font-heading-family) }
+</style>
