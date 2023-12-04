@@ -2,19 +2,23 @@ require('dotenv').config();
 
 const express = require('express');
 const morgan = require('morgan');
-const session = require('express-session');
-const cookieParser = require('cookie-parser');
+const passport = require('passport');
 const bodyParser = require('body-parser');
 const { create } = require('express-handlebars');
+const session = require('express-session');
+const cookieParser = require('cookie-parser');
 
 const CustomError = require('./modules/custom_err');
 
 const app = express();
+
+// config
 const port = process.env.PORT || 21337;
 const localhost = process.env.HOST;
-
-const hbs = create({ extname: '.hbs' });
 const SECRET_KEY = process.env.SECRET_KEY;
+
+// template engine
+const hbs = create({ extname: '.hbs' });
 
 app.use('/imgs', express.static('imgs'));
 app.use('/views', express.static('views'));
@@ -26,13 +30,17 @@ app.use(cookieParser(SECRET_KEY));
 app.use(
 	session({
 		secret: SECRET_KEY,
-		resave: false,
+		resave: true,
 		saveUninitialized: true,
 		cookie: {
 			secure: false,
 		},
 	})
 );
+
+// authen
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.engine('hbs', hbs.engine);
 app.set('views', './views');
@@ -44,16 +52,16 @@ app.set('view engine', 'hbs');
 // });
 
 app.get('/', (req, res) => {
-	// if (!req.session.user) {
-	// 	return res.redirect('/auth/signin');
-	// }
 	res.render('home', {
 		title: 'Home',
-		isLogged: req.session.user ? true : false,
 	});
 });
 
 // Define routes
+const userRoutes = require('./routers/user.route');
+const adminRoutes = require('./routers/admin.route');
+app.use('/auth', userRoutes);
+app.use('/admin', adminRoutes);
 
 // Using routes
 

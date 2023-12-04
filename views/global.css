@@ -4,6 +4,12 @@
 	--palette-03: #d2691e;
 	--palette-04: #ea9247;
 	--palette-05: #ffbb6e;
+
+	--gradient-base-background-1: #ffffff;
+	--gradient-base-background-2: #f7f7f7;
+	--gradient-base-background-3: #fdefe1;
+
+	--dark-footer-background: #242424;
 }
 
 * {
