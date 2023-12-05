@@ -1,74 +1,63 @@
-<div class='container'>
-	<div class='row'>
-		<div class='col-sm-9 col-md-7 col-lg-5 mx-auto'>
-			<div class='card border-0 shadow rounded-3 my-5'>
-				<div class='card-body p-4 p-sm-5'>
-					<h2 class='card-title text-center mb-5 fw-light'>Sign Up</h2>
-					<form action='/auth/login' method='post'>
-						<div class='form-floating mb-3'>
-							<input
-								type='text'
-								class='form-control'
-								id='floatingInput'
-								placeholder='Enter fullname'
-								name='fullname'
-							/>
-							<label for='floatingInput'>Fullname</label>
-						</div>
-						<div class='form-floating mb-3'>
-							<input
-								type='email'
-								class='form-control'
-								id='floatingInput'
-								placeholder='name@example.com'
-								name='email'
-							/>
-							<label for='floatingInput'>Email address</label>
-						</div>
-						<div class='form-floating mb-3'>
-							<input
-								type='text'
-								class='form-control'
-								id='floatingInput'
-								placeholder='Enter username'
-								name='username'
-							/>
-							<label for='floatingInput'>Username</label>
-						</div>
-						<div class='form-floating mb-3'>
-							<input
-								type='password'
-								class='form-control'
-								id='floatingPassword'
-								placeholder='Password'
-								name='password'
-							/>
-							<label for='floatingPassword'>Password</label>
-						</div>
-						<div class='form-floating mb-3'>
-							<input
-								type='date'
-								class='form-control'
-								id='floatingInput'
-								name='dob'
-							/>
-							<label for='floatingInput'>Date of birth</label>
-						</div>
-						<div class='d-grid'>
-							<button
-								class='btn btn-primary btn-login text-uppercase fw-bold'
-								type='submit'
-							>Sign up</button>
-						</div>
-					</form>
-					<div
-						class='d-flex flex-row gap-2 justify-content-center mt-3'
-					>
-						<p>Already have an account?</p>
-						<a href='/auth/signin' class='text-primary'>Sign in</a>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+<div class="container">
+  <div class="row">
+    <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+      <div class="card border-0 shadow rounded-3 my-5">
+        <div class="card-body p-4 p-sm-5">
+          <h2 class="card-title text-center mb-5 fw-light">Sign Up</h2>
+          <form action="/auth/signup" method="post">
+            <div class="form-floating mb-3">
+              <input
+                type="text"
+                class="form-control"
+                id="floatingInput"
+                placeholder="Enter fullname"
+                name="firstname"
+              />
+              <label for="floatingInput">First name</label>
+            </div>
+            <div class="form-floating mb-3">
+              <input
+                type="text"
+                class="form-control"
+                id="floatingInput"
+                placeholder="Enter fullname"
+                name="lastname"
+              />
+              <label for="floatingInput">Last name</label>
+            </div>
+            <div class="form-floating mb-3">
+              <input
+                type="email"
+                class="form-control"
+                id="floatingInput"
+                placeholder="name@example.com"
+                name="email"
+              />
+              <label for="floatingInput">Email address</label>
+            </div>
+            <div class="form-floating mb-3">
+              <input
+                type="password"
+                class="form-control"
+                id="floatingPassword"
+                placeholder="Password"
+                name="password"
+              />
+              <label for="floatingPassword">Password</label>
+            </div>
+            <div class="d-grid">
+              <button
+                class="btn btn-primary btn-login text-uppercase fw-bold"
+                type="submit"
+              >Sign up</button>
+            </div>
+          </form>
+          <div class="d-flex flex-row gap-2 justify-content-center mt-3">
+            <p>Already have an account?</p>
+            <a href="/auth/signin" class="text-primary">Sign in</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
