@@ -5,9 +5,60 @@ const customerController = {
   getProfilePage: async (req, res, next) => {
     try {
       if (req.session.user) {
+        const { first_name, last_name, email } = req.session.user;
         res.render("profile", {
           title: "Profile",
-          email: encodeURIComponent(req.session.user.email),
+          full_name: first_name + " " + last_name,
+          first_name: first_name,
+          last_name: last_name,
+          email: email,
+          phone: "000000",
+          default_address: "aaa",
+          default_payment: "bbb",
+        });
+      } else res.redirect("/auth/login");
+    } catch (error) {
+      next(err);
+    }
+  },
+  getInformationPage: async (req, res, next) => {
+    try {
+      if (req.session.user) {
+        res.render("information", {
+          title: "Information",
+        });
+      } else res.redirect("/auth/login");
+    } catch (error) {
+      next(err);
+    }
+  },
+  getOrdersPage: async (req, res, next) => {
+    try {
+      if (req.session.user) {
+        res.render("orders", {
+          title: "Orders History",
+        });
+      } else res.redirect("/auth/login");
+    } catch (error) {
+      next(err);
+    }
+  },
+  getPaymentsPage: async (req, res, next) => {
+    try {
+      if (req.session.user) {
+        res.render("payments", {
+          title: "Payment Methods",
+        });
+      } else res.redirect("/auth/login");
+    } catch (error) {
+      next(err);
+    }
+  },
+  getAddressesPage: async (req, res, next) => {
+    try {
+      if (req.session.user) {
+        res.render("addresses", {
+          title: "Addresses Book",
         });
       } else res.redirect("/auth/login");
     } catch (error) {
