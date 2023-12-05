@@ -2,8 +2,24 @@ const CustomerModel = require("../models/customer.model");
 const bcrypt = require("bcrypt");
 
 const customerController = {
+  getProfilePage: async (req, res, next) => {
+    try {
+      if (req.session.user) {
+        res.render("profile", {
+          title: "Profile",
+          email: encodeURIComponent(req.session.user.email),
+        });
+      } else res.redirect("/auth/login");
+    } catch (error) {
+      next(err);
+    }
+  },
   getLoginPage: async (req, res, next) => {
     try {
+      if (req.session.user) {
+        return res.redirect("/auth/profile");
+      }
+
       res.render("login", {
         title: "Login",
       });
@@ -13,8 +29,11 @@ const customerController = {
   },
   getRegisterPage: async (req, res, next) => {
     try {
+      if (req.session.user) {
+        return res.redirect("/auth/profile");
+      }
       res.render("register", {
-        title: "Register",
+        title: "Create account",
       });
     } catch (error) {
       next(err);
@@ -29,9 +48,12 @@ const customerController = {
           return next(err);
         }
 
-        await CustomerModel.add(firstname, lastname, email, hash);
+        const rs = await CustomerModel.add(firstname, lastname, email, hash);
+        if (!rs.status) {
+          return res.render("register", { error: rs.msg });
+        }
 
-        res.redirect("/");
+        res.redirect("/auth/login");
       });
     } catch (err) {
       next(err);
@@ -54,7 +76,14 @@ const customerController = {
             error: "Wrong password for that email",
           });
         } else {
-          res.redirect("/");
+          req.session.user = founded;
+          req.session.save((err) => {
+            if (err) {
+              return next(err);
+            }
+
+            res.redirect("/");
+          });
         }
       });
     } catch (err) {

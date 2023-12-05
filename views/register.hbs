@@ -10,6 +10,11 @@
             class="text-center mb-3 fw-light header-font"
             style="font-size: 48px"
           >Create account</h1>
+          {{#if error}}
+            <div class="alert alert-danger" role="alert">
+              {{error}}
+            </div>
+          {{/if}}
           <form action="/auth/register" method="post">
             <div class="form-floating mb-3">
               <input

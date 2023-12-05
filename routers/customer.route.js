@@ -7,5 +7,6 @@ router.get("/register", customerController.getRegisterPage);
 router.post("/login", customerController.login);
 router.post("/register", customerController.register);
 router.post("/signout", customerController.signOut);
+router.get("/profile", customerController.getProfilePage);
 
 module.exports = router;
