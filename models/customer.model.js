@@ -30,6 +30,14 @@ const CustomerModel = {
       console.error(err);
     }
   },
+  update: async (email, updateData) => {
+    try {
+      const result = await db.update(schema, "email", email, updateData);
+      return result;
+    } catch (err) {
+      console.error(err);
+    }
+  },
 };
 
 module.exports = CustomerModel;

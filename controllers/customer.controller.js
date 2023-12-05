@@ -5,28 +5,18 @@ const customerController = {
   getProfilePage: async (req, res, next) => {
     try {
       if (req.session.user) {
-        const { first_name, last_name, email } = req.session.user;
-        res.render("profile", {
+        const { email } = req.session.user;
+        const rs = await CustomerModel.get(email);
+        let user = rs._doc;
+        delete user._id;
+        delete user.__v;
+        delete user.password;
+        const data = {
           title: "Profile",
-          full_name: first_name + " " + last_name,
-          first_name: first_name,
-          last_name: last_name,
-          email: email,
-          phone: "000000",
-          default_address: "aaa",
-          default_payment: "bbb",
-        });
-      } else res.redirect("/auth/login");
-    } catch (error) {
-      next(err);
-    }
-  },
-  getInformationPage: async (req, res, next) => {
-    try {
-      if (req.session.user) {
-        res.render("information", {
-          title: "Information",
-        });
+          full_name: user.first_name + " " + user.last_name,
+          ...user,
+        };
+        res.render("profile", data);
       } else res.redirect("/auth/login");
     } catch (error) {
       next(err);
@@ -146,6 +136,48 @@ const customerController = {
       res.redirect("/auth/signin");
     } catch (err) {
       next(err);
+    }
+  },
+  getInformationPage: async (req, res, next) => {
+    try {
+      if (req.session.user) {
+        const rs = await CustomerModel.get(req.session.user.email);
+        let user = rs._doc;
+        delete user._id;
+        delete user.__v;
+        delete user.password;
+        const data = { title: "Information", ...user };
+        res.render("information", data);
+      } else res.redirect("/auth/login");
+    } catch (error) {
+      next(err);
+    }
+  },
+  updateInformation: async (req, res, next) => {
+    try {
+      if (req.session.user) {
+        const { email } = req.session.user;
+        const { firstname, lastname, phone } = req.body;
+
+        const updateData = {
+          first_name: firstname,
+          last_name: lastname,
+          phone: String(phone),
+        };
+
+        const updateResult = await CustomerModel.update(email, updateData);
+        if (!updateResult) {
+          return res.redirect("/auth/profile/information");
+        }
+
+        req.session.user = { ...req.session.user, ...updateData };
+
+        res.redirect("/auth/profile");
+      } else {
+        res.redirect("/auth/login");
+      }
+    } catch (error) {
+      next(error);
     }
   },
 };

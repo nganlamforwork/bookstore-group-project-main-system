@@ -37,7 +37,28 @@ async function get(schema, fieldName, fieldValue) {
     console.error(error);
   }
 }
+async function update(schema, fieldName, searchValue, updateData) {
+  try {
+    await mongoose.connect(uri);
+
+    if (!(schema in schemas)) {
+      throw new Error(`Schema '${schema}' not found`);
+    }
+
+    const Model = mongoose.model(schema, schemas[schema]);
+
+    const result = await Model.updateOne(
+      { [fieldName]: searchValue },
+      { $set: updateData }
+    );
+
+    return result;
+  } catch (error) {
+    console.error(error);
+  }
+}
 module.exports = {
   add: add,
   get: get,
+  update: update,
 };
