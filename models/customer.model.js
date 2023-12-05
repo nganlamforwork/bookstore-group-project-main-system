@@ -1,26 +1,26 @@
-const db = require("../db");
-const { v4: uuidv4 } = require("uuid");
+const db = require("./db");
+const schema = "customers";
 
 const CustomerModel = {
   add: async (firstname, lastname, email, pw) => {
     try {
-      const customerId = uuidv4();
-      await db.add(customerId, firstname, lastname, email, pw);
+      await db.add(schema, {
+        first_name: firstname,
+        last_name: lastname,
+        email: email,
+        password: pw,
+      });
     } catch (err) {
       console.error(err);
     }
   },
-  getUser: async (username) => {
-    console.log("get user");
-    // try {
-    // 	const user = await db.oneOrNone(
-    // 		'SELECT * FROM "Users" WHERE "Username" = $1',
-    // 		[username]
-    // 	);
-    // 	return user;
-    // } catch (err) {
-    // 	console.log(err);
-    // }
+  get: async (email) => {
+    try {
+      const customer = await db.get(schema, "email", email);
+      return customer;
+    } catch (err) {
+      console.error(err);
+    }
   },
 };
 

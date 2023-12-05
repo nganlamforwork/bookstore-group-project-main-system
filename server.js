@@ -60,8 +60,10 @@ app.get("/", (req, res) => {
 // Define routes
 const userRoutes = require("./routers/customer.route");
 const adminRoutes = require("./routers/admin.route");
+const subscriberRoutes = require("./routers/subscriber.route");
 app.use("/auth", userRoutes);
 app.use("/admin", adminRoutes);
+app.use("/subscriber", subscriberRoutes);
 
 // Using routes
 

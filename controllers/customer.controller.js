@@ -20,7 +20,7 @@ const customerController = {
       next(err);
     }
   },
-  signUp: async (req, res, next) => {
+  register: async (req, res, next) => {
     try {
       const { firstname, lastname, email, password } = req.body;
 
@@ -38,16 +38,24 @@ const customerController = {
     }
   },
 
-  signIn: async (req, res, next) => {
+  login: async (req, res, next) => {
     try {
-      const { username, password } = req.body;
-      const foundUser = await CustomerModel.getUser(username);
-      if (!foundUser) return;
-      bcrypt.compare(password, foundUser.Password, function (err, result) {
-        if (err) {
-          return next(err);
+      const { email, password } = req.body;
+
+      const founded = await CustomerModel.get(email);
+      if (!founded)
+        return res.render("login", {
+          error: `User with ${email} not founded`,
+        });
+
+      bcrypt.compare(password, founded.password, function (err, result) {
+        if (err || !result) {
+          return res.render("login", {
+            error: "Wrong password for that email",
+          });
+        } else {
+          res.redirect("/");
         }
-        res.redirect("/");
       });
     } catch (err) {
       next(err);
