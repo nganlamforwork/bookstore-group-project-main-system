@@ -1,13 +1,16 @@
 const BooksModel = require("../../models/admin/books.model");
+const CategoriesModel = require("../../models/admin/categories.model");
 
 const booksController = {
   getBooks: async (req, res, next) => {
     try {
       const allBooks = await BooksModel.getAll();
+      const allCategories = await CategoriesModel.getAll();
       res.render("dashboard/books", {
         title: "Books",
         layout: "admin",
         books: allBooks,
+        categories: allCategories,
       });
     } catch (error) {
       next(error);
@@ -16,7 +19,6 @@ const booksController = {
 
   addBook: async (req, res, next) => {
     try {
-      console.log(req.body);
       await BooksModel.add(req.body);
       res.redirect("/admin/books");
     } catch (error) {

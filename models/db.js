@@ -94,6 +94,23 @@ async function deleteById(schema, id) {
     console.error(error);
   }
 }
+async function aggregate(schema, pipeline) {
+  try {
+    await mongoose.connect(uri);
+
+    if (!(schema in schemas)) {
+      throw new Error(`Schema '${schema}' not found`);
+    }
+
+    const Model = mongoose.model(schema, schemas[schema]);
+
+    const results = await Model.aggregate(pipeline);
+
+    return results;
+  } catch (error) {
+    console.error(error);
+  }
+}
 
 module.exports = {
   add: add,
@@ -101,4 +118,5 @@ module.exports = {
   update: update,
   getAll: getAll,
   deleteById: deleteById,
+  aggregate: aggregate,
 };
