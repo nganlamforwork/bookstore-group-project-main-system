@@ -2,6 +2,17 @@ const CustomerModel = require('../models/customer.model');
 const SubscriberModel = require('../models/subscriber.model');
 
 const adminController = {
+	getAdminProfile: async (req, res, next) => {
+		try {
+			res.render('dashboard/admin/profile', {
+				title: 'Admin Profile',
+				layout: 'admin',
+				admin: req.user,
+			});
+		} catch (error) {
+			next(err);
+		}
+	},
 	getLoginAdmin: async (req, res, next) => {
 		try {
 			if (req.isAuthenticated()) {
@@ -64,6 +75,20 @@ const adminController = {
 				subscribers: sanitizedSubscribers,
 			});
 		} catch (error) {
+			next(err);
+		}
+	},
+	logOut: async (req, res, next) => {
+		try {
+			req.logout((err) => {
+				if (err) {
+					return next(err);
+				}
+				// Successful logout: Perform any additional tasks like clearing session data, etc. if needed
+				req.locals = {};
+				res.redirect('/admin');
+			});
+		} catch (err) {
 			next(err);
 		}
 	},

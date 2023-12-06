@@ -19,8 +19,10 @@ const SECRET_KEY = process.env.SECRET_KEY;
 // template engine
 const hbs = create({
 	extname: '.hbs',
-	allowProtoMethodsByDefault: true,
-	allowProtoPropertiesByDefault: true,
+	runtimeOptions: {
+		allowProtoPropertiesByDefault: true,
+		allowProtoMethodsByDefault: true,
+	},
 });
 
 app.use('/imgs', express.static('imgs'));

@@ -15,6 +15,7 @@ router.post(
 );
 router.use((req, res, next) => {
 	if (req.isAuthenticated()) {
+		res.locals.curAdmin = req.user;
 		return next();
 	}
 	res.redirect('/admin');
@@ -24,5 +25,10 @@ router.use((req, res, next) => {
 router.get('/dashboard', adminController.getAdminDashboard);
 router.get('/users', adminController.getUsers);
 router.get('/subscribers', adminController.getSubscribers);
+
+
+// Admin
+router.get('/profile', adminController.getAdminProfile)
+router.get('/logout', adminController.logOut)
 
 module.exports = router;

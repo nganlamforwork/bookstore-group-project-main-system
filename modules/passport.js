@@ -14,7 +14,7 @@ passport.deserializeUser(async (user, done) => {
 		return done(null, foundUser);
 	}
 
-	done('Invalid admin');
+	done('Invalid Admin');
 });
 
 module.exports = (app) => {

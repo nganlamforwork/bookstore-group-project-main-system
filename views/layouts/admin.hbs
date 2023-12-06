@@ -54,7 +54,7 @@
           <!-- Dashboards -->
 
           <li class="menu-item">
-            <a href="/admin" target="_blank" class="menu-link">
+            <a href="/admin" class="menu-link">
               <i class="menu-icon tf-icons mdi mdi-home-outline"></i>
               <div data-i18n="Email">
                 Dashboards
@@ -107,7 +107,7 @@
           </li>
 
           <li class="menu-item">
-            <a href="auth-forgot-password-basic.html" class="menu-link" target="_blank">
+            <a href="auth-forgot-password-basic.html" class="menu-link">
               <div data-i18n="Basic">
                 Forgot Password
               </div>
@@ -189,7 +189,7 @@
                         </div>
                         <div class="flex-grow-1">
                           <h6 class="mb-0">
-                            John Doe
+                            {{curAdmin.email}}
                           </h6>
                           <small class="text-muted">
                             Admin
@@ -202,7 +202,7 @@
                     <div class="dropdown-divider my-1"></div>
                   </li>
                   <li>
-                    <a class="dropdown-item" href="#">
+                    <a class="dropdown-item" href="/admin/profile">
                       <i class="mdi mdi-account-outline me-1 mdi-20px"></i>
                       <span class="align-middle">
                         My Profile
@@ -221,7 +221,7 @@
                     <div class="dropdown-divider my-1"></div>
                   </li>
                   <li>
-                    <a class="dropdown-item" href="javascript:void(0);">
+                    <a class="dropdown-item" href="/admin/logout">
                       <i class="mdi mdi-power me-1 mdi-20px"></i>
                       <span class="align-middle">
                         Log Out
