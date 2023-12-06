@@ -22,8 +22,7 @@ const CategoriesModel = {
           $project: {
             _id: 1,
             title: 1,
-            created_at: 1,
-            last_updated: 1,
+            slug: 1,
             book_count: 1,
           },
         },
