@@ -34,6 +34,9 @@
       <thead class="table-light">
         <tr>
           <th>
+            Thumbnail
+          </th>
+          <th>
             Title
           </th>
           <th>
@@ -60,7 +63,13 @@
         {{#each books}}
           <tr>
             <td>
-              <i class="mdi mdi-wallet-travel mdi-20px text-danger me-3"></i>
+              <img
+                src="{{this.thumbnail}}"
+                alt="{{this.title}}"
+                style="width: 100px"
+              />
+            </td>
+            <td>
               <span class="fw-medium">
                 {{this.title}}
               </span>

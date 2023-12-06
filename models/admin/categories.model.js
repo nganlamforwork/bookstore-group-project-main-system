@@ -4,7 +4,31 @@ const schema = "categories";
 const CategoriesModel = {
   getAll: async () => {
     try {
-      return await db.getAll(schema);
+      const pipeline = [
+        {
+          $lookup: {
+            from: "books",
+            localField: "_id",
+            foreignField: "category_id",
+            as: "books",
+          },
+        },
+        {
+          $addFields: {
+            book_count: { $size: "$books" },
+          },
+        },
+        {
+          $project: {
+            _id: 1,
+            title: 1,
+            created_at: 1,
+            last_updated: 1,
+            book_count: 1,
+          },
+        },
+      ];
+      return await db.aggregate(schema, pipeline);
     } catch (error) {
       console.error(error);
     }
