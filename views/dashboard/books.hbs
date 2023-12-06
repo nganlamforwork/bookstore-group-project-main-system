@@ -1,0 +1,317 @@
+<h1>
+  Books
+</h1>
+
+<!-- Hoverable Table rows -->
+<div class="card">
+  <div class="card-header">
+    <div class="d-flex flex justify-content-between align-items-start">
+      <button
+        type="button"
+        class="btn btn-primary text-capitalize fw-bold"
+        data-bs-toggle="modal"
+        data-bs-target="#addNewModal"
+      >
+        <i class="fa-solid fa-plus me-2"></i>
+        Add new book
+      </button>
+      <!-- Search -->
+      <form class="d-flex" role="search">
+        <input
+          class="form-control me-2"
+          type="search"
+          placeholder="Search books"
+          aria-label="Search"
+        />
+        <button class="btn btn-outline-secondary" type="submit">
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+      </form>
+    </div>
+  </div>
+  <div class="table-responsive text-nowrap">
+    <table class="table table-hover">
+      <thead class="table-light">
+        <tr>
+          <th>
+            Thumbnail
+          </th>
+          <th>
+            Title
+          </th>
+          <th>
+            Category
+          </th>
+          <th>
+            Author
+          </th>
+          <th>
+            Votes
+          </th>
+          <th>
+            Inventory
+          </th>
+          <th>
+            Price
+          </th>
+          <th>
+            Quick Actions
+          </th>
+        </tr>
+      </thead>
+      <tbody class="table-border-bottom-0">
+        {{#each books}}
+          <tr>
+            <td>
+              <img
+                src="{{this.thumbnail}}"
+                alt="{{this.title}}"
+                style="width: 100px"
+              />
+            </td>
+            <td>
+              <span class="fw-medium">
+                {{this.title}}
+              </span>
+            </td>
+            <td>
+              {{this.category_title}}
+            </td>
+            <td>
+              {{this.author_id}}
+            </td>
+            <td>
+              {{this.votes}}
+            </td>
+            <td>
+              {{this.inventory}}
+            </td>
+            <td>
+              ${{this.price}}
+            </td>
+            <td>
+              <div class="dropdown">
+                <button
+                  type="button"
+                  class="btn p-0 dropdown-toggle hide-arrow text-center"
+                  data-bs-toggle="dropdown"
+                >
+                  <i class="fa-solid fa-ellipsis-vertical"></i>
+                </button>
+                <div class="dropdown-menu">
+                  <a href="/admin/books/{{this._id}}" class="dropdown-item">
+                    <i class="fa-solid fa-eye"></i>
+                    View detail
+                  </a>
+                  <form action="/admin/books/delete/{{this._id}}" method="POST">
+                    <button type="submit" class="dropdown-item">
+                      <i class="fa-solid fa-trash"></i>
+                      Delete
+                    </button>
+                  </form>
+                </div>
+              </div>
+            </td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Add new modal -->
+<div class="modal fade" id="addNewModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">
+          Add new book
+        </h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <form action="/admin/books/new" method="POST">
+        <div class="modal-body">
+          <div class="form-floating mb-3">
+            <input
+              type="text"
+              name="title"
+              class="form-control"
+              id="title"
+              placeholder="Input book title"
+              required
+            />
+            <label for="title">
+              Title
+            </label>
+          </div>
+          <div class="form-floating mb-3">
+            <input
+              type="number"
+              name="pages"
+              class="form-control"
+              id="pages"
+              placeholder="Input number of pages"
+            />
+            <label for="pages">
+              Pages
+            </label>
+          </div>
+          <div class="form-floating mb-3">
+            <input
+              type="text"
+              name="age"
+              class="form-control"
+              id="age"
+              placeholder="Input target age group"
+            />
+            <label for="age">
+              Age Group
+            </label>
+          </div>
+          <div class="form-floating mb-3">
+            <input
+              type="text"
+              name="brief_des"
+              class="form-control"
+              id="brief_des"
+              placeholder="Input brief description"
+            />
+            <label for="brief_des">
+              Brief Description
+            </label>
+          </div>
+          <div class="form-floating mb-3">
+            <textarea
+              name="full_des"
+              class="form-control"
+              id="full_des"
+              placeholder="Input full description"
+              rows="4"
+            ></textarea>
+            <label for="full_des">
+              Full Description
+            </label>
+          </div>
+          <div class="form-floating mb-3">
+            <select class="form-select" id="author_id">
+              <!-- Populate options dynamically based on authors in your system -->
+              <option value="author_id_1">
+                Author 1
+              </option>
+              <option value="author_id_2">
+                Author 2
+              </option>
+              <!-- Add more options as needed -->
+            </select>
+            <label for="author_id">
+              Author
+            </label>
+          </div>
+          <div class="form-floating mb-3">
+            <input
+              type="number"
+              name="price"
+              class="form-control"
+              id="price"
+              placeholder="Input book price"
+            />
+            <label for="price">
+              Price
+            </label>
+          </div>
+          <div class="form-floating mb-3">
+            <input
+              type="text"
+              name="vendor"
+              class="form-control"
+              id="vendor"
+              placeholder="Input book vendor"
+            />
+            <label for="vendor">
+              Vendor
+            </label>
+          </div>
+          <div class="form-floating mb-3">
+            <input
+              type="text"
+              name="language"
+              class="form-control"
+              id="language"
+              placeholder="Input book language"
+            />
+            <label for="language">
+              Language
+            </label>
+          </div>
+          <div class="form-floating mb-3">
+            <input
+              type="date"
+              name="published_at"
+              class="form-control"
+              id="published_at"
+              placeholder="Input publication date"
+            />
+            <label for="published_at">
+              Published At
+            </label>
+          </div>
+          <div class="form-floating mb-3">
+            <input
+              type="text"
+              name="thumbnail"
+              class="form-control"
+              id="thumbnail"
+              placeholder="Input thumbnail URL"
+            />
+            <label for="thumbnail">
+              Thumbnail URL
+            </label>
+          </div>
+          <div class="form-floating mb-3">
+            <input
+              type="number"
+              name="inventory"
+              class="form-control"
+              id="inventory"
+              placeholder="Input book inventory"
+            />
+            <label for="inventory">
+              Inventory
+            </label>
+          </div>
+          <div class="form-floating mb-3">
+            <select name="category_id" class="form-select" id="category_id">
+              {{#each categories}}
+                <!-- Populate options dynamically based on categories in your system -->
+                <option value="{{this._id}}">
+                  {{this.title}}
+                </option>
+              {{/each}}
+              <!-- Add more options as needed -->
+            </select>
+            <label for="category_id">
+              Category
+            </label>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+          >
+            Close
+          </button>
+          <button type="submit" class="btn btn-primary">
+            Add
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
