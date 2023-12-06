@@ -1,0 +1,31 @@
+<!-- Data Tables -->
+<div class="col-12">
+  <div class="card">
+    <div class="table-responsive">
+      <table class="table">
+        <thead class="table-light">
+          <tr>
+            <th class="text-truncate">
+              #
+            </th>
+            <th class="text-truncate">
+              Email
+            </th>
+            <th class="text-truncate">
+              Date subscribed
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each subscribers}}
+          <tr>
+            <td class="text-truncate">{{@index}}</td>
+            <td class="text-truncate">{{this.email}}</td>
+            <td class="text-truncate">{{this.created_at}}</td>
+          </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
