@@ -27,6 +27,7 @@ router.get("/dashboard", adminController.getAdminDashboard);
 router.get("/customers", adminController.getCustomers);
 router.get("/subscribers", adminController.getSubscribers);
 router.use("/categories", require("./admin/categories.route"));
+router.use("/books", require("./admin/books.route"));
 
 // Admin
 router.get("/profile", adminController.getAdminProfile);
