@@ -1,0 +1,160 @@
+<h1>
+  Categories
+</h1>
+
+<!-- Hoverable Table rows -->
+<div class="card">
+  <div class="card-header">
+    <div class="d-flex flex justify-content-between align-items-start">
+      <button
+        type="button"
+        class="btn btn-primary text-capitalize fw-bold"
+        data-bs-toggle="modal"
+        data-bs-target="#addNewModal"
+      >
+        <i class="fa-solid fa-plus me-2"></i>
+        Add new category
+      </button>
+      <!-- Search -->
+      <form class="d-flex" role="search">
+        <input
+          class="form-control me-2"
+          type="search"
+          placeholder="Search catergories"
+          aria-label="Search"
+        />
+        <button class="btn btn-outline-secondary" type="submit">
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+      </form>
+    </div>
+  </div>
+  <div class="table-responsive text-nowrap">
+    <table class="table table-hover">
+      <thead class="table-light">
+        <tr>
+          <th>
+            Title
+          </th>
+          <th>
+            Slug
+          </th>
+          <th>
+            Total books
+          </th>
+          <th>
+            Quick Actions
+          </th>
+        </tr>
+      </thead>
+      <tbody class="table-border-bottom-0">
+        {{#each categories}}
+          <tr>
+            <td>
+              <i class="mdi mdi-wallet-travel mdi-20px text-danger me-3"></i>
+              <span class="fw-medium">
+                {{this.title}}
+              </span>
+            </td>
+            <td>
+              {{this.slug}}
+            </td>
+            <td>
+              chưa làm
+            </td>
+            <td>
+              <div class="dropdown">
+                <button
+                  type="button"
+                  class="btn p-0 dropdown-toggle hide-arrow text-center"
+                  data-bs-toggle="dropdown"
+                >
+                  <i class="fa-solid fa-ellipsis-vertical"></i>
+                </button>
+                <div class="dropdown-menu">
+                  <a
+                    href="/admin/categories/{{this._id}}"
+                    class="dropdown-item"
+                  >
+                    <i class="fa-solid fa-eye"></i>
+                    View detail
+                  </a>
+                  <form
+                    action="/admin/categories/delete/{{this._id}}"
+                    method="POST"
+                  >
+                    <button type="submit" class="dropdown-item">
+                      <i class="fa-solid fa-trash"></i>
+                      Delete
+                    </button>
+                  </form>
+                </div>
+              </div>
+            </td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Add new modal -->
+<div class="modal fade" id="addNewModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">
+          Add new category
+        </h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <form action="/admin/categories/new" method="POST">
+        <div class="modal-body">
+          <div class="form-floating mb-3">
+            <input
+              type="text"
+              name="title"
+              class="form-control"
+              id="title"
+              placeholder="Input category title"
+              required
+            />
+            <label for="title">
+              Title
+            </label>
+          </div>
+          <div class="form-floating mb-3">
+            <input
+              type="text"
+              name="slug"
+              class="form-control"
+              id="slug"
+              placeholder="Input category slug"
+              required
+            />
+            <label for="slug">
+              Slug
+            </label>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+          >
+            Close
+          </button>
+          <button type="submit" class="btn btn-primary">
+            Add
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

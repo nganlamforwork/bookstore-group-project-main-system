@@ -52,9 +52,24 @@ const admins = new Schema({
   },
   password: String,
 });
+const categories = new Schema({
+  title: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  slug: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  created_at: { type: Date, default: Date.now, required: true },
+  last_updated: { type: Date, default: Date.now, required: true },
+});
 
 module.exports = {
   admins: admins,
   customers: customer,
   subscribers: subscriber,
+  categories: categories,
 };

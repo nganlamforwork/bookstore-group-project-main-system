@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const adminController = require("../controllers/admin.controller");
+const categoriesController = require("../controllers/admin/categories.controller");
 const passport = require("passport");
 
 router.get("/", adminController.getLoginAdmin);
@@ -25,6 +26,7 @@ router.use((req, res, next) => {
 router.get("/dashboard", adminController.getAdminDashboard);
 router.get("/customers", adminController.getCustomers);
 router.get("/subscribers", adminController.getSubscribers);
+router.use("/categories", require("./admin/categories.route"));
 
 // Admin
 router.get("/profile", adminController.getAdminProfile);
