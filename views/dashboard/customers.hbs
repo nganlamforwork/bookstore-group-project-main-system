@@ -1,0 +1,67 @@
+<!-- Data Tables -->
+<div class="col-12">
+  <div class="card">
+    <div class="table-responsive">
+      <table class="table">
+        <thead class="table-light">
+          <tr>
+            <th class="text-truncate">
+              First Name
+            </th>
+            <th class="text-truncate">
+              Last Name
+            </th>
+            <th class="text-truncate">
+              Email
+            </th>
+            <th class="text-truncate">
+              Phone
+            </th>
+            <th class="text-truncate">
+              Default Payment
+            </th>
+            <th class="text-truncate">
+              Default Address
+            </th>
+            <th class="text-truncate">
+              Created At
+            </th>
+            <th class="text-truncate">
+              Last Updated
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each users}}
+            <tr>
+              <td class="text-truncate">
+                {{this.first_name}}
+              </td>
+              <td class="text-truncate">
+                {{this.last_name}}
+              </td>
+              <td class="text-truncate">
+                {{this.email}}
+              </td>
+              <td class="text-truncate">
+                {{this.phone}}
+              </td>
+              <td class="text-truncate">
+                {{this.default_payment}}
+              </td>
+              <td class="text-truncate">
+                {{this.default_address}}
+              </td>
+              <td class="text-truncate">
+                {{this.created_at}}
+              </td>
+              <td class="text-truncate">
+                {{this.last_updated}}
+              </td>
+            </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
