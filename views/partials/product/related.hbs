@@ -1,0 +1,28 @@
+<div
+  style='padding: 4rem 10rem;'
+  class='text-center d-flex flex-column align-items-center'
+>
+  <h1 class='text-uppercase mb-4 fw-bold header-font fs-2'>Related Product</h1>
+
+  <div class='book-cards-container mt-4 row'>
+    <div class='col-3'>
+      {{> product/bookcard}}
+    </div>
+    <div class='col-3'>
+      {{> product/bookcard}}
+    </div>
+    <div class='col-3'>
+      {{> product/bookcard}}
+    </div>
+    <div class='col-3'>
+      {{> product/bookcard}}
+    </div>
+  </div>
+</div>
+
+<style>
+  .tab-button{ background-color: white; color: black !important; transition: all
+  0.4s ease-in-out;} .tab-button:hover{background-color: var(--palette-02)
+  !important;color: white !important;} .tab-button.active{ background-color:
+  var(--palette-02) !important; color: white !important;}
+</style>
