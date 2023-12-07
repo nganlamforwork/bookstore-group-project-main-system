@@ -63,6 +63,7 @@ const categories = new Schema({
     required: true,
     unique: true,
   },
+  thumbnail: String,
   created_at: { type: Date, default: Date.now, required: true },
   last_updated: { type: Date, default: Date.now, required: true },
 });

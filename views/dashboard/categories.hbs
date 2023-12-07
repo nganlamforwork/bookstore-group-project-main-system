@@ -1,4 +1,4 @@
-<h1>
+<h1 class="header-font">
   Categories
 </h1>
 
@@ -34,6 +34,9 @@
       <thead class="table-light">
         <tr>
           <th>
+            Thumbnail
+          </th>
+          <th>
             Title
           </th>
           <th>
@@ -50,6 +53,13 @@
       <tbody class="table-border-bottom-0">
         {{#each categories}}
           <tr>
+            <td>
+              <img
+                src="{{this.thumbnail}}"
+                alt="{{this.title}}"
+                style="width: 100px"
+              />
+            </td>
             <td>
               <i class="mdi mdi-wallet-travel mdi-20px text-danger me-3"></i>
               <span class="fw-medium">
@@ -123,6 +133,7 @@
               id="title"
               placeholder="Input category title"
               required
+              style="height: 56px"
             />
             <label for="title">
               Title
@@ -136,9 +147,24 @@
               id="slug"
               placeholder="Input category slug"
               required
+              style="height: 56px"
             />
             <label for="slug">
               Slug
+            </label>
+          </div>
+
+          <div class="form-floating mb-3">
+            <input
+              type="text"
+              name="thumbnail"
+              class="form-control"
+              id="thumbnail"
+              placeholder="Input thumbnail URL"
+              style="height: 56px"
+            />
+            <label for="thumbnail">
+              Thumbnail URL
             </label>
           </div>
         </div>

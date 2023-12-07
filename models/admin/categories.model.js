@@ -23,6 +23,7 @@ const CategoriesModel = {
             _id: 1,
             title: 1,
             slug: 1,
+            thumbnail: 1,
             book_count: 1,
           },
         },
