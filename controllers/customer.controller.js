@@ -16,7 +16,7 @@ const customerController = {
 					full_name: user.first_name + ' ' + user.last_name,
 					...user,
 				};
-				res.render('profile', data);
+				res.render('customers/profile', data);
 			} else res.redirect('/auth/login');
 		} catch (error) {
 			next(err);
@@ -25,7 +25,7 @@ const customerController = {
 	getOrdersPage: async (req, res, next) => {
 		try {
 			if (req.session.user) {
-				res.render('orders', {
+				res.render('customers/orders', {
 					title: 'Orders History',
 				});
 			} else res.redirect('/auth/login');
@@ -36,7 +36,7 @@ const customerController = {
 	getPaymentsPage: async (req, res, next) => {
 		try {
 			if (req.session.user) {
-				res.render('payments', {
+				res.render('customers/payments', {
 					title: 'Payment Methods',
 				});
 			} else res.redirect('/auth/login');
@@ -47,7 +47,7 @@ const customerController = {
 	getAddressesPage: async (req, res, next) => {
 		try {
 			if (req.session.user) {
-				res.render('addresses', {
+				res.render('customers/addresses', {
 					title: 'Addresses Book',
 				});
 			} else res.redirect('/auth/login');
@@ -156,7 +156,7 @@ const customerController = {
 				delete user.__v;
 				delete user.password;
 				const data = { title: 'Information', ...user };
-				res.render('information', data);
+				res.render('customers/information', data);
 			} else res.redirect('/auth/login');
 		} catch (error) {
 			next(err);
@@ -190,6 +190,46 @@ const customerController = {
 			}
 		} catch (error) {
 			next(error);
+		}
+	},
+	changePassword: async (req, res, next) => {
+		try {
+			const { cur_pw, new_pw } = req.body;
+			const email = req.session?.user?.email;
+			const customer = await CustomerModel.get(email);
+			if (!customer) {
+				return res.status(404).json({ error: 'User not found' });
+			}
+
+			// Check if the current password matches the user's stored password
+			bcrypt.compare(cur_pw, customer.password, function (err, result) {
+				if (err || !result) {
+					console.log({ error: 'Current password is not matched' });
+				}
+			});
+
+			// Hash new password
+			bcrypt.hash(new_pw, 10, async function (err, hash) {
+				if (err) {
+					return next(err);
+				}
+
+				// Update the customer's password
+				customer.password = hash;
+				// update customer information
+				const updateResult = await CustomerModel.update(
+					email,
+					customer
+				);
+				if (!updateResult) {
+					return res.redirect('/auth/profile');
+				}
+
+				req.session.user = customer;
+				res.redirect('/auth/profile');
+			});
+		} catch (err) {
+			next(err);
 		}
 	},
 };
