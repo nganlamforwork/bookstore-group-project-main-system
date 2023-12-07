@@ -23,6 +23,7 @@ const CategoriesModel = {
             _id: 1,
             title: 1,
             slug: 1,
+            thumbnail: 1,
             book_count: 1,
           },
         },
@@ -48,7 +49,13 @@ const CategoriesModel = {
       console.error(error);
     }
   },
-
+  getListBooksById: async (categoryId) => {
+    try {
+      return await db.getAll("books", "category_id", categoryId);
+    } catch (error) {
+      console.error(error);
+    }
+  },
   getBySlug: async (categorySlug) => {
     try {
       return await db.get(schema, "slug", categorySlug);
@@ -59,6 +66,13 @@ const CategoriesModel = {
   deleteById: async (categoryId) => {
     try {
       return await db.deleteById(schema, categoryId);
+    } catch (error) {
+      console.error(error);
+    }
+  },
+  updateById: async (categoryId, data) => {
+    try {
+      return await db.updateById(schema, categoryId, data);
     } catch (error) {
       console.error(error);
     }

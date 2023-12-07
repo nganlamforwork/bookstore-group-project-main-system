@@ -1,6 +1,26 @@
-<h1>
-  Categories
-</h1>
+<div class="mb-3">
+  <div class="row">
+    <div class="col">
+      <nav aria-label="breadcrumb" class="bg-white rounded-3 p-3 mb-4">
+        <ol class="breadcrumb mb-0">
+          <li class="breadcrumb-item">
+            <a href="/admin">
+              Admin
+            </a>
+          </li>
+          <li class="breadcrumb-item active" aria-current="page">
+            Categories List
+          </li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+  <div class="row">
+    <h1 class="header-font">
+      Categories List
+    </h1>
+  </div>
+</div>
 
 <!-- Hoverable Table rows -->
 <div class="card">
@@ -34,6 +54,9 @@
       <thead class="table-light">
         <tr>
           <th>
+            Thumbnail
+          </th>
+          <th>
             Title
           </th>
           <th>
@@ -50,6 +73,13 @@
       <tbody class="table-border-bottom-0">
         {{#each categories}}
           <tr>
+            <td>
+              <img
+                src="{{this.thumbnail}}"
+                alt="{{this.title}}"
+                style="width: 100px"
+              />
+            </td>
             <td>
               <i class="mdi mdi-wallet-travel mdi-20px text-danger me-3"></i>
               <span class="fw-medium">
@@ -123,6 +153,7 @@
               id="title"
               placeholder="Input category title"
               required
+              style="height: 56px"
             />
             <label for="title">
               Title
@@ -136,9 +167,24 @@
               id="slug"
               placeholder="Input category slug"
               required
+              style="height: 56px"
             />
             <label for="slug">
               Slug
+            </label>
+          </div>
+
+          <div class="form-floating mb-3">
+            <input
+              type="text"
+              name="thumbnail"
+              class="form-control"
+              id="thumbnail"
+              placeholder="Input thumbnail URL"
+              style="height: 56px"
+            />
+            <label for="thumbnail">
+              Thumbnail URL
             </label>
           </div>
         </div>

@@ -63,6 +63,7 @@ const categories = new Schema({
     required: true,
     unique: true,
   },
+  thumbnail: String,
   created_at: { type: Date, default: Date.now, required: true },
   last_updated: { type: Date, default: Date.now, required: true },
 });
@@ -75,11 +76,7 @@ const books = new Schema({
   votes: Number,
   brief_des: String,
   full_des: { type: String, required: true },
-  author_id: {
-    type: Schema.Types.ObjectId,
-    ref: "authors",
-    default: null,
-  },
+  author_name: String,
   pages: Number,
   age: String,
   price: Number,

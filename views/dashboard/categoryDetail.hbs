@@ -1,0 +1,191 @@
+<div class="mb-3">
+  <div class="row">
+    <div class="col">
+      <nav aria-label="breadcrumb" class="bg-white rounded-3 p-3 mb-4">
+        <ol class="breadcrumb mb-0">
+          <li class="breadcrumb-item">
+            <a href="/admin">
+              Admin
+            </a>
+          </li>
+          <li class="breadcrumb-item">
+            <a href="/admin/categories">
+              Categories List
+            </a>
+          </li>
+          <li class="breadcrumb-item active" aria-current="page">
+            Detail Category
+          </li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+  <div class="row">
+    <h1 class="header-font">
+      {{category.title}}
+    </h1>
+  </div>
+</div>
+
+{{#if updateSuccess}}
+  <div class="alert alert-success" role="alert">
+    {{updateSuccess}}
+  </div>
+{{/if}}
+<div class="card mb-3">
+  <form action="/admin/categories/{{category._id}}/update" method="POST">
+    <div class="row card-body">
+      <div class="col-6">
+        <div class="form-floating mb-3">
+          <input
+            type="text"
+            name="title"
+            class="form-control"
+            id="title"
+            placeholder="Input category title"
+            required
+            style="height: 56px"
+            value="{{category.title}}"
+          />
+          <label for="title">
+            Title
+          </label>
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="form-floating mb-3">
+          <input
+            type="text"
+            name="slug"
+            class="form-control"
+            id="slug"
+            placeholder="Input category slug"
+            required
+            style="height: 56px"
+            value="{{category.slug}}"
+          />
+          <label for="slug">
+            Slug
+          </label>
+        </div>
+      </div>
+      <div class="col-12 d-flex gap-2">
+        <img
+          src="{{category.thumbnail}}"
+          style="width: 150px"
+          alt="{{category.title}}"
+        />
+        <div class="form-floating mb-3" style="flex: 1">
+          <input
+            type="text"
+            name="thumbnail"
+            class="form-control"
+            id="thumbnail"
+            placeholder="Input thumbnail URL"
+            style="height: 56px"
+            value="{{category.thumbnail}}"
+          />
+          <label for="thumbnail">
+            Thumbnail URL
+          </label>
+        </div>
+      </div>
+    </div>
+    <div class="card-footer d-flex justify-content-end">
+      <button type="submit" class="btn btn-primary">
+        Update
+      </button>
+    </div>
+  </form>
+</div>
+
+<!-- Hoverable Table rows -->
+<div class="card">
+  <div class="card-header">
+    <h1 class="header-font mb-0">
+      List Books
+    </h1>
+  </div>
+  <div class="table-responsive text-nowrap">
+    <table class="table table-hover">
+      <thead class="table-light">
+        <tr>
+          <th>
+            Thumbnail
+          </th>
+          <th>
+            Title
+          </th>
+          <th>
+            Author
+          </th>
+          <th>
+            Votes
+          </th>
+          <th>
+            Inventory
+          </th>
+          <th>
+            Price
+          </th>
+          <th>
+            Quick Actions
+          </th>
+        </tr>
+      </thead>
+      <tbody class="table-border-bottom-0">
+        {{#each books}}
+          <tr>
+            <td>
+              <img
+                src="{{this.thumbnail}}"
+                alt="{{this.title}}"
+                style="width: 100px"
+              />
+            </td>
+            <td>
+              <span class="fw-medium">
+                {{this.title}}
+              </span>
+            </td>
+            <td>
+              {{this.author_id}}
+            </td>
+            <td>
+              {{this.votes}}
+            </td>
+            <td>
+              {{this.inventory}}
+            </td>
+            <td>
+              ${{this.price}}
+            </td>
+            <td>
+              <div class="dropdown">
+                <button
+                  type="button"
+                  class="btn p-0 dropdown-toggle hide-arrow text-center"
+                  data-bs-toggle="dropdown"
+                >
+                  <i class="fa-solid fa-ellipsis-vertical"></i>
+                </button>
+                <div class="dropdown-menu">
+                  <a href="/admin/books/{{this._id}}" class="dropdown-item">
+                    <i class="fa-solid fa-eye"></i>
+                    View detail
+                  </a>
+                  <form action="/admin/books/delete/{{this._id}}" method="POST">
+                    <button type="submit" class="dropdown-item">
+                      <i class="fa-solid fa-trash"></i>
+                      Delete
+                    </button>
+                  </form>
+                </div>
+              </div>
+            </td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+</div>
