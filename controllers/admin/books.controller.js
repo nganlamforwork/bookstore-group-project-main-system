@@ -16,6 +16,25 @@ const booksController = {
       next(error);
     }
   },
+  getDetailBookPage: async (req, res, next) => {
+    try {
+      const book = await BooksModel.getById(req.params.id);
+      const authors = [];
+      const categories = await CategoriesModel.getAll();
+
+      const successMessage = req.query.success;
+      res.render("dashboard/bookDetail", {
+        title: "Detail Book",
+        layout: "admin",
+        book: book,
+        authors: authors,
+        categories: categories,
+        updateSuccess: successMessage,
+      });
+    } catch (error) {
+      next(error);
+    }
+  },
 
   addBook: async (req, res, next) => {
     try {
@@ -41,6 +60,18 @@ const booksController = {
       const bookId = req.params.id;
       await BooksModel.deleteById(bookId);
       res.redirect("/admin/books");
+    } catch (error) {
+      next(error);
+    }
+  },
+
+  updateDetailBook: async (req, res, next) => {
+    try {
+      const bookId = req.params.id;
+      await BooksModel.updateById(bookId, req.body);
+      res.redirect(
+        `/admin/books/${bookId}?success=Book information updated successfully`
+      );
     } catch (error) {
       next(error);
     }

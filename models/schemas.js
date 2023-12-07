@@ -76,11 +76,7 @@ const books = new Schema({
   votes: Number,
   brief_des: String,
   full_des: { type: String, required: true },
-  author_id: {
-    type: Schema.Types.ObjectId,
-    ref: "authors",
-    default: null,
-  },
+  author_name: String,
   pages: Number,
   age: String,
   price: Number,

@@ -59,7 +59,7 @@ async function update(schema, fieldName, searchValue, updateData) {
   }
 }
 
-async function getAll(schema) {
+async function getAll(schema, fieldName = null, fieldValue = null) {
   try {
     await mongoose.connect(uri);
 
@@ -69,13 +69,18 @@ async function getAll(schema) {
 
     const Model = mongoose.model(schema, schemas[schema]);
 
-    const results = await Model.find({});
-
-    return results;
+    if (fieldName && fieldValue) {
+      const results = await Model.find({ [fieldName]: fieldValue });
+      return results;
+    } else {
+      const results = await Model.find({});
+      return results;
+    }
   } catch (error) {
     console.error(error);
   }
 }
+
 async function deleteById(schema, id) {
   try {
     await mongoose.connect(uri);
@@ -111,6 +116,23 @@ async function aggregate(schema, pipeline) {
     console.error(error);
   }
 }
+async function updateById(schema, id, updateData) {
+  try {
+    await mongoose.connect(uri);
+
+    if (!(schema in schemas)) {
+      throw new Error(`Schema '${schema}' not found`);
+    }
+
+    const Model = mongoose.model(schema, schemas[schema]);
+
+    const result = await Model.updateOne({ _id: id }, { $set: updateData });
+
+    return result;
+  } catch (error) {
+    console.error(error);
+  }
+}
 
 module.exports = {
   add: add,
@@ -119,4 +141,5 @@ module.exports = {
   getAll: getAll,
   deleteById: deleteById,
   aggregate: aggregate,
+  updateById: updateById,
 };

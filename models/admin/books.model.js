@@ -63,17 +63,25 @@ const BooksModel = {
     }
   },
 
-  getById: async (categoryId) => {
+  getById: async (bookId) => {
     try {
-      return await db.get(schema, "_id", categoryId);
+      return await db.get(schema, "_id", bookId);
     } catch (error) {
       console.error(error);
     }
   },
 
-  deleteById: async (categoryId) => {
+  deleteById: async (bookId) => {
     try {
-      return await db.deleteById(schema, categoryId);
+      return await db.deleteById(schema, bookId);
+    } catch (error) {
+      console.error(error);
+    }
+  },
+
+  updateById: async (bookId, data) => {
+    try {
+      return await db.updateById(schema, bookId, data);
     } catch (error) {
       console.error(error);
     }

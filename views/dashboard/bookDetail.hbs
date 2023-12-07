@@ -1,0 +1,271 @@
+<div class="mb-3">
+  <div class="row">
+    <div class="col">
+      <nav aria-label="breadcrumb" class="bg-white rounded-3 p-3 mb-4">
+        <ol class="breadcrumb mb-0">
+          <li class="breadcrumb-item">
+            <a href="/admin">
+              Admin
+            </a>
+          </li>
+          <li class="breadcrumb-item">
+            <a href="/admin/books">
+              Books List
+            </a>
+          </li>
+          <li class="breadcrumb-item active" aria-current="page">
+            Detail Book
+          </li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+  <div class="row">
+    <h1 class="header-font">
+      {{book.title}}
+    </h1>
+  </div>
+</div>
+
+{{#if updateSuccess}}
+  <div class="alert alert-success" role="alert">
+    {{updateSuccess}}
+  </div>
+{{/if}}
+<div class="card mb-3">
+  <form action="/admin/books/{{book._id}}/update" method="POST">
+    <div class="card-body">
+      <div class="form-floating mb-3">
+        <input
+          type="text"
+          name="title"
+          class="form-control"
+          id="title"
+          placeholder="Input book title"
+          required
+          style="height: 56px"
+          value="{{book.title}}"
+        />
+        <label for="title">
+          Title
+        </label>
+      </div>
+      <div class="row">
+        <div class="col-4">
+          <div class="form-floating mb-3">
+            <input
+              type="text"
+              name="language"
+              class="form-control"
+              id="language"
+              placeholder="Input book language"
+              style="height: 56px"
+              value="{{book.language}}"
+            />
+            <label for="language">
+              Language
+            </label>
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="form-floating mb-3">
+            <input
+              type="number"
+              name="pages"
+              class="form-control"
+              id="pages"
+              placeholder="Input number of pages"
+              style="height: 56px"
+              value="{{book.pages}}"
+            />
+            <label for="pages">
+              Pages
+            </label>
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="form-floating mb-3">
+            <input
+              type="text"
+              name="age"
+              class="form-control"
+              id="age"
+              placeholder="Input target age group"
+              style="height: 56px"
+              value="{{book.age}}"
+            />
+            <label for="age">
+              Age Group
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="form-floating mb-3">
+        <input
+          type="text"
+          name="brief_des"
+          class="form-control"
+          id="brief_des"
+          placeholder="Input brief description"
+          style="height: 56px"
+          value="{{book.brief_des}}"
+        />
+        <label for="brief_des">
+          Brief Description
+        </label>
+      </div>
+      <div class="form-floating mb-3">
+        <textarea
+          name="full_des"
+          class="form-control"
+          id="full_des"
+          placeholder="Input full description"
+          rows="4"
+          value="{{book.full_des}}"
+        >
+          {{book.full_des}}
+        </textarea>
+        <label for="full_des">
+          Full Description
+        </label>
+      </div>
+      <div class="row">
+        <div class="col-4">
+          <div class="form-floating mb-3">
+            <input
+              type="number"
+              name="price"
+              class="form-control"
+              id="price"
+              placeholder="Input book price"
+              style="height: 56px"
+              value="{{book.price}}"
+            />
+            <label for="price">
+              Price
+            </label>
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="form-floating mb-3">
+            <input
+              type="number"
+              name="inventory"
+              class="form-control"
+              id="inventory"
+              placeholder="Input book inventory"
+              style="height: 56px"
+              value="{{book.inventory}}"
+            />
+            <label for="inventory">
+              Inventory
+            </label>
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="form-floating mb-3">
+            <input
+              type="text"
+              name="vendor"
+              class="form-control"
+              id="vendor"
+              placeholder="Input book vendor"
+              style="height: 56px"
+              value="{{book.vendor}}"
+            />
+            <label for="vendor">
+              Vendor
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-4">
+          <div class="form-floating mb-3">
+            <input
+              type="text"
+              name="author_name"
+              class="form-control"
+              id="vendor"
+              placeholder="Input book vendor"
+              style="height: 56px"
+              value="{{book.author_name}}"
+            />
+            <label for="author">
+              Author
+            </label>
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="form-floating mb-3">
+            <select
+              name="category_id"
+              class="form-select"
+              id="category_id"
+              style="height: 56px"
+            >
+              {{#each categories}}
+                {{#equal this._id book.category_id}}
+                  <option value="{{this._id}}" selected>
+                    {{this.title}}
+                  </option>
+                {{else}}
+                  <option value="{{this._id}}">
+                    {{this.title}}
+                  </option>
+                {{/equal}}
+              {{/each}}
+            </select>
+            <label for="category_id">
+              Category
+            </label>
+          </div>
+        </div>
+
+        <div class="col-4">
+          <div class="form-floating mb-3">
+            <input
+              type="date"
+              name="published_at"
+              class="form-control"
+              id="published_at"
+              placeholder="Input publication date"
+              style="height: 56px"
+              value="{{book.published_at}}"
+            />
+            <label for="published_at">
+              Published At
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 d-flex gap-2">
+        <img
+          src="{{book.thumbnail}}"
+          style="width: 150px"
+          alt="{{book.title}}"
+        />
+        <div class="form-floating mb-3" style="flex: 1">
+          <input
+            type="text"
+            name="thumbnail"
+            class="form-control"
+            id="thumbnail"
+            placeholder="Input thumbnail URL"
+            style="height: 56px"
+            value="{{book.thumbnail}}"
+          />
+          <label for="thumbnail">
+            Thumbnail URL
+          </label>
+        </div>
+      </div>
+    </div>
+    <div class="card-footer d-flex justify-content-end">
+      <button type="submit" class="btn btn-primary">
+        Update
+      </button>
+    </div>
+  </form>
+</div>
