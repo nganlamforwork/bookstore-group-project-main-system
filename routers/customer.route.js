@@ -6,6 +6,7 @@ router.get('/login', customerController.getLoginPage);
 router.get('/register', customerController.getRegisterPage);
 router.post('/login', customerController.login);
 router.post('/register', customerController.register);
+router.post('/change-password', customerController.changePassword);
 router.get('/logout', customerController.logOut);
 router.get('/profile/', customerController.getProfilePage);
 router.get('/profile/information', customerController.getInformationPage);
