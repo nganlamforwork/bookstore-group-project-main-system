@@ -201,3 +201,18 @@
   </div>
   {{> customers/change-password}}
 </section>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    // Check for error message and display toastr
+    const error = '{{#if error}}{{error}}{{/if}}';
+    if (error) {
+      toastr.error(error);
+    }
+
+    // Check for success message and display toastr
+    const success = '{{#if success}}{{success}}{{/if}}';
+    if (success) {
+      toastr.success(success);
+    }
+  });
+</script>

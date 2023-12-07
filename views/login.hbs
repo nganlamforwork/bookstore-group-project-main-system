@@ -4,12 +4,7 @@
       <div class="card border-0 my-5" style="background-color: var(--gradient-base-background-2); max-width: 70rem">
         <div class="card-body p-4 p-sm-5">
           <h1 class="text-center mb-3 fw-light header-font" style="font-size: 48px">Login</h1>
-          {{#if error}}
-          <div class="alert alert-danger" role="alert">
-            {{error}}
-          </div>
-          {{/if}}
-          <form action="/auth/login" method="post">
+          <form action='/auth/login' method="post">
             <div class="mb-3">
               <input type="email" class="form-control" placeholder="Email" name="email" required />
             </div>
@@ -31,3 +26,11 @@
     </div>
   </div>
 </div>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const error = '{{#if error}}{{error}}{{/if}}';
+    if (error) {
+      toastr.error(error);
+    }
+  });
+</script>

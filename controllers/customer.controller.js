@@ -15,6 +15,8 @@ const customerController = {
 					title: 'Profile',
 					full_name: user.first_name + ' ' + user.last_name,
 					...user,
+					success: req.flash('success'),
+					error: req.flash('error'),
 				};
 				res.render('customers/profile', data);
 			} else res.redirect('/auth/login');
@@ -63,8 +65,10 @@ const customerController = {
 
 			res.render('login', {
 				title: 'Login',
+				error: req.flash('error'),
+				success: req.flash('success'),
 			});
-		} catch (error) {
+		} catch (err) {
 			next(err);
 		}
 	},
@@ -117,16 +121,20 @@ const customerController = {
 
 			bcrypt.compare(password, founded.password, function (err, result) {
 				if (err || !result) {
-					return res.render('login', {
-						error: 'Wrong password for that email',
-					});
-				} else {
-					req.session.user = founded;
+					req.flash('error', 'Wrong password for that email');
 					req.session.save((err) => {
 						if (err) {
 							return next(err);
 						}
-
+						res.redirect('/auth/login');
+					});
+				} else {
+					req.session.user = founded;
+					req.flash('success', 'Welcome back');
+					req.session.save((err) => {
+						if (err) {
+							return next(err);
+						}
 						res.redirect('/');
 					});
 				}
@@ -194,25 +202,23 @@ const customerController = {
 	},
 	changePassword: async (req, res, next) => {
 		try {
-			const { cur_pw, new_pw } = req.body;
-			const email = req.session?.user?.email;
-			const customer = await CustomerModel.get(email);
-			if (!customer) {
-				return res.status(404).json({ error: 'User not found' });
-			}
+			if (req.session.user) {
+				const { cur_pw, new_pw } = req.body;
+				const email = req.session?.user?.email;
+				const customer = await CustomerModel.get(email);
 
-			// Check if the current password matches the user's stored password
-			bcrypt.compare(cur_pw, customer.password, function (err, result) {
-				if (err || !result) {
-					console.log({ error: 'Current password is not matched' });
-				}
-			});
+				// Check if the current password matches the user's stored password
+				const isPasswordMatch = await bcrypt.compare(
+					cur_pw,
+					customer.password
+				);
 
-			// Hash new password
-			bcrypt.hash(new_pw, 10, async function (err, hash) {
-				if (err) {
-					return next(err);
+				if (!isPasswordMatch) {
+					req.flash('error', 'Current password is not matched');
+					return res.redirect('/auth/profile');
 				}
+
+				const hash = await bcrypt.hash(new_pw, 10);
 
 				// Update the customer's password
 				customer.password = hash;
@@ -226,8 +232,11 @@ const customerController = {
 				}
 
 				req.session.user = customer;
+				req.flash('success', 'Change password successfully');
 				res.redirect('/auth/profile');
-			});
+			} else {
+				res.redirect('/auth/login');
+			}
 		} catch (err) {
 			next(err);
 		}
