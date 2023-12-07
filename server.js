@@ -57,6 +57,12 @@ app.get("/", (req, res) => {
   });
 });
 
+app.get("/product", (req, res) => {
+  res.render("product", {
+    title: "Product",
+  });
+});
+
 // Define routes
 const userRoutes = require("./routers/customer.route");
 const adminRoutes = require("./routers/admin.route");
