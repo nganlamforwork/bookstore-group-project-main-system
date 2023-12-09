@@ -8,7 +8,6 @@ const customerController = {
 				const { email } = req.session.user;
 				const rs = await CustomerModel.get(email);
 				let user = rs._doc;
-				delete user._id;
 				delete user.__v;
 				delete user.password;
 				const data = {
@@ -204,7 +203,7 @@ const customerController = {
 		try {
 			if (req.session.user) {
 				const { cur_pw, new_pw } = req.body;
-				const email = req.session?.user?.email;
+				const { email } = req.session.user;
 				const customer = await CustomerModel.get(email);
 
 				// Check if the current password matches the user's stored password
@@ -237,6 +236,30 @@ const customerController = {
 			} else {
 				res.redirect('/auth/login');
 			}
+		} catch (err) {
+			next(err);
+		}
+	},
+	uploadAvatar: async (req, res, next) => {
+		try {
+			const file = req.file;
+			const { email } = req.session.user;
+			if (!file) {
+				const error = new Error('Please upload a file');
+				error.httpStatusCode = 400;
+				return next(error);
+			}
+			const updateData = {
+				avatar: file.path,
+			};
+
+			const updateResult = await CustomerModel.update(email, updateData);
+			if (!updateResult) {
+				return res.redirect('/auth/profile/information');
+			}
+
+			req.session.user = { ...req.session.user, ...updateData };
+			res.redirect('/auth/profile');
 		} catch (err) {
 			next(err);
 		}

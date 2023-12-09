@@ -28,6 +28,7 @@ const hbs = create({
 });
 
 app.use('/imgs', express.static('imgs'));
+app.use('/uploads', express.static('uploads'));
 app.use('/views', express.static('views'));
 
 app.use(morgan('tiny'));

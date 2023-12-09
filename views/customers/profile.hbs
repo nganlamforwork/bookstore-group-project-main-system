@@ -21,7 +21,22 @@
       <div class="col-lg-4">
         <div class="card mb-4">
           <div class="card-body text-center">
-            <img src="{{avatar}}" alt="avatar" class="rounded-circle img-fluid" style="width: 150px;" />
+            <form action="/auth/{{_id}}/profile/avatar" enctype="multipart/form-data" method="POST">
+              <label for="avatar-upload" class="avatar-label">
+                <div class="avatar-container">
+                  {{#if avatar}}
+                  <img src="/{{avatar}}" alt="avatar" class="rounded-circle img-fluid avatar-image" />
+                  {{else}}
+                  <img src="https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg"
+                    alt="avatar" class="rounded-circle img-fluid avatar-image" />
+                  {{/if}}
+                  {{#unless avatar}}
+                  <i class="fa-solid fa-camera-retro camera-icon"></i>
+                  {{/unless}}
+                </div>
+                <input type="file" accept="image/*" id="avatar-upload" name="avatar" class="avatar-input" />
+              </label>
+            </form>
             <h5 class="mt-3">
               Welcome, {{first_name}}!
             </h5>
@@ -201,6 +216,54 @@
   </div>
   {{> customers/change-password}}
 </section>
+<style>
+  .avatar-label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+  }
+
+  .avatar-image {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #ccc;
+  }
+
+  .avatar-input {
+    display: none;
+  }
+
+  .avatar-label span {
+    margin-top: 5px;
+    color: #007bff;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+
+  .avatar-container {
+    position: relative;
+    display: inline-block;
+    width: 150px;
+    height: 150px;
+  }
+
+  .camera-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 30px;
+    color: #fff;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 50%;
+    padding: 10px;
+    cursor: pointer;
+    opacity: 0.5;
+  }
+</style>
 <script>
   document.addEventListener('DOMContentLoaded', function () {
     // Check for error message and display toastr
@@ -214,5 +277,28 @@
     if (success) {
       toastr.success(success);
     }
+
+    const fileInput = document.getElementById('avatar-upload');
+
+    fileInput.addEventListener('change', function () {
+      const file = this.files[0];
+      const formData = new FormData();
+      formData.append('avatar', file);
+
+      fetch(`/auth/{{_id}}/profile/avatar`, {
+        method: 'POST',
+        body: formData
+      })
+        .then(response => {
+          // Handle the response here
+          console.log('File uploaded:', response);
+          window.location.reload();
+        })
+        .catch(error => {
+          // Handle any errors here
+          console.error('Error uploading file:', error);
+        });
+    });
+
   });
 </script>

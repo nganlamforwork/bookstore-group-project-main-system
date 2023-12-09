@@ -1,12 +1,21 @@
 const express = require('express');
 const router = express.Router();
 const multer = require('multer');
+const fs = require('fs');
+const path = require('path');
+
 const storage = multer.diskStorage({
 	destination: function (req, file, cb) {
-		cb(null, 'uploads');
+		const uid = req.params.uid;
+		const uploadDir = `./uploads/${uid}`; // Directory for the specific catId
+		fs.mkdirSync(uploadDir, { recursive: true }); // Create directory if it doesn't exist
+		cb(null, uploadDir);
 	},
 	filename: function (req, file, cb) {
-		cb(null, file.fieldname + '-' + Date.now());
+		cb(
+			null,
+			file.fieldname + '-' + Date.now() + path.extname(file.originalname)
+		);
 	},
 });
 const upload = multer({ storage: storage });
@@ -25,5 +34,10 @@ router.post('/profile/information', customerController.updateInformation);
 router.get('/profile/orders', customerController.getOrdersPage);
 router.get('/profile/payments', customerController.getPaymentsPage);
 router.get('/profile/addresses', customerController.getAddressesPage);
+router.post(
+	'/:uid/profile/avatar',
+	upload.single('avatar'),
+	customerController.uploadAvatar
+);
 
 module.exports = router;
