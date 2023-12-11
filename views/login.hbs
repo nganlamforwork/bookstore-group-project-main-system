@@ -21,11 +21,29 @@
             <a href="/auth/forgot-password">Forgot Your Password?</a>
             <a href="/auth/register">Create Account</a>
           </div>
+          <a href="/auth/google">
+            <div
+              class="d-flex flex-row gap-2 align-items-center justify-content-between mt-3 border p-2 google-sign-in">
+              <i class="fa-brands fa-google"></i>
+              Sign in with Google
+              <div></div>
+            </div>
+          </a>
         </div>
       </div>
     </div>
   </div>
 </div>
+<style>
+  .google-sign-in {
+    transition: all 0.3s ease;
+  }
+
+  .google-sign-in:hover {
+    background-color: var(--palette-03);
+    color: #fff;
+  }
+</style>
 <script>
   document.addEventListener('DOMContentLoaded', function () {
     const error = '{{#if error}}{{error}}{{/if}}';
