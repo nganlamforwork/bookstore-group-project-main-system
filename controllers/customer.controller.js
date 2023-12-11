@@ -8,12 +8,17 @@ const customerController = {
 				const { email } = req.session.user;
 				const rs = await CustomerModel.get(email);
 				let user = rs._doc;
+				let modifiedAvatar = user.avatar;
+				if (user.avatar && user.avatar.startsWith('uploads')) {
+					modifiedAvatar = '/' + user.avatar;
+				}
 				delete user.__v;
 				delete user.password;
 				const data = {
 					title: 'Profile',
 					full_name: user.first_name + ' ' + user.last_name,
 					...user,
+					avatar: modifiedAvatar,
 					success: req.flash('success'),
 					error: req.flash('error'),
 				};

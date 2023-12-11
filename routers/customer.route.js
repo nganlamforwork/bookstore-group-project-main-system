@@ -30,13 +30,15 @@ router.post('/login', customerController.login);
 
 router.get(
 	'/google',
-	passport.authenticate('google', { scope: ['profile', 'email'] })
+	passport.authenticate('google', { scope: ['email', 'profile'] })
 );
 router.get(
 	'/google/callback',
-	passport.authenticate('google', { failureRedirect: '/login' }),
+	passport.authenticate('google', { failureRedirect: '/auth/login' }),
 	(req, res) => {
 		// Successful authentication, redirect to home
+		req.session.user = req.user;
+		req.flash('success', 'Welcome back');
 		res.redirect('/');
 	}
 );
