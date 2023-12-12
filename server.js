@@ -16,6 +16,7 @@ const certificate = fs.readFileSync('sslcert/server.crt', 'utf8');
 const credentials = { key: privateKey, cert: certificate };
 
 const CustomError = require('./modules/custom_err');
+const FAQContent = require('./constant/faq.js')
 
 const app = express();
 
@@ -67,6 +68,13 @@ app.get('/', (req, res) => {
 		title: 'Home',
 		success: req.flash('success'),
 		error: req.flash('error'),
+	});
+});
+
+app.get('/faq', (req, res) => {
+	res.render('faq', {
+		title: 'FAQ',
+		data: FAQContent
 	});
 });
 
