@@ -1,3 +1,4 @@
+const { UUID } = require('mongodb');
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
@@ -18,6 +19,7 @@ const customer = new Schema({
 	},
 	avatar: {
 		type: String,
+		default: null,
 	},
 	default_address: {
 		type: Schema.Types.ObjectId,
@@ -28,6 +30,14 @@ const customer = new Schema({
 		type: Schema.Types.ObjectId,
 		ref: 'payments',
 		default: null,
+	},
+	socialId: {
+		type: String,
+		default: null,
+	},
+	provider: {
+		type: String,
+		default: 'app',
 	},
 	created_at: { type: Date, default: Date.now },
 	last_updated: { type: Date, default: Date.now },

@@ -21,10 +21,28 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 const customerController = require('../controllers/customer.controller');
+const passport = require('passport');
 
 router.get('/login', customerController.getLoginPage);
 router.get('/register', customerController.getRegisterPage);
+// Login using username, password
 router.post('/login', customerController.login);
+
+router.get(
+	'/google',
+	passport.authenticate('google', { scope: ['email', 'profile'] })
+);
+router.get(
+	'/google/callback',
+	passport.authenticate('google', { failureRedirect: '/auth/login' }),
+	(req, res) => {
+		// Successful authentication, redirect to home
+		req.session.user = req.user;
+		req.flash('success', 'Welcome back');
+		res.redirect('/');
+	}
+);
+
 router.post('/register', customerController.register);
 router.post('/change-password', customerController.changePassword);
 router.get('/logout', customerController.logOut);

@@ -7,13 +7,21 @@ const { create } = require('express-handlebars');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
 const flash = require('connect-flash');
+const fs = require('fs');
+const https = require('https');
+const http = require('http');
+
+const privateKey = fs.readFileSync('sslcert/server.key', 'utf8');
+const certificate = fs.readFileSync('sslcert/server.crt', 'utf8');
+const credentials = { key: privateKey, cert: certificate };
 
 const CustomError = require('./modules/custom_err');
 
 const app = express();
 
 // config
-const port = process.env.PORT || 3000;
+const httpPort = process.env.HTTP_PORT || 3000;
+const httpsPort = process.env.HTTPS_PORT || 3001;
 const localhost = process.env.HOST;
 const SECRET_KEY = process.env.SECRET_KEY;
 
@@ -96,6 +104,16 @@ app.use((err, req, res, next) => {
 	});
 });
 
-app.listen(port, () => {
-	console.log(`Server is running on: http://${localhost}:${port}`);
+// app.listen(port, () => {
+// 	console.log(`Server is running on: http://${localhost}:${port}`);
+// });
+
+const httpServer = http.createServer(app);
+const httpsServer = https.createServer(credentials, app);
+
+httpServer.listen(httpPort, () => {
+	console.log(`HTTP Server is running on: http://${localhost}:${httpPort}`);
+});
+httpsServer.listen(httpsPort, () => {
+	console.log(`HTTPS Server is running on: http://${localhost}:${httpsPort}`);
 });
