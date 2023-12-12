@@ -2,92 +2,37 @@
   <div style='width: 500px;'>
     <div class='large-image' style='width: 100%; height:500px;'>
       <img
-        src='https://bookly-theme.myshopify.com/cdn/shop/products/shop-new-57.jpg?v=1587119315'
+        src={{book.thumbnail}}
         width='100%'
         height='100%'
         style='object-fit: contain;'
       />
     </div>
-
-    <div
-      style='width: 100%; height:150px; display: flex; gap:4px; margin-top:8px;'
-    >
-      <!-- Hiển thị các ảnh nhỏ -->
-      <div
-        class='thumbnail'
-        onclick="changeLargeImage('https://img.vn/uploads/thuvien/singa-png-20220719150401Tdj1WAJFQr.png')"
-        style='width: 150px; height:150px; cursor:pointer;'
-      >
-        <img
-          src='https://img.vn/uploads/thuvien/singa-png-20220719150401Tdj1WAJFQr.png'
-          alt='Thumbnail'
-          width='100%'
-          height='100%'
-          style='object-fit: cover;'
-        />
-      </div>
-      <div
-        class='thumbnail'
-        onclick="changeLargeImage('https://pbs.twimg.com/profile_images/1701878932176351232/AlNU3WTK_400x400.jpg')"
-        style='width: 150px; height:150px; cursor:pointer;'
-      >
-        <img
-          src='https://pbs.twimg.com/profile_images/1701878932176351232/AlNU3WTK_400x400.jpg'
-          alt='Thumbnail'
-          width='100%'
-          height='100%'
-          style='object-fit: cover;'
-        />
-      </div>
-
-      <div
-        class='thumbnail'
-        onclick="changeLargeImage('https://platinumlist.net/guide/wp-content/uploads/2023/03/8359_img_worlds_of_adventure-big1613913137.jpg-1024x683.webp')"
-        style='width: 150px; height:150px; cursor:pointer;'
-      >
-        <img
-          src='https://platinumlist.net/guide/wp-content/uploads/2023/03/8359_img_worlds_of_adventure-big1613913137.jpg-1024x683.webp'
-          alt='Thumbnail'
-          width='100%'
-          height='100%'
-          style='object-fit: cover;'
-        />
-      </div>
-    </div>
   </div>
   <div style='flex: 1; display: flex; flex-direction: column; gap:16px;'>
-    <h1 class='m-0'>Vistit in the North</h1>
-    <div class='ratings'>
-      <i class='fa fa-star rating-color'></i>
-      <i class='fa fa-star rating-color'></i>
-      <i class='fa fa-star rating-color'></i>
-      <i class='fa fa-star rating-color'></i>
-      <i class='fa fa-star'></i>
-    </div>
+    <h1 class='m-0'>{{book.title}}</h1>
     <div class='short-desc'>
-      About Author: This book's author, John, is one of the most popular writers
-      in American history. He was California-born but attended school in New
-      York. He attended Harvard University to
+      {{book.brief_des}}
     </div>
     <div>
       <p class='product-label'>Price</p>
-      <span class='text-secondary fs-5 m-0'>$12.0</span>
+      <span class='text-secondary fs-5 m-0'>${{book.price}}</span>
     </div>
     <div>
       <p class='product-label'>Vendor</p>
-      <span>James Dylan</span>
+      <span>{{book.vendor}}</span>
     </div>
     <div>
       <p class='product-label'>Type</p>
-      <span>Business</span>
+      <span>{{category.title}}</span>
     </div>
     <div>
       <p class='product-label'>Language</p>
-      <span>English</span>
+      <span>{{book.language}}</span>
     </div>
     <div>
       <p class='product-label'>Publication Date</p>
-      <span>23 Nov 2022</span>
+      <span>{{date}}</span>
     </div>
     <div class='d-flex'>
       <p class='product-label'>Quantity</p>
@@ -100,13 +45,10 @@
     <div>
       <p class='product-label'>Availability</p>
       <span>
-        12 In stock</span>
+        {{book.inventory}}
+        In stock</span>
     </div>
     <div>
-      <div
-        class='btn btn-primary rounded-0 border-0'
-        style='background-color: var(--palette-02); padding: 0.75rem 3rem;'
-      >Add to cart</div>
       <div
         class='btn btn-primary rounded-0 border-0'
         style='background-color: var(--palette-02); padding: 0.75rem 3rem;'
@@ -134,7 +76,6 @@
   function changeQuantity(amount) { let currentQuantity =
   parseInt(document.querySelector("#quantity").innerText) || 0;
   console.log(currentQuantity); let newQuantity = currentQuantity + amount; if
-  (newQuantity >= 0) { document.querySelector("#quantity").innerText =
-  newQuantity; } } function changeLargeImage(newSrc) {
-  document.querySelector('.large-image img').src = newSrc; }
+  (newQuantity > 0) { document.querySelector("#quantity").innerText =
+  newQuantity; } }
 </script>
