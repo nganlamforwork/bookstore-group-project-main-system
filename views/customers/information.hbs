@@ -36,12 +36,21 @@
       <div class="card-body">
         <div class="row">
           <div class="col-sm-12 d-flex flex-column align-items-center gap-2">
-            <img
-              src="{{avatar}}"
-              alt="avatar"
-              class="rounded-circle img-fluid"
-              style="width: 150px;"
-            />
+            {{#if avatar}}
+              <img
+                src="{{avatar}}"
+                alt="avatar"
+                class="rounded-circle img-fluid avatar-image"
+                style="width: 200px; height: 200px; object-fit:cover;"
+              />
+            {{else}}
+              <img
+                src="https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg"
+                alt="avatar"
+                class="rounded-circle img-fluid avatar-image"
+                style="width: 200px; height: 200px; object-fit:cover;"
+              />
+            {{/if}}
             <a href="/auth/profile/information">
               Edit avatar
               <i class="fa-solid fa-pen-to-square"></i>
@@ -134,9 +143,11 @@
               </p>
             </div>
             <div class="col-sm-6">
-              <p class="text-muted mb-0">
-                {{default_address}}
-              </p>
+                <p class="text-muted mb-0">
+                  {{defaultAddress.name}} </br>
+                  {{defaultAddress.phone}} </br>
+                  {{defaultAddress.address}} </br>
+                </p>
             </div>
             <div class="col-sm-4 text-end">
               <a
