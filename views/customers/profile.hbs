@@ -211,13 +211,32 @@
               </div>
               <div class="card-body text-center">
                 <div class="text-center">
-                  <p>
-                    You don't have any addresses yet.
-                  </p>
-                  <a role="button" class="btn btn-primary btn-login w-10 m-auto px-4 border-0"
-                    style="background-color: var(--palette-02);" href="/auth/profile/addresses">
-                    Add new address
-                  </a>
+
+                  {{#if defaultAddress}}
+                    <div class="flex d-flex gap-4 mb-3">
+                      <p class="text-start m-0 p-0 ">
+                        <b>Default address:</b>
+                      </p>
+                      <div class=" m-0 p-0 text-start ">
+                        {{defaultAddress.name}} </br>
+                        {{defaultAddress.phone}} </br>
+                        {{defaultAddress.address}} </br>
+                      </div>
+                    </div>
+                    
+                    <a role="button" class="btn btn-primary btn-login w-10 m-auto px-4 border-0"
+                      style="background-color: var(--palette-02);" href="/auth/profile/addresses">
+                      Go to addresses book
+                    </a>
+                  {{else}}
+                    <p>
+                      You don't have any default addresses yet.
+                    </p>
+                    <a role="button" class="btn btn-primary btn-login w-10 m-auto px-4 border-0"
+                      style="background-color: var(--palette-02);" href="/auth/profile/addresses">
+                      Add new default address
+                    </a>
+                  {{/if}}
                 </div>
               </div>
             </div>

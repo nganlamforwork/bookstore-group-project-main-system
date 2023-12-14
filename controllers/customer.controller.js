@@ -10,7 +10,6 @@ const customerController = {
         const rs = await CustomerModel.get(email);
         let user = rs._doc;
         let defaultAddress = await AddressModel.get(user.default_address);
-        console.log(user);
         let modifiedAvatar = user.avatar;
         if (user.avatar && user.avatar.startsWith("uploads")) {
           modifiedAvatar = "/" + user.avatar;
