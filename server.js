@@ -63,14 +63,6 @@ app.engine('hbs', hbs.engine);
 app.set('views', './views');
 app.set('view engine', 'hbs');
 
-app.get('/', (req, res) => {
-	res.render('home', {
-		title: 'Home',
-		success: req.flash('success'),
-		error: req.flash('error'),
-	});
-});
-
 app.get('/faq', (req, res) => {
 	res.render('faq', {
 		title: 'FAQ',
@@ -83,7 +75,9 @@ const userRoutes = require('./routers/customer.route');
 const adminRoutes = require('./routers/admin.route');
 const subscriberRoutes = require('./routers/subscriber.route');
 const productRoutes = require('./routers/product.route');
+const homeRoutes = require('./routers/home.route');
 
+app.get('/', homeRoutes);
 app.use('/auth', userRoutes);
 app.use('/admin', adminRoutes);
 app.use('/subscriber', subscriberRoutes);
