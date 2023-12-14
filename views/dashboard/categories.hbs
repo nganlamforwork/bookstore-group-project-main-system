@@ -93,32 +93,18 @@
               {{this.book_count}}
             </td>
             <td>
-              <div class="dropdown">
-                <button
-                  type="button"
-                  class="btn p-0 dropdown-toggle hide-arrow text-center"
-                  data-bs-toggle="dropdown"
+              <div class="flex d-flex justify-content-start gap-4">
+                <a href="/admin/categories/{{this._id}}" class="btn p-0">
+                  <i class="fa-solid fa-eye"></i>
+                </a>
+                <form
+                  action="/admin/categories/delete/{{this._id}}"
+                  method="POST"
                 >
-                  <i class="fa-solid fa-ellipsis-vertical"></i>
-                </button>
-                <div class="dropdown-menu">
-                  <a
-                    href="/admin/categories/{{this._id}}"
-                    class="dropdown-item"
-                  >
-                    <i class="fa-solid fa-eye"></i>
-                    View detail
-                  </a>
-                  <form
-                    action="/admin/categories/delete/{{this._id}}"
-                    method="POST"
-                  >
-                    <button type="submit" class="dropdown-item">
-                      <i class="fa-solid fa-trash"></i>
-                      Delete
-                    </button>
-                  </form>
-                </div>
+                  <button type="submit" class="btn text-danger p-0">
+                    <i class="fa-solid fa-trash"></i>
+                  </button>
+                </form>
               </div>
             </td>
           </tr>

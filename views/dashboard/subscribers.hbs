@@ -1,3 +1,27 @@
+<div class="mb-3">
+  <div class="row">
+    <div class="col">
+      <nav aria-label="breadcrumb" class="bg-white rounded-3 p-3 mb-4">
+        <ol class="breadcrumb mb-0">
+          <li class="breadcrumb-item">
+            <a href="/admin">
+              Admin
+            </a>
+          </li>
+          <li class="breadcrumb-item active" aria-current="page">
+            Subscribers List
+          </li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+  <div class="row">
+    <h1 class="header-font">
+      {{title}}
+    </h1>
+  </div>
+</div>
+
 <!-- Data Tables -->
 <div class="col-12">
   <div class="card">
@@ -18,11 +42,17 @@
         </thead>
         <tbody>
           {{#each subscribers}}
-          <tr>
-            <td class="text-truncate">{{@index}}</td>
-            <td class="text-truncate">{{this.email}}</td>
-            <td class="text-truncate">{{this.created_at}}</td>
-          </tr>
+            <tr>
+              <td class="text-truncate">
+                {{@index}}
+              </td>
+              <td class="text-truncate">
+                {{this.email}}
+              </td>
+              <td class="text-truncate">
+                {{this.created_at}}
+              </td>
+            </tr>
           {{/each}}
         </tbody>
       </table>

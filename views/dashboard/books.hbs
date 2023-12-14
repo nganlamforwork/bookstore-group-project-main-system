@@ -1,6 +1,26 @@
-<h1 class="header-font">
-  Books
-</h1>
+<div class="mb-3">
+  <div class="row">
+    <div class="col">
+      <nav aria-label="breadcrumb" class="bg-white rounded-3 p-3 mb-4">
+        <ol class="breadcrumb mb-0">
+          <li class="breadcrumb-item">
+            <a href="/admin">
+              Admin
+            </a>
+          </li>
+          <li class="breadcrumb-item active" aria-current="page">
+            Books List
+          </li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+  <div class="row">
+    <h1 class="header-font">
+      Books List
+    </h1>
+  </div>
+</div>
 
 <!-- Hoverable Table rows -->
 <div class="card">
@@ -90,26 +110,15 @@
               ${{this.price}}
             </td>
             <td>
-              <div class="dropdown">
-                <button
-                  type="button"
-                  class="btn p-0 dropdown-toggle hide-arrow text-center"
-                  data-bs-toggle="dropdown"
-                >
-                  <i class="fa-solid fa-ellipsis-vertical"></i>
-                </button>
-                <div class="dropdown-menu">
-                  <a href="/admin/books/{{this._id}}" class="dropdown-item">
-                    <i class="fa-solid fa-eye"></i>
-                    View detail
-                  </a>
-                  <form action="/admin/books/delete/{{this._id}}" method="POST">
-                    <button type="submit" class="dropdown-item">
-                      <i class="fa-solid fa-trash"></i>
-                      Delete
-                    </button>
-                  </form>
-                </div>
+              <div class="flex d-flex justify-content-start gap-4">
+                <a href="/admin/books/{{this._id}}" class="btn p-0">
+                  <i class="fa-solid fa-eye"></i>
+                </a>
+                <form action="/admin/books/delete/{{this._id}}" method="POST">
+                  <button type="submit" class="btn text-danger p-0">
+                    <i class="fa-solid fa-trash"></i>
+                  </button>
+                </form>
               </div>
             </td>
           </tr>

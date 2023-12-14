@@ -24,11 +24,11 @@ router.use((req, res, next) => {
 
 // Protected routes - after the authentication middleware
 router.get("/dashboard", adminController.getAdminDashboard);
-router.get("/customers", adminController.getCustomers);
 router.get("/reviews", adminController.getReviews);
 router.get("/subscribers", adminController.getSubscribers);
 router.use("/categories", require("./admin/categories.route"));
 router.use("/books", require("./admin/books.route"));
+router.use("/customers", require("./admin/customers.route"));
 
 // Admin
 router.get("/profile", adminController.getAdminProfile);

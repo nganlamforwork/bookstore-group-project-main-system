@@ -17,6 +17,7 @@ async function add(schema, data) {
     const doc = new Model(data);
 
     await doc.save();
+    return doc;
   } catch (error) {
     console.error(error);
   }
@@ -47,12 +48,10 @@ async function update(schema, fieldName, searchValue, updateData) {
     }
 
     const Model = mongoose.model(schema, schemas[schema]);
-
     const result = await Model.updateOne(
       { [fieldName]: searchValue },
       { $set: updateData }
     );
-
     return result;
   } catch (error) {
     console.error(error);
