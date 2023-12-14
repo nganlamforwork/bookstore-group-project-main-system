@@ -144,9 +144,13 @@
             </div>
             <div class="col-sm-6">
                 <p class="text-muted mb-0">
-                  {{defaultAddress.name}} </br>
-                  {{defaultAddress.phone}} </br>
-                  {{defaultAddress.address}} </br>
+                  {{#if defaultAddress}}
+                    {{defaultAddress.name}} </br>
+                    {{defaultAddress.phone}} </br>
+                    {{defaultAddress.address}} </br>
+                  {{else}}
+                    There is no default address
+                  {{/if}}
                 </p>
             </div>
             <div class="col-sm-4 text-end">
@@ -169,7 +173,13 @@
             </div>
             <div class="col-sm-6">
               <p class="text-muted mb-0">
-                {{default_payment}}
+                  {{#if defaultPayment}}
+                    {{defaultPayment.name}} </br>
+                    {{defaultPayment.type}} </br>
+                    {{defaultPayment.number}} </br>
+                  {{else}}
+                    There is no default payment method
+                  {{/if}}
               </p>
             </div>
             <div class="col-sm-4 text-end">

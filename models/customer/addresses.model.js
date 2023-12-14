@@ -25,9 +25,9 @@ const AddressModel = {
       console.error(err);
     }
   },
-  addDefault: async (customer_id, address_id) => {
+  changeDefault: async (customer_id, address_id) => {
     try {
-      return await db.update(schema, "_id", customer_id, {
+      return await db.update("customers", "_id", customer_id, {
         default_address: address_id,
       });
     } catch (err) {
@@ -41,9 +41,10 @@ const AddressModel = {
       console.error(err);
     }
   },
-  update: async (id, updateData) => {
+  update: async (customerId, id, updateData) => {
     try {
       updateData.last_updated = new Date();
+      delete updateData.defaultAddress;
       const result = await db.update(schema, "_id", id, updateData);
       return result;
     } catch (err) {

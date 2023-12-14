@@ -32,7 +32,7 @@ const addressController = {
             ...req.session.user,
             default_address: address._id,
           };
-          await AddressModel.addDefault(req.params.uid, address._id);
+          await AddressModel.changeDefault(req.params.uid, address._id);
         }
         res.redirect("/auth/profile/addresses");
       } else res.redirect("/auth/login");
@@ -44,6 +44,23 @@ const addressController = {
     try {
       if (req.session.user) {
         await AddressModel.delete(req.params.uid, req.params.id);
+        res.redirect("/auth/profile/addresses");
+      } else res.redirect("/auth/login");
+    } catch (error) {
+      next(err);
+    }
+  },
+  update: async (req, res, next) => {
+    try {
+      if (req.session.user) {
+        if (req.body.defaultAddress == "on") {
+          req.session.user = {
+            ...req.session.user,
+            default_address: req.params.id,
+          };
+          await AddressModel.changeDefault(req.params.uid, req.params.id);
+        }
+        await AddressModel.update(req.params.uid, req.params.id, req.body);
         res.redirect("/auth/profile/addresses");
       } else res.redirect("/auth/login");
     } catch (error) {
