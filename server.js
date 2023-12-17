@@ -10,13 +10,14 @@ const flash = require('connect-flash');
 const fs = require('fs');
 const https = require('https');
 const http = require('http');
+const MongoStore = require('connect-mongo');
 
 const privateKey = fs.readFileSync('sslcert/server.key', 'utf8');
 const certificate = fs.readFileSync('sslcert/server.crt', 'utf8');
 const credentials = { key: privateKey, cert: certificate };
 
 const CustomError = require('./modules/custom_err');
-const FAQContent = require('./constant/faq.js')
+const FAQContent = require('./constant/faq.js');
 
 const app = express();
 
@@ -51,8 +52,11 @@ app.use(
 		saveUninitialized: true,
 		cookie: {
 			secure: false,
-			maxAge: 24 * 60 * 60 * 1000, // 1 day in milliseconds
+			maxAge: 180 * 60 * 1000, // 3 hours
 		},
+		store: MongoStore.create({
+			mongoUrl: `mongodb+srv://admin:${process.env.DB_PW}@bookstore.s5hrnv5.mongodb.net/${process.env.DB_DB}?retryWrites=true&w=majority`,
+		}),
 	})
 );
 app.use(flash());
@@ -66,8 +70,14 @@ app.set('view engine', 'hbs');
 app.get('/faq', (req, res) => {
 	res.render('faq', {
 		title: 'FAQ',
-		data: FAQContent
+		data: FAQContent,
 	});
+});
+
+app.use(function (req, res, next) {
+	res.locals.isLoggedIn = req.isAuthenticated();
+	res.locals.session = req.session;
+	next();
 });
 
 // Define routes
@@ -76,12 +86,14 @@ const adminRoutes = require('./routers/admin.route');
 const subscriberRoutes = require('./routers/subscriber.route');
 const productRoutes = require('./routers/product.route');
 const homeRoutes = require('./routers/home.route');
+const cartRoutes = require('./routers/cart.route');
 
 app.get('/', homeRoutes);
 app.use('/auth', userRoutes);
 app.use('/admin', adminRoutes);
 app.use('/subscriber', subscriberRoutes);
 app.use('/product', productRoutes);
+app.use('/cart', cartRoutes);
 
 // Using routes
 
