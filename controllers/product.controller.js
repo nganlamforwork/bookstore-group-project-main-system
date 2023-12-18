@@ -8,21 +8,25 @@ const productController = {
 			const bookId = req.params.id;
 			const book = await BooksModel.getById(bookId);
 			const authors = [];
-			const category = await CategoriesModel.getById(book?.category_id);
+      const category = await CategoriesModel.getById(book?.category_id);
+      let relatedBooks = await CategoriesModel.getListBooksById(category._id);
+      if (relatedBooks?.length > 0){
+        relatedBooks = relatedBooks.slice(0,4);
+      }
 
-			res.render('product', {
-				id: bookId,
-				title: book.title,
-				layout: 'main',
-				book: book,
-				authors: authors,
-				category: category,
-				date: moment(book.published_at).format('DD MMM YYYY'),
-			});
-		} catch (error) {
-			next(error);
-		}
-	},
+			res.render("product", {
+        title: "Detail Book",
+        layout: "main",
+        book: book,
+        authors: authors,
+        category: category,
+        date: moment(book.published_at).format('DD MMM YYYY'),
+        relatedBooks,
+      });
+    } catch (error) {
+      next(error);
+    }
+  },
 };
 
 module.exports = productController;
