@@ -37,7 +37,6 @@ const CustomersModel = {
       ];
 
       const customersWithAddresses = await db.aggregate(schema, pipeline);
-      console.log(customersWithAddresses);
       return customersWithAddresses;
     } catch (err) {
       console.error(err);

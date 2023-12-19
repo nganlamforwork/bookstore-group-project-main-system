@@ -32,7 +32,6 @@ const categoriesController = {
   },
   addCategory: async (req, res, next) => {
     try {
-      console.log(req.body);
       await CategoriesModel.add(req.body);
       res.redirect("/admin/categories");
     } catch (error) {

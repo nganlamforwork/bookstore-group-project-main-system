@@ -16,18 +16,17 @@
                         <td>
                             <div class="d-flex">
                                 <div class='large-image' style='width: 200px; height: 200px;'>
-                                    <img src={{this.item.thumbnail}} width='100%' height='100%'
+                                    <img src={{this.book.thumbnail}} width='100%' height='100%'
                                         style='object-fit: contain;' />
                                 </div>
                                 <div class="ml-3">
-                                    <p class="author-name">{{this.item.author_name}}</p>
-                                    <a href="/product/{{this.item._id}}" class="cart-item">
-                                        {{this.item.title}}
+                                    <p class="author-name">{{this.book.author_name}}</p>
+                                    <a href="/product/{{this.book._id}}" class="cart-item">
+                                        {{this.book.title}}
                                     </a>
-                                    <p class="mt-2 book-price">${{this.item.price}}</p>
-                                    <p class="mt-2">Language: {{this.item.language}}</p>
-                                    <p class="mt-2">Publication Date: {{this.item.published_at}}</p>
-
+                                    <p class="mt-2 book-price">${{this.book.price}}</p>
+                                    <p class="mt-2">Language: {{this.book.language}}</p>
+                                    <p class="mt-2">Publication Date: {{this.book.published_at}}</p>
                                 </div>
                             </div>
                         </td>
@@ -35,29 +34,31 @@
                             <div class='d-flex align-items-center gap-3'>
                                 <div class='quantityWrap'>
                                     <div class='quantityBtn'
-                                        onclick="changeQuantity('{{this.item._id}}',{{@index}},-1)">-</div>
-                                    <span id='quantity' class='quantityValue'>{{this.qty}}</span>
-                                    <div class='quantityBtn' onclick="changeQuantity('{{this.item._id}}',{{@index}},1)">
+                                        onclick="changeQuantity('{{this.book._id}}',{{@index}},-1)">-</div>
+                                    <span id='quantity' class='quantityValue'>{{this.quantity}}</span>
+                                    <div class='quantityBtn' onclick="changeQuantity('{{this.book._id}}',{{@index}},1)">
                                         +</div>
                                 </div>
-                                <a href="/cart/remove-from-cart/{{this.item._id}}" class="remove-cart-item-icon">
+                                <a href="/cart/remove-from-cart/{{this.book._id}}" class="remove-cart-item-icon">
                                     <i class="fa-solid fa-trash"></i>
                                 </a>
                             </div>
                         </td>
-                        <td class="total-price">${{this.price}}</td>
+                        <td class="total-price">${{this.totalPrice}}</td>
                     </tr>
                     {{/each}}
                 </tbody>
             </table>
         </div>
     </div>
-    <div class="d-flex align-items-center justify-content-center my-3">
-        <a href="" class="continue-shopping">Continue Shopping</a>
-    </div>
+    <a href="/" class="continue-shopping">
+        <div class="d-flex align-items-center justify-content-center my-3">
+            Continue Shopping
+        </div>
+    </a>
     <div class="row mt-5 d-flex">
         <div class="d-flex justify-content-end align-items-end flex-column">
-            <p>Subtotal: <span id="subtotal" class="fw-bold fs-5 px-2">${{totalPrice}} USD</span></p>
+            <p>Subtotal: <span id="subtotal" class="fw-bold fs-5 px-2">${{subTotal}} USD</span></p>
             <p>Taxes and shipping calculated at checkout</p>
             <a href="/checkout">
                 <div class='btn btn-primary rounded-0 border-0 shopping-btn mt-3'
@@ -184,7 +185,7 @@
             totalPrice.innerText = `$${updatedBookPrice.toFixed(2)}`;
 
             // Get request to update quantity
-            const url = `/cart/update-cart/${bookId}?quantity=${newQuantity}`;
+            const url = `/cart/update-quantity-in-cart/${bookId}?quantity=${newQuantity}`;
             fetch(url)
                 .then(async res => {
                     window.location.reload();

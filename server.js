@@ -67,13 +67,6 @@ app.engine('hbs', hbs.engine);
 app.set('views', './views');
 app.set('view engine', 'hbs');
 
-app.get('/faq', (req, res) => {
-	res.render('faq', {
-		title: 'FAQ',
-		data: FAQContent,
-	});
-});
-
 app.use(function (req, res, next) {
 	res.locals.isLoggedIn = req.isAuthenticated();
 	res.locals.session = req.session;
@@ -94,7 +87,12 @@ app.use('/admin', adminRoutes);
 app.use('/subscriber', subscriberRoutes);
 app.use('/product', productRoutes);
 app.use('/cart', cartRoutes);
-
+app.get('/faq', (req, res) => {
+	res.render('faq', {
+		title: 'FAQ',
+		data: FAQContent,
+	});
+});
 // Using routes
 
 // Handling invalid routes

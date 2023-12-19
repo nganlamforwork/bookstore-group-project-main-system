@@ -2,31 +2,48 @@ const CartModel = require('../models/cart.model');
 const BooksModel = require('../models/admin/books.model');
 const moment = require('moment');
 
-function convertStringToDate(books) {
-	return books.map((book) => {
-		if (book.item.published_at) {
-			book.item.published_at = moment(book.item.published_at).format(
-				'DD MMM YYYY'
-			);
-		}
-		book.price = Number(book.price).toFixed(2);
-		return book;
-	});
-}
-
 const cartController = {
 	show: async (req, res, next) => {
 		try {
-			if (!req.session.cart) {
+			const user = req.session.user;
+			const cart = await CartModel.getCartByCustomerId(user._id);
+			// If cart is empty
+			if (!cart) {
 				return res.render('customers/shopping-cart', {
 					books: null,
 				});
 			}
-			var cart = new CartModel(req.session.cart.items);
-			const booksWithDate = convertStringToDate(cart.get());
+			let subTotal = 0;
+			const cartInfo = await Promise.all(
+				cart.map(async (item) => {
+					try {
+						const book = await BooksModel.getById(item.bookId);
+						const modifiedBook = JSON.parse(JSON.stringify(book));
+						if (book.published_at) {
+							modifiedBook.published_at = moment(
+								book.published_at
+							).format('DD MMM YYYY');
+						} else {
+							modifiedBook.published_at = 'Not available';
+						}
+
+						const totalPrice = modifiedBook.price * item.quantity;
+						subTotal += totalPrice;
+						return {
+							_id: item._doc._id,
+							book: modifiedBook,
+							totalPrice: Number(totalPrice).toFixed(2),
+							quantity: item._doc.quantity,
+						};
+					} catch (error) {
+						console.error(`Error fetching book details: ${error}`);
+						return item;
+					}
+				})
+			);
 			res.render('customers/shopping-cart', {
-				books: booksWithDate,
-				totalPrice: Number(cart.totalPrice).toFixed(2),
+				books: cartInfo,
+				subTotal: Number(subTotal).toFixed(2),
 			});
 		} catch (error) {
 			next(error);
@@ -35,40 +52,57 @@ const cartController = {
 	addToCart: async (req, res, next) => {
 		try {
 			const bookId = req.params.id;
+			const user = req.session.user;
 			const quantity = Number(req.query.quantity) || 1;
-			const book = await BooksModel.getById(bookId);
-			const cart = new CartModel(
-				req.session.cart ? req.session.cart.items : {}
+			// Check if the book already exists in the user's cart
+			const existingCartItem = await CartModel.getCartItem(
+				user._id,
+				bookId
 			);
-			cart.add(book, quantity, book.id);
-			req.session.cart = cart;
-			console.log(req.session.cart);
-			res.redirect('/cart');
+			if (existingCartItem) {
+				// If the book already exists, update its quantity in the cart
+				const updatedQuantity = existingCartItem.quantity + quantity;
+				await CartModel.updateQuantity(
+					existingCartItem._id,
+					updatedQuantity
+				);
+			} else {
+				// If the book doesn't exist, add it to the cart
+				await CartModel.addToCart(user._id, bookId, quantity);
+			}
+			res.redirect('/');
 		} catch (error) {
 			next(error);
 		}
 	},
-	updateCart: async (req, res, next) => {
+	updateQuantityInCart: async (req, res, next) => {
 		try {
 			const bookId = req.params.id;
-			const quantity = Number(req.query.quantity) || 1;
-			const book = await BooksModel.getById(bookId);
-			const cart = new CartModel(
-				req.session.cart ? req.session.cart.items : {}
+			const updatedQuantity = Number(req.query.quantity) || 1;
+			const user = req.session.user;
+			const existingCartItem = await CartModel.getCartItem(
+				user._id,
+				bookId
 			);
-
-			// Check if the book is already in the cart
-			if (cart.items[book.id]) {
-				// Update the quantity of the existing item in the cart
-				cart.updateQuantity(book.id, quantity); // Implement this method in your CartModel
-			} else {
-				// If the book is not in the cart, add it
-				cart.add(book, quantity, book.id);
+			if (existingCartItem) {
+				// If the book already exists, update its quantity in the cart
+				await CartModel.updateQuantity(
+					existingCartItem._id,
+					updatedQuantity
+				);
 			}
+			const cart = await CartModel.getCartByCustomerId(user._id);
+			const totalQuantity = cart.reduce(
+				(total, item) => total + item.quantity,
+				0
+			);
+			req.session.cart = {
+				...cart,
+				totalQuantity,
+			};
 
-			req.session.cart = cart;
-			console.log(req.session.cart);
-			res.status(200).send({ message: 'Update cart successful' });
+			res.redirect('/cart');
+			// res.status(200).send({ message: 'Update cart successful' });
 		} catch (error) {
 			next(error);
 		}
@@ -76,13 +110,17 @@ const cartController = {
 	removeFromCart: async (req, res, next) => {
 		try {
 			const bookId = req.params.id;
-			const cart = new CartModel(
-				req.session.cart ? req.session.cart.items : {}
+			const user = req.session.user;
+			await CartModel.removeFromCart(user._id, bookId);
+			const remainInCart = await CartModel.getCartByCustomerId(user._id);
+			const totalQuantity = remainInCart.reduce(
+				(total, item) => total + item.quantity,
+				0
 			);
-
-			cart.remove(bookId);
-			req.session.cart = cart;
-			console.log(req.session.cart);
+			req.session.cart = {
+				...remainInCart,
+				totalQuantity,
+			};
 			res.redirect('/cart');
 		} catch (error) {
 			next(error);

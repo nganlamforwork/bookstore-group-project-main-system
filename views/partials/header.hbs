@@ -2,9 +2,9 @@
   <div id="header-left-icons" class="d-flex gap-4">
     <a href="/cart" class="position-relative">
       <i class="fa fa-shopping-cart"></i>
-      {{#if session.cart.totalQty}}
+      {{#if session.cart.totalQuantity}}
       <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-        {{session.cart.totalQty}}
+        {{session.cart.totalQuantity}}
       </span>
       {{/if}}
     </a>
