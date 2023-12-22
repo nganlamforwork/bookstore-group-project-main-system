@@ -40,6 +40,7 @@ const hbs = create({
 app.use('/imgs', express.static('imgs'));
 app.use('/uploads', express.static('uploads'));
 app.use('/views', express.static('views'));
+app.use(express.static('public'));
 
 app.use(morgan('tiny'));
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -80,6 +81,7 @@ const subscriberRoutes = require('./routers/subscriber.route');
 const productRoutes = require('./routers/product.route');
 const homeRoutes = require('./routers/home.route');
 const cartRoutes = require('./routers/cart.route');
+const checkoutRoutes = require('./routers/checkout.route');
 
 app.get('/', homeRoutes);
 app.use('/auth', userRoutes);
@@ -87,6 +89,7 @@ app.use('/admin', adminRoutes);
 app.use('/subscriber', subscriberRoutes);
 app.use('/product', productRoutes);
 app.use('/cart', cartRoutes);
+app.use('/checkout', checkoutRoutes);
 app.get('/faq', (req, res) => {
 	res.render('faq', {
 		title: 'FAQ',

@@ -18,7 +18,7 @@ const homeController = {
 					0
 				);
 				req.session.cart = {
-					...cart,
+					cart,
 					totalQuantity,
 				};
 			}

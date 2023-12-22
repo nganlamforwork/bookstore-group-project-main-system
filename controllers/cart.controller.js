@@ -41,6 +41,11 @@ const cartController = {
 					}
 				})
 			);
+			req.session.cart = {
+				...req.session.cart,
+				cart: cartInfo,
+				subTotal,
+			};
 			res.render('customers/shopping-cart', {
 				books: cartInfo,
 				subTotal: Number(subTotal).toFixed(2),
@@ -97,7 +102,7 @@ const cartController = {
 				0
 			);
 			req.session.cart = {
-				...cart,
+				cart,
 				totalQuantity,
 			};
 
@@ -118,7 +123,7 @@ const cartController = {
 				0
 			);
 			req.session.cart = {
-				...remainInCart,
+				remainInCart,
 				totalQuantity,
 			};
 			res.redirect('/cart');
