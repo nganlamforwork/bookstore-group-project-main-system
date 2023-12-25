@@ -12,6 +12,20 @@ const subscriberController = {
 			next(err);
 		}
 	},
+	getAll: async (req, res, next) => {
+		try {
+			const subscribers = await SubscriberModel.getAll();
+			const sanitizedSubscribers = subscribers.map((subscriber) => {
+				return {
+					email: subscriber.email || '',
+					created_at: subscriber.created_at.toLocaleDateString(),
+				};
+			});
+			res.status(200).send(sanitizedSubscribers);
+		} catch (err) {
+			next(err);
+		}
+	},
 };
 
 module.exports = subscriberController;

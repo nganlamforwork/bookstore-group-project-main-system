@@ -1,0 +1,198 @@
+{{# if this.books }}
+<div class="container" style="padding: 64px 0;">
+    <div class="row">
+        <div class="col-sm-12 table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>PRODUCT</th>
+                        <th>QUANTITY</th>
+                        <th>TOTAL</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each books}}
+                    <tr>
+                        <td>
+                            <div class="d-flex">
+                                <div class='large-image' style='width: 200px; height: 200px;'>
+                                    <img src={{this.book.thumbnail}} width='100%' height='100%'
+                                        style='object-fit: contain;' />
+                                </div>
+                                <div class="ml-3">
+                                    <p class="author-name">{{this.book.author_name}}</p>
+                                    <a href="/product/{{this.book._id}}" class="cart-item">
+                                        {{this.book.title}}
+                                    </a>
+                                    <p class="mt-2 book-price">${{this.book.price}}</p>
+                                    <p class="mt-2">Language: {{this.book.language}}</p>
+                                    <p class="mt-2">Publication Date: {{this.book.published_at}}</p>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class='d-flex align-items-center gap-3'>
+                                <div class='quantityWrap'>
+                                    <div class='quantityBtn'
+                                        onclick="changeQuantity('{{this.book._id}}',{{@index}},-1)">-</div>
+                                    <span id='quantity' class='quantityValue'>{{this.quantity}}</span>
+                                    <div class='quantityBtn' onclick="changeQuantity('{{this.book._id}}',{{@index}},1)">
+                                        +</div>
+                                </div>
+                                <a href="/cart/remove-from-cart/{{this.book._id}}" class="remove-cart-item-icon">
+                                    <i class="fa-solid fa-trash"></i>
+                                </a>
+                            </div>
+                        </td>
+                        <td class="total-price">${{this.totalPrice}}</td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <a href="/" class="continue-shopping">
+        <div class="d-flex align-items-center justify-content-center my-3">
+            Continue Shopping
+        </div>
+    </a>
+    <div class="row mt-5 d-flex">
+        <div class="d-flex justify-content-end align-items-end flex-column">
+            <p>Subtotal: <span id="subtotal" class="fw-bold fs-5 px-2">${{subTotal}} USD</span></p>
+            <p>Taxes and shipping calculated at checkout</p>
+            <a href="/checkout">
+                <div class='btn btn-primary rounded-0 border-0 shopping-btn mt-3'
+                    style='background-color: var(--palette-02); padding: 0.75rem 6rem;'>Check Out</div>
+            </a>
+        </div>
+    </div>
+</div>
+{{ else }}
+<div class="container" style="padding: 64px 0; margin-top: 64px; margin-bottom: 32px;">
+    <div class="row">
+        <div class="d-flex align-items-center justify-content-center flex-column">
+            <h1>Your cart is empty</h1>
+            <a href="/">
+                <div class='btn btn-primary rounded-0 border-0 shopping-btn mt-3 shopping-btn'
+                    style='background-color: var(--palette-02); padding: 0.75rem 6rem;'>Continue Shopping</div>
+            </a>
+        </div>
+    </div>
+</div>
+{{/if}}
+
+<style>
+    th {
+        font-size: 20px;
+        font-weight: 700;
+        text-transform: uppercase;
+    }
+
+    .shopping-btn {
+        transition: all 0.3s linear;
+    }
+
+    .shopping-btn:hover {
+        background-color: var(--palette-01) !important;
+    }
+
+    .remove-cart-item-icon {
+        transition: all .3s linear;
+    }
+
+    .remove-cart-item-icon:hover {
+        text-decoration: none;
+        color: var(--palette-02);
+    }
+
+    .table {
+        border-collapse: separate;
+        border-spacing: 0 30px;
+    }
+
+    .continue-shopping {
+        text-decoration: none;
+        transition: all .3s linear;
+    }
+
+    .continue-shopping:hover {
+        color: var(--palette-02);
+    }
+
+    .author-name {
+        font-size: 0.8rem;
+        letter-spacing: 0.13rem;
+        text-transform: uppercase;
+        font-weight: 700;
+    }
+
+    .cart-item {
+        text-decoration: none;
+        transition: all .3s linear;
+        font-size: 1.5rem;
+        font-weight: 600;
+    }
+
+    .cart-item:hover {
+        color: var(--palette-02);
+    }
+
+    .quantityWrap {
+        display: flex;
+        width: fit-content;
+        height: fit-content;
+        border: 1px solid black;
+    }
+
+    .quantityBtn {
+        width: 32px;
+        height: 32px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+    }
+
+    .quantityValue {
+        width: 42px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-left: 1px solid black;
+        border-right: 1px solid black;
+    }
+</style>
+
+<script>
+    function changeQuantity(bookId, bookIndex, amount) {
+        const quantityElement = document.querySelectorAll(".quantityValue")[bookIndex];
+        const priceElement = document.querySelectorAll(".book-price")[bookIndex];
+        const totalPrice = document.querySelectorAll(".total-price")[bookIndex];
+        const subtotalElement = document.getElementById("subtotal");
+
+        let currentQuantity = parseInt(quantityElement.innerText) || 0;
+        let newQuantity = currentQuantity + amount;
+
+        if (newQuantity >= 0) {
+            quantityElement.innerText = newQuantity;
+            const bookPrice = parseFloat(priceElement.innerText.replace('$', ''));
+            const subtotal = parseFloat(subtotalElement.innerText.replace('$', ''));
+
+            const updatedSubtotal = subtotal + (bookPrice * amount);
+            subtotalElement.innerText = `$${updatedSubtotal.toFixed(2)} USD`;
+
+            const updatedBookPrice = bookPrice * newQuantity;
+            totalPrice.innerText = `$${updatedBookPrice.toFixed(2)}`;
+
+            // Get request to update quantity
+            const url = `/cart/update-quantity-in-cart/${bookId}?quantity=${newQuantity}`;
+            fetch(url)
+                .then(async res => {
+                    window.location.reload();
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+    }
+</script>

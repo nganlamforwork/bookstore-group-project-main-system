@@ -1,7 +1,8 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-const subscriberController = require("../controllers/subscriber.controller");
+const subscriberController = require('../controllers/subscriber.controller');
 
-router.post("/add", subscriberController.add);
+router.get('/getAll', subscriberController.getAll);
+router.post('/add', subscriberController.add);
 
 module.exports = router;

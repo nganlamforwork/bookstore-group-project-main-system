@@ -1,16 +1,24 @@
 <div class="container-fluid bg-light d-flex align-items-center justify-content-between" style="padding: 2rem 6rem;">
   <div id="header-left-icons" class="d-flex gap-4">
-    <a href="/cart">
+    <a href="/cart" class="position-relative">
       <i class="fa fa-shopping-cart"></i>
-    </a>
-    <a href="/favorites">
-      <i class="fa fa-heart"></i>
+      {{#if session.cart.totalQuantity}}
+      <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+        {{session.cart.totalQuantity}}
+      </span>
+      {{/if}}
     </a>
   </div>
   <h1 class="header-font">BOOK
     <span class="header-font" style="color: var(--palette-02);">SHOP</span>
   </h1>
   <div id="header-right-icons" class="d-flex gap-4">
+    <a href="">
+      <i class="fa-solid fa-moon"></i>
+    </a>
+    <a href="">
+      <i class="fa-solid fa-sun"></i>
+    </a>
     <a href="/auth/login">
       <i class="fa-solid fa-user"></i>
     </a>
