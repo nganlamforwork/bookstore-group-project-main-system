@@ -9,7 +9,9 @@
           <h1
             class="text-center mb-3 fw-light header-font"
             style="font-size: 48px"
-          >Create account</h1>
+          >
+            Create account
+          </h1>
           {{#if error}}
             <div class="alert alert-danger" role="alert">
               {{error}}
@@ -20,33 +22,39 @@
               <input
                 type="text"
                 class="form-control"
-                id="floatingInput"
+                id="floatingInputFirstName"
                 placeholder="Enter fullname"
                 name="firstname"
                 required
               />
-              <label for="floatingInput">First name</label>
+              <label for="floatingInputFirstName">
+                First name
+              </label>
             </div>
             <div class="form-floating mb-3">
               <input
                 type="text"
                 class="form-control"
-                id="floatingInput"
+                id="floatingInputLastName"
                 placeholder="Enter fullname"
                 name="lastname"
               />
-              <label for="floatingInput">Last name</label>
+              <label for="floatingInputLastName">
+                Last name
+              </label>
             </div>
             <div class="form-floating mb-3">
               <input
                 type="email"
                 class="form-control"
-                id="floatingInput"
+                id="floatingInputEmail"
                 placeholder="name@example.com"
                 name="email"
                 required
               />
-              <label for="floatingInput">Email address</label>
+              <label for="floatingInputEmail">
+                Email address
+              </label>
             </div>
             <div class="form-floating mb-3">
               <input
@@ -57,23 +65,73 @@
                 name="password"
                 required
               />
-              <label for="floatingPassword">Password</label>
+              <label for="floatingPassword">
+                Password
+              </label>
             </div>
             <div class="d-grid">
               <button
                 class="btn btn-primary btn-login text-capitalize w-10 m-auto px-4 border-0"
                 style="background-color: var(--palette-02);"
-                type="submit"
-              >Create</button>
+                type="button"
+                onclick="validateAndSubmit()"
+              >
+                Create
+              </button>
             </div>
           </form>
           <hr class="border-1 border-top border-secondary" />
           <div class="d-flex flex-row gap-2 justify-content-center mt-3">
-            <p>Already have an account?</p>
-            <a href="/auth/login" style="color: var(--palette-02)">Log in</a>
+            <p>
+              Already have an account?
+            </p>
+            <a href="/auth/login" style="color: var(--palette-02)">
+              Log in
+            </a>
           </div>
         </div>
       </div>
     </div>
   </div>
 </div>
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script>
+  function validateAndSubmit() {
+  var firstname = $("#floatingInputFirstName").val();
+  var lastname = $("#floatingInputLastName").val();
+  var email = $("#floatingInputEmail").val();
+  var password = $("#floatingPassword").val();
+  console.log(email);
+
+  var emailRegex = /^[^\\\\\\\\\\\\\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  if (!emailRegex.test(email)) {
+    alert("Please enter a valid email address");
+    return;
+  }
+
+  if (password.length < 8 || !/[0-9]/.test(password) || !/[!@#$%^&*()_+{}\[\]:;<>,.?~\\/-]/.test(password)) {
+    alert("Password must be at least 8 characters long and contain at least one number and one special character");
+    return;
+  }
+
+  $.ajax({
+    type: "POST",
+    url: "/auth/register",
+    data: {
+      firstname: firstname,
+      lastname: lastname,
+      email: email,
+      password: password
+    },
+    success: function(response) {
+      alert(response);
+        window.location.href = "/auth/login";
+    },
+    error: function(error) {
+      alert(error.responseText);
+    }
+  });
+}
+</script>
