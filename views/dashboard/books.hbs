@@ -66,9 +66,6 @@
             Author
           </th>
           <th>
-            Votes
-          </th>
-          <th>
             Inventory
           </th>
           <th>
@@ -89,19 +86,16 @@
                 style="width: 100px"
               />
             </td>
-            <td>
-              <span class="fw-medium">
+            <td class="text-wrap">
+              <div style="max-width: 300px !important;">
                 {{this.title}}
-              </span>
+              </div>
             </td>
             <td>
               {{this.category_title}}
             </td>
             <td>
               {{this.author_id}}
-            </td>
-            <td>
-              {{this.votes}}
             </td>
             <td>
               {{this.inventory}}
@@ -301,7 +295,11 @@
                   class="form-select"
                   id="category_id"
                   style="height: 56px"
+                  required
                 >
+                  <option value="" disabled selected>
+                    Select a category
+                  </option>
                   {{#each categories}}
                     <option value="{{this._id}}">
                       {{this.title}}
