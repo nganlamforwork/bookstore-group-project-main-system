@@ -205,6 +205,10 @@
         <canvas id="subscriptionChart" width="400" height="200">
           <input type="hidden" value="{{subscribers}}" id="listSubscribers">
         </canvas>
+        {{!-- Logins time line chart --}}
+        <canvas id="loginsChart" width="400" height="200">
+          <input type="hidden" value="{{subscribers}}" id="listLogins">
+        </canvas>
       </div>
     </div>
   </div>
@@ -223,9 +227,62 @@
     });
   };
 
-  fetchSubscribers()
+  const fetchLogins = () => {
+    return $.ajax({
+      url: '/logins/getAll',
+      method: 'GET',
+      dataType: 'json'
+    });
+  };
+
+  fetchLogins()
     .then(function (data) {
       console.log('Received data:', data);
+
+      // Process the received data
+      const dateCounts = {};
+      data.forEach(log => {
+        const date = new Date(log.time_login).toLocaleDateString();
+        if (!dateCounts[date]) {
+          dateCounts[date] = 0;
+        }
+        dateCounts[date]++;
+      });
+
+      const dates = Object.keys(dateCounts);
+      const loginsCount = Object.values(dateCounts);
+
+      // Get the canvas element where the chart will be rendered
+      const ctx = document.getElementById('loginsChart').getContext('2d');
+
+      // Create the chart
+      const loginsChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: dates,
+          datasets: [{
+            label: 'Logins',
+            data: loginsCount,
+            backgroundColor: 'rgba(54, 162, 235, 0.2)',
+            borderColor: 'rgba(54, 162, 235, 1)',
+            borderWidth: 1
+          }]
+        },
+        options: {
+          scales: {
+            y: {
+              beginAtZero: true
+            }
+          }
+        }
+      });
+    })
+    .fail(function (xhr, textStatus, errorThrown) {
+      console.error('There was a problem with the fetch operation:', errorThrown);
+    });
+
+  fetchSubscribers()
+    .then(function (data) {
 
       // Process the received data
       const dateCounts = {};

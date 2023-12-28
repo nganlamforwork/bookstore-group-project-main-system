@@ -147,6 +147,15 @@ const carts = new Schema({
 	},
 });
 
+const login = new Schema({
+	id: { type: String, required: true, unique: true },
+	user_id: { type: String, required: true },
+	ip: { type: String, required: true },
+	time: { type: Date, required: true },
+	browser: { type: String },
+	device: { type: String },
+});
+
 module.exports = {
 	admins: admins,
 	customers: customer,
@@ -155,4 +164,5 @@ module.exports = {
 	books: books,
 	addresses: address,
 	carts: carts,
+	login: login,
 };

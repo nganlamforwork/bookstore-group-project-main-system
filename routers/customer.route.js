@@ -3,6 +3,7 @@ const router = express.Router();
 const multer = require('multer');
 const fs = require('fs');
 const path = require('path');
+const LoginModel = require('../models/login.model');
 
 const storage = multer.diskStorage({
 	destination: function (req, file, cb) {
@@ -36,8 +37,11 @@ router.get(
 router.get(
 	'/google/callback',
 	passport.authenticate('google', { failureRedirect: '/auth/login' }),
-	(req, res) => {
+	async (req, res) => {
 		// Successful authentication, redirect to home
+		// Create user login for tracking
+		console.log(req.user);
+		await LoginModel.create({ user: req.user._id, req: req });
 		req.session.user = req.user;
 		req.flash('success', 'Welcome back');
 		res.redirect('/');
