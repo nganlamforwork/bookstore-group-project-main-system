@@ -11,9 +11,10 @@ const fs = require('fs');
 const https = require('https');
 const http = require('http');
 const MongoStore = require('connect-mongo');
+const cors = require('cors');
 
-const privateKey = fs.readFileSync('sslcert/server.key', 'utf8');
-const certificate = fs.readFileSync('sslcert/server.crt', 'utf8');
+const privateKey = fs.readFileSync('sslcert/key.pem', 'utf8');
+const certificate = fs.readFileSync('sslcert/cert.pem', 'utf8');
 const credentials = { key: privateKey, cert: certificate };
 
 const CustomError = require('./modules/custom_err');
@@ -46,6 +47,7 @@ app.use(morgan('tiny'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser(SECRET_KEY));
+app.use(cors());
 app.use(
 	session({
 		secret: SECRET_KEY,
@@ -130,5 +132,7 @@ httpServer.listen(httpPort, () => {
 	console.log(`HTTP Server is running on: http://${localhost}:${httpPort}`);
 });
 httpsServer.listen(httpsPort, () => {
-	console.log(`HTTPS Server is running on: http://${localhost}:${httpsPort}`);
+	console.log(
+		`HTTPS Server is running on: https://${localhost}:${httpsPort}`
+	);
 });

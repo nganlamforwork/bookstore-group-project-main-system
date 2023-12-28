@@ -6,6 +6,12 @@ const cartController = {
 	show: async (req, res, next) => {
 		try {
 			const user = req.session.user;
+			if (!user) {
+				return res.render('customers/shopping-cart', {
+					books: null,
+					unauthorized: true,
+				});
+			}
 			const cart = await CartModel.getCartByCustomerId(user._id);
 			// If cart is empty
 			if (!cart) {

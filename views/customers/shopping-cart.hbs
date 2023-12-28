@@ -76,6 +76,15 @@
                 <div class='btn btn-primary rounded-0 border-0 shopping-btn mt-3 shopping-btn'
                     style='background-color: var(--palette-02); padding: 0.75rem 6rem;'>Continue Shopping</div>
             </a>
+            {{#if unauthorized}}
+            <div class="d-flex flex-column align-items-center justify-content-center" style="margin-top: 120px;">
+                <h2>Have an account?</h2>
+                <p>
+                    <a href="/auth/login" style="text-decoration: underline">Login</a>
+                    to checkout faster.
+                </p>
+            </div>
+            {{/if}}
         </div>
     </div>
 </div>
