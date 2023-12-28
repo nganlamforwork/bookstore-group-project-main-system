@@ -81,6 +81,7 @@ const userRoutes = require('./routers/customer.route');
 const adminRoutes = require('./routers/admin.route');
 const subscriberRoutes = require('./routers/subscriber.route');
 const productRoutes = require('./routers/product.route');
+const categoryRoutes = require('./routers/category.route');
 const homeRoutes = require('./routers/home.route');
 const cartRoutes = require('./routers/cart.route');
 const checkoutRoutes = require('./routers/checkout.route');
@@ -90,6 +91,7 @@ app.use('/auth', userRoutes);
 app.use('/admin', adminRoutes);
 app.use('/subscriber', subscriberRoutes);
 app.use('/product', productRoutes);
+app.use('/category', categoryRoutes);
 app.use('/cart', cartRoutes);
 app.use('/checkout', checkoutRoutes);
 app.get('/faq', (req, res) => {
