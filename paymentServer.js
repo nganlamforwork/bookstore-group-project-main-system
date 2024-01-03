@@ -5,6 +5,7 @@ const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const { create } = require('express-handlebars');
 const fs = require('fs');
+const flash = require('connect-flash');
 const https = require('https');
 const cors = require('cors');
 
@@ -31,22 +32,25 @@ const hbs = create({
 	helpers: require('./helper'),
 });
 
-app.use('/imgs', express.static('imgs'));
 app.use('/uploads', express.static('uploads'));
 app.use('/views', express.static('views'));
 app.use(express.static('public'));
 
+app.use(flash());
 app.use(morgan('tiny'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors());
 
+app.engine('hbs', hbs.engine);
+app.set('views', './views');
+app.set('view engine', 'hbs');
+
 // Define routes
-app.get('/', (req, res) => {
-	res.send('Hello world');
-});
+const balanceRoutes = require('./routers/balance.route');
 
 // Using routes
+app.use('/balance', balanceRoutes);
 
 // Handling custom errors
 app.use((err, req, res, next) => {

@@ -147,6 +147,33 @@ const carts = new Schema({
 	},
 });
 
+const balance = new Schema({
+	customerId: {
+		type: Schema.Types.ObjectId,
+		ref: 'customers',
+	},
+	cardholderName: {
+		type: String,
+		required: true,
+	},
+	cardNumber: {
+		type: String,
+		required: true,
+	},
+	expires: {
+		type: String,
+		required: true,
+	},
+	cvv: {
+		type: String,
+		required: true,
+	},
+	amount: {
+		type: Number,
+		default: 0,
+	},
+});
+
 const login = new Schema({
 	id: { type: String, required: true, unique: true },
 	user_id: { type: String, required: true },
@@ -164,5 +191,6 @@ module.exports = {
 	books: books,
 	addresses: address,
 	carts: carts,
+	balance: balance,
 	login: login,
 };

@@ -1,6 +1,7 @@
 const BooksModel = require('../models/admin/books.model');
 const CategoriesModel = require('../models/admin/categories.model');
 const CartModel = require('../models/cart.model');
+const BalanceModel = require('../models/balance.model');
 
 const homeController = {
 	show: async (req, res, next) => {
@@ -22,6 +23,7 @@ const homeController = {
 					totalQuantity,
 				};
 			}
+			const balance = await BalanceModel.getBalance(user._id);
 
 			res.render('home', {
 				title: 'Home',
@@ -29,6 +31,7 @@ const homeController = {
 				error: req.flash('error'),
 				newArrivalBooks,
 				categories,
+				amount: balance.amount,
 			});
 		} catch (error) {
 			next(error);

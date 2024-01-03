@@ -1,0 +1,126 @@
+<style>
+    #amount {
+        border: none;
+        border-bottom: 1px solid #ced4da;
+        outline: none;
+        padding-bottom: 5px;
+        width: 100%;
+        font-size: 24px;
+    }
+
+    #optionAmount {
+        clip-path: polygon(75% 0, 100% 50%, 75% 100%, 25% 100%, 0 50%, 25% 0);
+        background-color: var(--gradient-base-background-2);
+        color: #000;
+        border: none
+    }
+
+    #optionAmount.active {
+        background-color: var(--palette-03);
+    }
+
+    #optionAmount:hover {
+        background-color: var(--gradient-base-background-3);
+        color: #000;
+        transition: background-color 0.3s ease;
+    }
+
+    @media (max-width: 1024px) {
+        #balanceContainer {
+            flex-direction: column;
+        }
+    }
+</style>
+<div class="modal fade" id="balanceModal" tabindex="-1" aria-labelledby="balanceModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="balanceModalLabel">TOP UP BALANCE</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <img src="/assets/creditcards.png" alt="" width="100%">
+                <div class="d-flex align-items-center gap-3 w-100" id="balanceContainer">
+                    <div class="border p-3 w-100">
+                        <div class="mb-3">
+                            <h3>Amount</h3>
+                            <input type="text" id="amount" name="amount">
+                        </div>
+                        <div class="d-flex align-items-center justify-content-evenly">
+                            <div>
+                                <button id="optionAmount" class="btn w-100" onclick="setAmount(15)">
+                                    $15 </button>
+                            </div>
+                            <div>
+                                <button id="optionAmount" class="btn w-100" onclick="setAmount(25)">
+                                    $25 </button>
+                            </div>
+                            <div>
+                                <button id="optionAmount" class="btn w-100" onclick="setAmount(50)">
+                                    $50 </button>
+                            </div>
+                            <div>
+                                <button id="optionAmount" class="btn w-100" onclick="setAmount(100)"> $100 </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="border d-flex flex-column align-items-center py-3 w-100">
+                        <h5>You get</h5>
+                        <h1 id="displayAmount" style="color: #48c5a9"></h1>
+                        <a href="#" id="balanceLink">
+                            <div class='btn btn-primary rounded-0 border-0 shopping-btn'
+                                style='background-color: var(--palette-02); padding: 0.75rem 6rem; clip-path: polygon(12px 0px, calc(100% - 12px) 0px, 100% 50%, calc(100% - 12px) 100%, 12px 100%, 0px 50%);'>
+                                Check Out</div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const amountInput = document.getElementById('amount');
+    const displayAmount = document.getElementById('displayAmount');
+    const userId = "{{session.user._id}}"
+
+    const defaultAmount = 25;
+    amountInput.value = defaultAmount;
+    displayAmount.textContent = `$${defaultAmount}.00`;
+    document.getElementById('optionAmount').focus();
+
+    const defaultButton = document.querySelector(`button[id="optionAmount"][onclick="setAmount(25)"]`);
+    defaultButton.classList.add('active');
+
+    function updateBalanceLink() {
+        const balanceLink = document.getElementById('balanceLink');
+        balanceLink.href = `https://localhost:5000/balance/recharge?userId=${userId}&amount=${amountInput.value}`;
+    }
+
+    function setAmount(amount) {
+        amountInput.value = amount;
+        displayAmount.textContent = `$${amount}.00`;
+
+        const buttons = document.querySelectorAll('#optionAmount');
+        buttons.forEach((btn) => btn.classList.remove('active'));
+
+        const clickedButton = document.querySelector(`button[id="optionAmount"][onclick="setAmount(${amount})"]`);
+        clickedButton.classList.add('active');
+
+        updateBalanceLink(); // Update the balance link when amount changes
+    }
+
+    amountInput.addEventListener('input', () => {
+        const value = parseInt(amountInput.value);
+        if (!isNaN(value)) {
+            displayAmount.textContent = `$${value}.00`;
+            updateBalanceLink(); // Update the balance link when amount changes
+
+            // Remove 'active' class from all buttons when input changes
+            const buttons = document.querySelectorAll('#optionAmount');
+            buttons.forEach((btn) => btn.classList.remove('active'));
+        }
+    });
+
+    updateBalanceLink(); // Initial setup of the balance link
+</script>

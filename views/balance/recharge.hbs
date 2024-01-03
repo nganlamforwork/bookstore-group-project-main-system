@@ -1,0 +1,107 @@
+<style>
+    body,
+    html {
+        height: 100%;
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #f0f0f0;
+    }
+
+    .card {
+        width: 100%;
+        height: 500px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+</style>
+<div class="container p-0">
+    <div class="card px-4">
+        <p class="h3 py-3 text-center mt-3">Payment Details</p>
+        <form id="rechargeForm">
+            <div class="row gx-3">
+                <div class="col-12">
+                    <div class="d-flex flex-column">
+                        <p class="text mb-1">Cardholder Name*</p>
+                        <input class="form-control mb-3 text-uppercase" type="text" name="cardholderName"
+                            placeholder="Name">
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="d-flex flex-column">
+                        <p class="text mb-1">Card Number*</p>
+                        <input class="form-control mb-3" type="text" placeholder="1234 5678 435678" maxlength="16"
+                            name="cardNumber">
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="d-flex flex-column">
+                        <p class="text mb-1">Expires*</p>
+                        <input class="form-control mb-3" type="text" placeholder="MM/YY" maxlength="5" name="expires">
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="d-flex flex-column">
+                        <p class="text mb-1">CVV2/CVC2/CAV2*</p>
+                        <input class="form-control mb-3 pt-2 " type="password" placeholder="***" maxlength="3"
+                            name="cvv">
+                    </div>
+                </div>
+                <div class="col-12 mt-3">
+                    <div class="float-end">
+                        <button class="btn btn-primary mb-3" type="submit">
+                            <span>Pay <span id="payAmount">$</span></span>
+                            <span class="fas fa-arrow-right"></span>
+                        </button>
+                        <a href="http://localhost:3000">
+                            <div class="btn btn-danger mb-3">
+                                <span>Cancel</span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const urlParams = new URLSearchParams(window.location.search);
+        const amount = urlParams.get('amount');
+        const userId = urlParams.get('userId');
+        const payAmount = document.getElementById('payAmount');
+        payAmount.textContent = `$${amount}`;
+
+        const form = document.getElementById('rechargeForm');
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const formData = new FormData(form);
+            formData.append('amount', amount);
+
+            const data = {};
+            formData.forEach((value, key) => {
+                data[key] = value;
+            });
+
+            fetch(`/balance/${userId}/recharge`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            }).then(async (res) => {
+                const data = await res.json();
+                if (data.success) {
+                    alert(data.message);
+                    window.location.href = "http://localhost:3000"
+                }
+            }).catch(err => {
+                console.error('Recharge Balance failed')
+                alert('Recharge Balance failed');
+            });
+        });
+    })
+</script>
