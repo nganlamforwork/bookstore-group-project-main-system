@@ -1,5 +1,4 @@
 const BooksModel = require('../models/admin/books.model');
-const CategoriesModel = require('../models/admin/categories.model');
 const CartModel = require('../models/cart.model');
 const BalanceModel = require('../models/balance.model');
 
@@ -10,7 +9,6 @@ const homeController = {
 			if (newArrivalBooks?.length > 0) {
 				newArrivalBooks = newArrivalBooks.slice(0, 4);
 			}
-			const categories = await CategoriesModel.getAll();
 			const user = req.session.user;
 			var balance;
 			if (user) {
@@ -31,7 +29,6 @@ const homeController = {
 				success: req.flash('success'),
 				error: req.flash('error'),
 				newArrivalBooks,
-				categories,
 				amount: balance ? balance.amount : null,
 			});
 		} catch (error) {
