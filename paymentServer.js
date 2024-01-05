@@ -19,7 +19,7 @@ const CustomError = require('./modules/custom_err.js');
 const app = express();
 
 // config
-const paymentPort = process.env.PAYMENT_PORT || 5000;
+const paymentPort = process.env.PAYMENT_PORT || 8080;
 const localhost = process.env.HOST;
 
 // template engine
