@@ -48,9 +48,11 @@ app.set('view engine', 'hbs');
 
 // Define routes
 const balanceRoutes = require('./routers/balance.route');
+const paymentsRoutes = require('./routers/payments.route');
 
 // Using routes
 app.use('/balance', balanceRoutes);
+app.use('/payments', paymentsRoutes);
 
 // Handling custom errors
 app.use((err, req, res, next) => {

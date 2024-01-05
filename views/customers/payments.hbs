@@ -2,7 +2,7 @@
   <div class="container">
     <div class="card px-4">
       <p class="h3 py-3 text-center mt-3">Payment Methods (Only Accept VISA/MasterCard)</p>
-      <form id="paymentMethodForm" action="/auth/profile/payments" method="POST">
+      <form id="paymentMethodForm">
         <div class="row gx-3">
           <img src="/assets/creditcards.png" alt="" width="100%">
           <div class="col-12">
@@ -47,3 +47,32 @@
     </div>
   </div>
 </div>
+<script>
+  const form = document.getElementById('paymentMethodForm');
+  form.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const formData = new FormData(form);
+
+    const data = {};
+    formData.forEach((value, key) => {
+      data[key] = value;
+    });
+
+    fetch("https://localhost:8080/payments/{{userId}}", {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    }).then(async (res) => {
+      const data = await res.json();
+      if (data.success) {
+        alert(data.message);
+        window.location.href = "https://localhost:3001/auth/profile"
+      }
+    }).catch(err => {
+      console.error(err)
+      alert('Add new payment method failed');
+    });
+  });
+</script>

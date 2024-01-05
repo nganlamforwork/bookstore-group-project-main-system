@@ -176,7 +176,7 @@
               </table>
             </div>
             {{else}}
-            <div class="text-center">
+            <div class="text-center p-4">
               <p>
                 You don't have any orders yet.
               </p>
@@ -196,7 +196,7 @@
               <p class="header-font fw-bold fs-4 m-0" style="color: var(--palette-02)">
                 Payment Methods
               </p>
-              <a href="/auth/profile/payments">
+              <a type="button" style="cursor: pointer" id="changePaymentMethod">
                 <i class="fa-solid fa-pen-to-square"></i>
               </a>
             </div>
@@ -437,5 +437,9 @@
       }
       return '****'; // Return default masking if card number is not provided or too short
     }
+
+    $("#changePaymentMethod").on('click', () => {
+      toastr.error("Cannot be changed within 7 days");
+    });
   });
 </script>

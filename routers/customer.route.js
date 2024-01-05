@@ -56,7 +56,6 @@ router.post('/profile/information', customerController.updateInformation);
 
 router.get('/profile/orders', customerController.getOrdersPage);
 router.get('/profile/payments', customerController.getPaymentsPage);
-router.post('/profile/payments', customerController.addNewPayment);
 
 // Addresses Books
 router.use('/profile/addresses', require('./customer/addresses.route'));

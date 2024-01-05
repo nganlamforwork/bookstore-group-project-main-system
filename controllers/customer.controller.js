@@ -5,7 +5,6 @@ const BalanceModel = require('../models/balance.model');
 const OrderModel = require('../models/order.model');
 const BooksModel = require('../models/admin/books.model');
 const bcrypt = require('bcrypt');
-const moment = require('moment');
 
 const customerController = {
 	getProfilePage: async (req, res, next) => {
@@ -22,6 +21,8 @@ const customerController = {
 					modifiedAvatar = '/' + user.avatar;
 				}
 				const balance = await BalanceModel.getBalance(user._id);
+				req.session.balance = balance;
+
 				const orders = await OrderModel.getAll(user._id);
 				await Promise.all(
 					orders.map(async (order) => {
@@ -71,6 +72,7 @@ const customerController = {
 			if (req.session.user) {
 				res.render('customers/payments', {
 					title: 'Payment Methods',
+					userId: req.session.user._id,
 				});
 			} else res.redirect('/auth/login');
 		} catch (error) {
@@ -301,27 +303,6 @@ const customerController = {
 			res.redirect('/auth/profile');
 		} catch (err) {
 			next(err);
-		}
-	},
-	addNewPayment: async (req, res, next) => {
-		try {
-			const { cardholderName, cardNumber, expires, cvv } = req.body;
-			const amount = 0;
-			const user = req.session.user;
-			await BalanceModel.rechargeBalance(
-				user._id,
-				cardholderName,
-				cardNumber,
-				expires,
-				cvv,
-				amount
-			);
-			const balance = await BalanceModel.getBalance(user._id);
-			req.session.balance = balance;
-			req.flash('success', 'Add new payment method success');
-			res.redirect('/auth/profile');
-		} catch (error) {
-			next(error);
 		}
 	},
 };
