@@ -1,0 +1,272 @@
+<style>
+  th, td{
+    padding-top: 24px !important;
+    padding-bottom: 24px !important;
+    }
+</style>
+<div
+  class="bg-primary px-5 py-4 flex d-flex justify-content-between align-items-center"
+>
+  <div class="navbar-brand text-light mb-0">
+    <h1>
+      Transactions
+    </h1>
+    <p class="pl-1 m-0">
+      Welcome to your transactions, _name here_!
+    </p>
+  </div>
+  <button class="btn btn-warning">
+    Log out
+  </button>
+</div>
+<div class="p-5">
+  <div class="row">
+    <div class="col-6">
+      <div class="card">
+        <div
+          class="card-header d-flex justify-content-between align-items-center bg-info-subtle"
+        >
+          <p class="header-font fw-bold fs-4 m-0">
+            Card Information
+          </p>
+          <button class="btn btn-primary">
+            Top-up
+          </button>
+        </div>
+        <div class="card-body">
+          <form id="updateCardForm">
+            <div class="row">
+              <div class="col-12">
+                <div class="d-flex flex-column">
+                  <p class="text mb-1">
+                    Cardholder Name*
+                  </p>
+                  <input
+                    class="form-control mb-3 text-uppercase"
+                    type="text"
+                    name="cardholderName"
+                    placeholder="Name"
+                    value="{{balance.cardholderName}}"
+                  />
+                </div>
+              </div>
+              <div class="col-12">
+                <div class="d-flex flex-column">
+                  <p class="text mb-1">
+                    Card Number*
+                  </p>
+                  <input
+                    class="form-control mb-3"
+                    type="text"
+                    placeholder="1234 5678 435678"
+                    maxlength="16"
+                    name="cardNumber"
+                    value="{{balance.cardNumber}}"
+                  />
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="d-flex flex-column">
+                  <p class="text mb-1">
+                    Expires*
+                  </p>
+                  <input
+                    class="form-control"
+                    type="text"
+                    placeholder="MM/YY"
+                    maxlength="5"
+                    name="expires"
+                    value="{{balance.expires}}"
+                  />
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="d-flex flex-column">
+                  <p class="text mb-1">
+                    CVV2/CVC2/CAV2*
+                  </p>
+                  <input
+                    class="form-control  pt-2"
+                    type="password"
+                    placeholder="***"
+                    maxlength="3"
+                    name="cvv"
+                    value="{{balance.cvv}}"
+                  />
+                </div>
+              </div>
+              <div class="col-12 mt-3 text-end">
+                <button class="btn btn-outline-primary" type="submit">
+                  Update card information
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="col-6 flex d-flex flex-column" style="gap: 24px">
+      <div class="h-100">
+        <div class="card h-100">
+          <div
+            class="card-header d-flex justify-content-between align-items-center bg-info-subtle"
+          >
+            <p class="header-font fw-bold fs-4 m-0">
+              <i class="fa-solid fa-up-long text-success me-2"></i>
+              Income
+            </p>
+          </div>
+          <div class="card-body">
+            <h1>
+              $10000.0
+            </h1>
+          </div>
+        </div>
+      </div>
+      <div class="h-100">
+        <div class="card h-100">
+          <div
+            class="card-header d-flex justify-content-between align-items-center bg-info-subtle"
+          >
+            <p class="header-font fw-bold fs-4 m-0">
+              <i class="fa-solid fa-down-long text-danger me-2"></i>
+              Expense
+            </p>
+          </div>
+          <div class="card-body">
+            <h1>
+              $10.0
+            </h1>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mb-4">
+    <p class="header-font fw-bold fs-1 m-0 mb-4">
+      History
+    </p>
+
+    <div class="table-responsive text-nowrap">
+      <table class="table table-hover">
+        <thead class="table-light">
+          <tr>
+            <th>
+              ID
+            </th>
+            <th>
+              Activity
+            </th>
+            <th>
+              Date
+            </th>
+            <th>
+              Amount
+            </th>
+            <th>
+              Status
+            </th>
+          </tr>
+        </thead>
+        <tbody class="table-border-bottom-0">
+          {{#each transactions}}
+            <tr>
+              <td>
+                {{this.id}}
+              </td>
+              <td>
+                <div style="width: 400px !important;">
+                  {{this.activity}}
+                </div>
+              </td>
+              <td>
+                {{this.date}}
+              </td>
+              <td>
+                {{this.amount}}
+              </td>
+              <td>
+                {{this.status}}
+              </td>
+            </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const form = document.getElementById('updateCardForm');
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      if (validateForm()) {
+        const formData = new FormData(form);
+
+        const data = {};
+        formData.forEach((value, key) => {
+          data[key] = value;
+        });
+
+        // này viết đại nha
+        fetch('/card/update', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data),
+        })
+          .then(async (res) => {
+            const responseData = await res.json();
+            if (responseData.success) {
+              alert(responseData.message);
+              // Redirect hoặc thực hiện các hành động khác sau khi cập nhật thành công
+            } else {
+              alert(responseData.message);
+            }
+          })
+          .catch((err) => {
+            console.error('Update Card Information failed');
+            alert('Update Card Information failed');
+          });
+      }
+    });
+
+    function validateForm() {
+      const cardholderName = form.elements['cardholderName'].value;
+      const cardNumber = form.elements['cardNumber'].value;
+      const expires = form.elements['expires'].value;
+      const cvv = form.elements['cvv'].value;
+
+      if (cardholderName.trim() === '' || cardNumber.trim() === '' || expires.trim() === '' || cvv.trim() === '') {
+        alert('Please fill in all fields');
+        return false;
+      }
+
+      // Example: Ensure the cardholder name contains only alphabets and spaces
+      if (!/^[a-zA-Z\\\\\\\\\\\\\\\\\\\\s]+$/.test(cardholderName)) {
+        alert('Cardholder Name should contain only alphabets and spaces');
+        return false;
+      }
+
+      if (!/^\d{16}$/.test(cardNumber)) {
+        alert('Please enter a valid 16-digit Card Number');
+        return false;
+      }
+
+      // Assuming MM/YY format for expires
+      if (!/^(0[1-9]|1[0-2])\/\d{2}$/.test(expires)) {
+        alert('Please enter a valid Expires date in MM/YY format');
+        return false;
+      }
+
+      if (!/^\d{3}$/.test(cvv)) {
+        alert('Please enter a valid 3-digit CVV');
+        return false;
+      }
+
+      return true;
+    }
+  });
+</script>
