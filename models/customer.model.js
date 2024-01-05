@@ -11,11 +11,20 @@ const CustomerModel = {
           msg: `User with ${email} email is already exists`,
         };
       }
-      await db.add(schema, {
+      const doc = await db.add(schema, {
         first_name: firstname,
         last_name: lastname,
         email: email,
         password: pw,
+      });
+      const customerId = doc._id;
+      await db.add("balance", {
+        customerId,
+        cardholderName: null,
+        cardNumber: null,
+        expires: null,
+        cvv: null,
+        amount: 0,
       });
       return { status: true, msg: `User create successfully` };
     } catch (err) {
