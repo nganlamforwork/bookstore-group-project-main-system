@@ -1,7 +1,7 @@
 const BooksModel = require("../models/admin/books.model");
 const CategoriesModel = require("../models/admin/categories.model");
 const CartModel = require("../models/cart.model");
-const BalanceModel = require("../models/balance.model");
+const BalanceModel = require("../models/payment/balance.model");
 
 const homeController = {
   show: async (req, res, next) => {
