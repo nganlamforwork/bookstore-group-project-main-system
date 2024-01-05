@@ -1,279 +1,49 @@
-<style>
-  .bd-placeholder-img {
-    font-size: 1.125rem;
-    text-anchor: middle;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    user-select: none;
-  }
-
-  @media (min-width: 768px) {
-    .bd-placeholder-img-lg {
-      font-size: 3.5rem;
-    }
-  }
-</style>
-
-<!-- Custom styles for this template -->
-
-<section>
-  <div class="container py-5">
-    <main>
-      <div class="mb-5 text-center">
-        <h2 class="header-font fs-1 fw-bold text-uppercase">
-          Checkout
-        </h2>
-      </div>
-
-      <div class="row g-5">
-        <div class="col-md-5 col-lg-4 order-md-last">
-          <h3
-            class="d-flex justify-content-between align-items-center mb-3"
-            style="color: var(--palette-02);"
-          >
-            <span class="header-font  fw-bold">
-              Your cart
-            </span>
-            <span
-              class="badge rounded-pill"
-              style="background-color: var(--palette-02);"
-            >
-              {{totalQuantity}}
-            </span>
-          </h3>
-          <ul class="list-group mb-3">
-            {{#each books}}
-              <li class="list-group-item d-flex justify-content-between lh-sm">
-                <div class="d-flex">
-                  <div style="width: 100px; height: 100px;">
-                    <img
-                      src={{this.book.thumbnail}}
-                      width="100%"
-                      height="100%"
-                      style="object-fit: contain;"
-                    />
-                  </div>
-                  <div>
-                    <h6 class="my-0">
-                      {{this.book.title}}
-                    </h6>
-                    <span class="text-muted">
-                      Quantity: {{this.quantity}}
-                    </span>
-                    <p class="text-muted">
-                      {{this.book.language}} / {{this.book.published_at}}
-                    </p>
-                  </div>
-                </div>
-                <span class="text-muted">
-                  ${{this.totalPrice}}
-                </span>
-              </li>
-            {{/each}}
-            <div class="list-group-item d-flex justify-content-between">
-              <span>
-                Total (USD)
-              </span>
-              <strong>
-                {{subTotal}}
-              </strong>
+<div style="margin: 80px 0;">
+  <div class="container">
+    <div class="card px-4">
+      <p class="h3 py-3 text-center mt-3">Payment Methods (Only Accept VISA/MasterCard)</p>
+      <form id="paymentMethodForm" action="/auth/profile/payments" method="POST">
+        <div class="row gx-3">
+          <img src="/assets/creditcards.png" alt="" width="100%">
+          <div class="col-12">
+            <div class="d-flex flex-column">
+              <p class="text mb-1">Cardholder Name*</p>
+              <input class="form-control mb-3 text-uppercase" type="text" name="cardholderName" placeholder="Name">
             </div>
-          </ul>
-        </div>
-        <div class="col-md-7 col-lg-8">
-          <h3 class="mb-3 header-font  fw-bold">
-            Shipping address
-          </h3>
-          <form class="needs-validation" novalidate>
-            <div class="row g-3">
-              <div class="col-sm-12">
-                <label for="name" class="form-label">
-                  Name
-                </label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="name"
-                  placeholder=""
-                  value="{{this.default_address.name}}"
-                  disabled
-                />
-              </div>
-
-
-              <div class="col-12">
-                <label for="phone" class="form-label">
-                  Phone
-                </label>
-                <input
-                  type="phone"
-                  class="form-control"
-                  id="phone"
-                  placeholder="Input phone number"
-                  value="{{this.default_address.phone}}"
-                  disabled
-                />
-              </div>
-
-              <div class="col-12">
-                <label for="address" class="form-label">
-                  Address
-                </label>
-                 <textarea 
-                  type="text"
-                  class="form-control"
-                  id="address"
-                  placeholder="1234 Main St"
-                  disabled
-                  requiredstyle="height: 100px">{{this.default_address.address}}</textarea>
-              </div>
-              <div class="col-12 text-end mt-4 mb-0"><a href="/auth/profile/addresses" class="m-0" style="color: var(--palette-02)">Change your default address</a></div>
-            <hr class="my-4" />
-
-            <h3 class="mb-3 header-font fw-bold">
-              Payment methods
-            </h3>
-
-            <div class="my-1">
-              <div class="form-check">
-                <input
-                  id="credit"
-                  name="paymentMethod"
-                  type="radio"
-                  class="form-check-input"
-                  checked
-                  required
-                />
-                <label class="form-check-label" for="credit">
-                  Visa
-                </label>
-              </div>
-              <div class="form-check">
-                <input
-                  id="debit"
-                  name="paymentMethod"
-                  type="radio"
-                  class="form-check-input"
-                  required
-                />
-                <label class="form-check-label" for="debit">
-                  Mastercard
-                </label>
-              </div>
+          </div>
+          <div class="col-12">
+            <div class="d-flex flex-column">
+              <p class="text mb-1">Card Number*</p>
+              <input class="form-control mb-3" type="text" placeholder="1234 5678 435678" maxlength="16"
+                name="cardNumber">
             </div>
-
-            <div class="row gy-2">
-              <div class="col-md-6">
-                <label for="cc-name" class="form-label">
-                  Name on card
-                </label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="cc-name"
-                  placeholder=""
-                  required
-                />
-                <small class="text-muted">
-                  Full name as displayed on card
-                </small>
-                <div class="invalid-feedback">
-                  Name on card is required
-                </div>
-              </div>
-
-              <div class="col-md-6">
-                <label for="cc-number" class="form-label">
-                  Credit card number
-                </label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="cc-number"
-                  placeholder=""
-                  required
-                />
-                <div class="invalid-feedback">
-                  Credit card number is required
-                </div>
-              </div>
-
-              <div class="col-md-3">
-                <label for="cc-expiration" class="form-label">
-                  Expiration
-                </label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="cc-expiration"
-                  placeholder=""
-                  required
-                />
-                <div class="invalid-feedback">
-                  Expiration date required
-                </div>
-              </div>
-
-              <div class="col-md-3">
-                <label for="cc-cvv" class="form-label">
-                  CVV
-                </label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="cc-cvv"
-                  placeholder=""
-                  required
-                />
-                <div class="invalid-feedback">
-                  Security code required
-                </div>
-              </div>
+          </div>
+          <div class="col-6">
+            <div class="d-flex flex-column">
+              <p class="text mb-1">Expires*</p>
+              <input class="form-control mb-3" type="text" placeholder="MM/YY" maxlength="5" name="expires">
             </div>
-
-            <hr class="my-4" />
-
-              <button
-                class="btn btn-primary rounded-1 border-0 shopping-btn mt-3 w-100"
-                style="background-color: var(--palette-02); padding: 0.75rem 6rem;"
-              >
-                Pay now
+          </div>
+          <div class="col-6">
+            <div class="d-flex flex-column">
+              <p class="text mb-1">CVV2/CVC2/CAV2*</p>
+              <input class="form-control mb-3 pt-2 " type="password" placeholder="***" maxlength="3" name="cvv">
+            </div>
+          </div>
+          <div class="col-12 mt-3">
+            <div class="float-end">
+              <button class="btn btn-success mb-3" type="submit">
+                <span>Add</span>
               </button>
-          </form>
+              <a href="/auth/profile">
+                <div class="btn btn-danger mb-3">
+                  <span>Cancel</span>
+                </div>
+              </a>
+            </div>
+          </div>
         </div>
-      </div>
-    </main>
+      </form>
+    </div>
   </div>
-</section>
-<script src="/js/form-validation.js"></script>
-
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    fetch("https://restcountries.com/v3.1/all")
-      .then(response => response.json())
-      .then(data => {
-        const countryDropdown = document.getElementById("country");
-        // Sort the country data alphabetically by country name
-        data.sort((a, b) => {
-          const nameA = a.name.common.toUpperCase();
-          const nameB = b.name.common.toUpperCase();
-          if (nameA < nameB) {
-            return -1;
-          }
-          if (nameA > nameB) {
-            return 1;
-          }
-          return 0;
-        });
-        data.forEach(country => {
-          const option = document.createElement("option");
-          option.value = country.name.common;
-          option.text = country.name.common;
-          countryDropdown.appendChild(option);
-        });
-      })
-      .catch(error => {
-        console.error("Error fetching country data:", error);
-      });
-  });
-</script>
+</div>

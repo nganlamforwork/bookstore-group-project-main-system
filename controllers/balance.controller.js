@@ -3,9 +3,12 @@ const BalanceModel = require('../models/balance.model');
 const balanceController = {
 	show: async (req, res, next) => {
 		try {
+			const userId = req.params.userId;
+			const balance = await BalanceModel.getBalance(userId);
 			res.render('balance/recharge', {
 				title: 'Recharge Your Balance',
 				layout: 'base',
+				balance: balance,
 			});
 		} catch (error) {
 			next(error);
@@ -36,7 +39,7 @@ const balanceController = {
 					cardNumber,
 					expires,
 					cvv,
-					amount
+					parseInt(amount)
 				);
 			}
 			res.status(200).send({
@@ -47,7 +50,6 @@ const balanceController = {
 			next(error);
 		}
 	},
-	
 };
 
 module.exports = balanceController;

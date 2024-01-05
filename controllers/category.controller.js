@@ -1,5 +1,4 @@
 const CategoriesModel = require('../models/admin/categories.model');
-const moment = require('moment');
 
 const categoryController = {
 	show: async (req, res, next) => {

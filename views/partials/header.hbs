@@ -21,15 +21,15 @@
     <a href="">
       <i class="fa-solid fa-sun"></i>
     </a>
-    {{#if amount}}
-      <div class="d-flex align-items-center gap-2" style="color: #48c5a9">
-        <i class="fas fa-wallet"></i>
-        <span>${{amount}}</span>
-        <a style="height: 18px; width: 20px; clip-path: polygon(75% 0,100% 50%,75% 100%,25% 100%,0 50%,25% 0); background: #48c5a9; display: flex; justify-content: center; align-items: center; font-size: 10px; font-weight: 700; cursor: pointer; color: #000"
-          type="button" data-bs-toggle="modal" data-bs-target="#balanceModal">
-          <i class="fa-solid fa-plus"></i>
-        </a>
-      </div>
+    {{#if session.balance}}
+    <div class="d-flex align-items-center gap-2" style="color: #48c5a9">
+      <i class="fas fa-wallet"></i>
+      <span>${{session.balance.amount}}</span>
+      <a style="height: 18px; width: 20px; clip-path: polygon(75% 0,100% 50%,75% 100%,25% 100%,0 50%,25% 0); background: #48c5a9; display: flex; justify-content: center; align-items: center; font-size: 10px; font-weight: 700; cursor: pointer; color: #000"
+        type="button" data-bs-toggle="modal" data-bs-target="#balanceModal">
+        <i class="fa-solid fa-plus"></i>
+      </a>
+    </div>
     {{/if}}
     <a href="/auth/login">
       <i class="fa-solid fa-user"></i>

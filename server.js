@@ -23,7 +23,7 @@ const FAQContent = require('./constant/faq.js');
 const app = express();
 
 // config
-const httpPort = process.env.HTTP_PORT || 3000;
+// const httpPort = process.env.HTTP_PORT || 3000;
 const httpsPort = process.env.HTTPS_PORT || 3001;
 const localhost = process.env.HOST;
 const SECRET_KEY = process.env.SECRET_KEY;
@@ -124,16 +124,12 @@ app.use((err, req, res, next) => {
 	});
 });
 
-// app.listen(port, () => {
-// 	console.log(`Server is running on: http://${localhost}:${port}`);
-// });
-
-const httpServer = http.createServer(app);
+// const httpServer = http.createServer(app);
 const httpsServer = https.createServer(credentials, app);
 
-httpServer.listen(httpPort, () => {
-	console.log(`HTTP Server is running on: http://${localhost}:${httpPort}`);
-});
+// httpServer.listen(httpPort, () => {
+// 	console.log(`HTTP Server is running on: http://${localhost}:${httpPort}`);
+// });
 httpsServer.listen(httpsPort, () => {
 	console.log(
 		`HTTPS Server is running on: https://${localhost}:${httpsPort}`

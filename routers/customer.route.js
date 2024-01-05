@@ -22,7 +22,6 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 const customerController = require('../controllers/customer.controller');
-const addressController = require('../controllers/customer/addresses.controller');
 const passport = require('passport');
 
 router.get('/login', customerController.getLoginPage);
@@ -54,8 +53,10 @@ router.get('/logout', customerController.logOut);
 router.get('/profile/', customerController.getProfilePage);
 router.get('/profile/information', customerController.getInformationPage);
 router.post('/profile/information', customerController.updateInformation);
+
 router.get('/profile/orders', customerController.getOrdersPage);
 router.get('/profile/payments', customerController.getPaymentsPage);
+router.post('/profile/payments', customerController.addNewPayment);
 
 // Addresses Books
 router.use('/profile/addresses', require('./customer/addresses.route'));

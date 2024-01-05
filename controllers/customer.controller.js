@@ -1,7 +1,11 @@
 const CustomerModel = require('../models/customer.model');
 const AddressModel = require('../models/customer/addresses.model');
 const LoginModel = require('../models/login.model');
+const BalanceModel = require('../models/balance.model');
+const OrderModel = require('../models/order.model');
+const BooksModel = require('../models/admin/books.model');
 const bcrypt = require('bcrypt');
+const moment = require('moment');
 
 const customerController = {
 	getProfilePage: async (req, res, next) => {
@@ -17,6 +21,21 @@ const customerController = {
 				if (user.avatar && user.avatar.startsWith('uploads')) {
 					modifiedAvatar = '/' + user.avatar;
 				}
+				const balance = await BalanceModel.getBalance(user._id);
+				const orders = await OrderModel.getAll(user._id);
+				await Promise.all(
+					orders.map(async (order) => {
+						await Promise.all(
+							order.products.map(async (prod) => {
+								const book = await BooksModel.getById(
+									prod.bookId
+								);
+								prod['book'] = book;
+							})
+						);
+					})
+				);
+
 				delete user.__v;
 				delete user.password;
 				const data = {
@@ -25,13 +44,15 @@ const customerController = {
 					...user,
 					avatar: modifiedAvatar,
 					defaultAddress: defaultAddress,
+					balance: balance,
+					orders: orders,
 					success: req.flash('success'),
 					error: req.flash('error'),
 				};
 				res.render('customers/profile', data);
 			} else res.redirect('/auth/login');
 		} catch (error) {
-			next(err);
+			next(error);
 		}
 	},
 	getOrdersPage: async (req, res, next) => {
@@ -280,6 +301,27 @@ const customerController = {
 			res.redirect('/auth/profile');
 		} catch (err) {
 			next(err);
+		}
+	},
+	addNewPayment: async (req, res, next) => {
+		try {
+			const { cardholderName, cardNumber, expires, cvv } = req.body;
+			const amount = 0;
+			const user = req.session.user;
+			await BalanceModel.rechargeBalance(
+				user._id,
+				cardholderName,
+				cardNumber,
+				expires,
+				cvv,
+				amount
+			);
+			const balance = await BalanceModel.getBalance(user._id);
+			req.session.balance = balance;
+			req.flash('success', 'Add new payment method success');
+			res.redirect('/auth/profile');
+		} catch (error) {
+			next(error);
 		}
 	},
 };

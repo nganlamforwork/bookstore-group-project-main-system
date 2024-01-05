@@ -15,8 +15,8 @@ const CartModel = {
 	},
 	getCartByCustomerId: async (customerId) => {
 		try {
-			const cart = await db.getAll(schema, 'customerId', customerId);
-			return cart;
+			const carts = await db.getAll(schema, 'customerId', customerId);
+			return carts;
 		} catch (err) {
 			console.log(err);
 		}
@@ -47,6 +47,16 @@ const CartModel = {
 			const remainInCart = await db.deleteQuery(schema, {
 				customerId,
 				bookId,
+			});
+			return remainInCart;
+		} catch (err) {
+			console.log(err);
+		}
+	},
+	removeAll: async (customerId) => {
+		try {
+			const remainInCart = await db.deleteAll(schema, {
+				customerId,
 			});
 			return remainInCart;
 		} catch (err) {

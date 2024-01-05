@@ -115,6 +115,25 @@ async function deleteQuery(schema, criteria) {
 	}
 }
 
+async function deleteAll(schema, criteria) {
+	try {
+		await mongoose.connect(uri);
+
+		if (!(schema in schemas)) {
+			throw new Error(`Schema '${schema}' not found`);
+		}
+
+		const Model = mongoose.model(schema, schemas[schema]);
+
+		const result = await Model.deleteMany(criteria);
+
+		return result;
+	} catch (error) {
+		console.error(error);
+		throw error;
+	}
+}
+
 async function aggregate(schema, pipeline) {
 	try {
 		await mongoose.connect(uri);
@@ -177,4 +196,5 @@ module.exports = {
 	deleteQuery: deleteQuery,
 	aggregate: aggregate,
 	updateById: updateById,
+	deleteAll: deleteAll,
 };

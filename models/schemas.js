@@ -172,6 +172,8 @@ const balance = new Schema({
 		type: Number,
 		default: 0,
 	},
+	created_at: { type: Date, default: Date.now },
+	last_updated: { type: Date, default: Date.now },
 });
 
 const login = new Schema({
@@ -181,6 +183,32 @@ const login = new Schema({
 	time: { type: Date, required: true },
 	browser: { type: String },
 	device: { type: String },
+});
+
+const orders = new Schema({
+	customerId: {
+		type: Schema.Types.ObjectId,
+		ref: 'customers',
+	},
+	subTotal: {
+		type: Number,
+		required: true,
+	},
+	defaultAddress: {
+		type: Schema.Types.ObjectId,
+		ref: 'addresses',
+		default: null,
+	},
+	products: [
+		{
+			bookId: {
+				type: Schema.Types.ObjectId,
+				ref: 'books',
+			},
+			quantity: Number,
+		},
+	],
+	created_at: { type: Date, default: Date.now },
 });
 
 module.exports = {
@@ -193,4 +221,5 @@ module.exports = {
 	carts: carts,
 	balance: balance,
 	login: login,
+	orders: orders,
 };

@@ -113,7 +113,6 @@ const cartController = {
 			};
 
 			res.redirect('/cart');
-			// res.status(200).send({ message: 'Update cart successful' });
 		} catch (error) {
 			next(error);
 		}

@@ -91,10 +91,9 @@
 
     const defaultButton = document.querySelector(`button[id="optionAmount"][onclick="setAmount(25)"]`);
     defaultButton.classList.add('active');
-
     function updateBalanceLink() {
         const balanceLink = document.getElementById('balanceLink');
-        balanceLink.href = `https://localhost:5000/balance/recharge?userId=${userId}&amount=${amountInput.value}`;
+        balanceLink.href = `https://localhost:5000/balance/${userId}/recharge?amount=${amountInput.value}`;
     }
 
     function setAmount(amount) {

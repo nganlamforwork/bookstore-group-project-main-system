@@ -128,144 +128,173 @@
                 </p>
               </div>
             </div>
-            <hr />
-            <div class="row">
-              <div class="col-sm-3">
-                <p class="mb-0">
-                  Default payment
-                </p>
-              </div>
-              <div class="col-sm-9">
-                <p class="text-muted mb-0">
-                  {{#if defaultPayment}}
-                  {{defaultPayment.name}} </br>
-                  {{defaultPayment.type}} </br>
-                  {{defaultPayment.number}} </br>
-                  {{else}}
-                  There is no default payment method
-                  {{/if}}
-                </p>
-              </div>
-            </div>
           </div>
         </div>
-        <div class="row mb-4">
-          <div class="col-md-12">
-            <div class="card mb-4 mb-md-0">
-              <p class="card-header header-font fw-bold fs-4" style="color: var(--palette-02)">
-                Orders History
+      </div>
+      <div class="row my-4">
+        <div class="col-md-12">
+          <div class="card mb-4 mb-md-0">
+            <p class="card-header header-font fw-bold fs-4" style="color: var(--palette-02)">
+              Orders History
+            </p>
+            {{#if orders.length}}
+            <div class="table-responsive">
+
+              <table class="table table-borderless mt-2">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Book</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Total</th>
+                    <th>Created</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {{#each orders}}
+                  <td>{{@index}}</td>
+                  <td>
+                    {{#each products}}
+                    <p>{{book.title}}</p>
+                    {{/each}}
+                  </td>
+                  <td>
+                    {{#each products}}
+                    <p>{{quantity}}</p>
+                    {{/each}}
+                  </td>
+                  <td>
+                    {{#each products}}
+                    <p>${{book.price}}</p>
+                    {{/each}}
+                  </td>
+                  <td>${{subTotal}}</td>
+                  <td>{{created_at}}</td>
+                  {{/each}}
+                </tbody>
+              </table>
+            </div>
+            {{else}}
+            <div class="text-center">
+              <p>
+                You don't have any orders yet.
               </p>
-              <div class="card-body">
-                <div class="text-center">
-                  <p>
-                    You don't have any orders yet.
-                  </p>
-                  <a role="button" class="btn btn-primary btn-login w-10 m-auto px-4 border-0"
-                    style="background-color: var(--palette-02);" href="/">
-                    Buy now
-                  </a>
-                </div>
+              <a role="button" class="btn btn-primary btn-login w-10 m-auto px-4 border-0"
+                style="background-color: var(--palette-02);" href="/">
+                Buy now
+              </a>
+            </div>
+            {{/if}}
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="card mb-4 mb-md-0">
+            <div class="card-header d-flex justify-content-between align-items-center">
+              <p class="header-font fw-bold fs-4 m-0" style="color: var(--palette-02)">
+                Payment Methods
+              </p>
+              <a href="/auth/profile/payments">
+                <i class="fa-solid fa-pen-to-square"></i>
+              </a>
+            </div>
+            <div class="card-body">
+              {{#if balance}}
+              <div class="d-flex flex-column mb-3">
+                <h4>Visa/Mastercard</h4>
+                <p><b>Cardholder Name:</b> {{balance.cardholderName}}</p>
+                <p><b>Card Number:</b> {{hideCardNumber balance.cardNumber}}</p>
+                <p><b>Expires:</b> {{balance.expires}}</p>
               </div>
+              {{else}}
+              <div class="text-center">
+                <p>
+                  You don't have any payment methods yet.
+                </p>
+                <a role="button" class="btn btn-primary btn-login w-10 m-auto px-4 border-0"
+                  style="background-color: var(--palette-02);" href="/auth/profile/payments">
+                  Add new payment methods
+                </a>
+              </div>
+              {{/if}}
             </div>
           </div>
         </div>
-        <div class="row">
-          <div class="col-md-6">
-            <div class="card mb-4 mb-md-0">
-              <div class="card-header d-flex justify-content-between align-items-center">
-                <p class="header-font fw-bold fs-4 m-0" style="color: var(--palette-02)">
-                  Payment Methods
-                </p>
-                <a href="/auth/profile/payments">
-                  <i class="fa-solid fa-pen-to-square"></i>
-                </a>
-              </div>
-              <div class="card-body">
-                <div class="text-center">
-                  <p>
-                    You don't have any payment methods yet.
-                  </p>
-                  <a role="button" class="btn btn-primary btn-login w-10 m-auto px-4 border-0"
-                    style="background-color: var(--palette-02);" href="/auth/profile/payments">
-                    Add new payment methods
-                  </a>
-                </div>
-              </div>
+        <div class="col-md-6">
+          <div class="card mb-4 mb-md-0">
+            <div class="card-header d-flex justify-content-between align-items-center">
+              <p class="header-font fw-bold fs-4 m-0" style="color: var(--palette-02)">
+                Addresses Book
+              </p>
+              <a href="/auth/profile/addresses">
+                <i class="fa-solid fa-pen-to-square"></i>
+              </a>
             </div>
-          </div>
-          <div class="col-md-6">
-            <div class="card mb-4 mb-md-0">
-              <div class="card-header d-flex justify-content-between align-items-center">
-                <p class="header-font fw-bold fs-4 m-0" style="color: var(--palette-02)">
-                  Addresses Book
-                </p>
-                <a href="/auth/profile/addresses">
-                  <i class="fa-solid fa-pen-to-square"></i>
-                </a>
-              </div>
-              <div class="card-body text-center">
-                <div class="text-center">
+            <div class="card-body text-center">
+              <div class="text-center">
 
-                  {{#if defaultAddress}}
-                  <div class="flex d-flex gap-4 mb-3">
-                    <p class="text-start m-0 p-0 ">
-                      <b>Default address:</b>
-                    </p>
-                    <div class=" m-0 p-0 text-start ">
-                      {{defaultAddress.name}} </br>
-                      {{defaultAddress.phone}} </br>
-                      {{defaultAddress.address}} </br>
-                    </div>
+                {{#if defaultAddress}}
+                <div class="flex d-flex gap-4 mb-3">
+                  <p class="text-start m-0 p-0 ">
+                    <b>Default address:</b>
+                  </p>
+                  <div class=" m-0 p-0 text-start ">
+                    {{defaultAddress.name}} </br>
+                    {{defaultAddress.phone}} </br>
+                    {{defaultAddress.address}} </br>
                   </div>
-
-                  <a role="button" class="btn btn-primary btn-login w-10 m-auto px-4 border-0"
-                    style="background-color: var(--palette-02);" href="/auth/profile/addresses">
-                    Go to addresses book
-                  </a>
-                  {{else}}
-                  <p>
-                    You don't have any default addresses yet.
-                  </p>
-                  <a role="button" class="btn btn-primary btn-login w-10 m-auto px-4 border-0"
-                    style="background-color: var(--palette-02);" href="/auth/profile/addresses">
-                    Add new default address
-                  </a>
-                  {{/if}}
                 </div>
+
+                <a role="button" class="btn btn-primary btn-login w-10 m-auto px-4 border-0"
+                  style="background-color: var(--palette-02);" href="/auth/profile/addresses">
+                  Go to addresses book
+                </a>
+                {{else}}
+                <p>
+                  You don't have any default addresses yet.
+                </p>
+                <a role="button" class="btn btn-primary btn-login w-10 m-auto px-4 border-0"
+                  style="background-color: var(--palette-02);" href="/auth/profile/addresses">
+                  Add new default address
+                </a>
+                {{/if}}
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-    {{!-- Modal Avatar --}}
-    <div class="modal fade" id="avatarModal">
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-          <!-- Modal Header -->
-          <div class="modal-header">
-            <h4 class="modal-title">Crop Image And Upload</h4>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <!-- Modal body -->
-          <div class="modal-body">
-            <form enctype="multipart/form-data">
-              <div id="croppie-preview"></div>
-              <div class="input-group mb-3">
-                <input type="file" accept="image/*" id="avatar-upload" name="avatar" class="form-control" />
-              </div>
-            </form>
-            <button class="btn rotate float-lef" data-deg="90">
-              <i class="fas fa-undo"></i></button>
-            <button class="btn rotate float-right" data-deg="-90">
-              <i class="fas fa-redo"></i></button>
-            <hr>
-            <button class="btn btn-block btn-dark" id="upload">
-              Crop And Upload</button>
-          </div>
+  </div>
+  {{!-- Modal Avatar --}}
+  <div class="modal fade" id="avatarModal">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Crop Image And Upload</h4>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <!-- Modal body -->
+        <div class="modal-body">
+          <form enctype="multipart/form-data">
+            <div id="croppie-preview"></div>
+            <div class="input-group mb-3">
+              <input type="file" accept="image/*" id="avatar-upload" name="avatar" class="form-control" />
+            </div>
+          </form>
+          <button class="btn rotate float-lef" data-deg="90">
+            <i class="fas fa-undo"></i></button>
+          <button class="btn rotate float-right" data-deg="-90">
+            <i class="fas fa-redo"></i></button>
+          <hr>
+          <button class="btn btn-block btn-dark" id="upload">
+            Crop And Upload</button>
         </div>
       </div>
     </div>
+  </div>
   </div>
   {{> customers/change-password}}
 </section>
@@ -397,5 +426,16 @@
         reader.readAsDataURL(input.files[0]);
       }
     });
+
+    function hideCardNumber(cardNumber) {
+      // Check if the cardNumber is provided and has at least 4 characters
+      if (cardNumber && cardNumber.length >= 4) {
+        const visibleDigits = 4; // Number of visible digits at the end
+        const maskedPart = '*'.repeat(cardNumber.length - visibleDigits);
+        const visiblePart = cardNumber.slice(-visibleDigits);
+        return maskedPart + visiblePart;
+      }
+      return '****'; // Return default masking if card number is not provided or too short
+    }
   });
 </script>
