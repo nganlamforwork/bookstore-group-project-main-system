@@ -22,7 +22,6 @@ router.get(
   async (req, res) => {
     // Successful authentication, redirect to home
     // Create user login for tracking
-    console.log(req.user);
     req.session.user = req.user;
     req.flash("success", "Welcome back");
     res.redirect("/");

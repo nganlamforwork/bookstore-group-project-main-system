@@ -1,18 +1,17 @@
 <style>
-  th, td{
+  th,
+  td {
     padding-top: 24px !important;
     padding-bottom: 24px !important;
-    }
+  }
 </style>
-<div
-  class="bg-primary px-5 py-4 flex d-flex justify-content-between align-items-center"
->
+<div class="bg-primary px-5 py-4 flex d-flex justify-content-between align-items-center">
   <div class="navbar-brand text-light mb-0">
     <h1>
       Transactions
     </h1>
     <p class="pl-1 m-0">
-      Welcome to your transactions, _name here_!
+      Welcome to your transactions, {{session.user.first_name}} {{session.user.last_name}}
     </p>
   </div>
   <a type="button" href="/logout" class="btn btn-warning">
@@ -21,24 +20,39 @@
 </div>
 <div class="p-5">
   <div class="row">
-    <div class="col-6">
-      <div class="card">
-        <div
-          class="card-header d-flex justify-content-between align-items-center bg-info-subtle"
-        >
-          <p class="header-font fw-bold fs-4 m-0">
-            Card Information
-          </p>
-          <button 
-            class="btn btn-primary" 
-            data-bs-toggle="modal"
-            data-bs-target="#topUpModal"
-            type="button"
-          >
-            Top-up
+    <p class="header-font fw-bold fs-1 m-0 my-4">
+      My Wallet
+    </p>
+    <div class="col-8">
+      <div class="card mb-4">
+        <div class="card-body d-flex align-items-center justify-content-between">
+          <div class="d-flex align-items-center gap-3">
+            <i class="fas fa-wallet text-primary" style="font-size: 45px;"></i>
+            <div>
+              <h5><b>Main Balance</b></h5>
+              {{#if balance}}
+              <h3 class="text-success"><b>${{formatNumber balance.amount}}</b></h3>
+              {{else}}
+              <h3 class="text-success"><b>$0.00</b></h3>
+              {{/if}}
+            </div>
+          </div>
+          {{#if balance}}
+          <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#balanceModal" type="button">
+            TOP UP
+            <i class="fa-solid fa-arrow-right"></i>
           </button>
+          {{/if}}
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center bg-info-subtle">
+          <p class="header-font fw-bold fs-4 m-0">
+            Visa / Mastercard
+          </p>
         </div>
         <div class="card-body">
+          {{#if balance}}
           <form id="updateCardForm">
             <div class="row">
               <div class="col-12">
@@ -46,13 +60,8 @@
                   <p class="text mb-1">
                     Cardholder Name*
                   </p>
-                  <input
-                    class="form-control mb-3 text-uppercase"
-                    type="text"
-                    name="cardholderName"
-                    placeholder="Name"
-                    value="{{balance.cardholderName}}"
-                  />
+                  <input class="form-control mb-3 text-uppercase" type="text" name="cardholderName" placeholder="Name"
+                    value="{{balance.cardholderName}}" disabled />
                 </div>
               </div>
               <div class="col-12">
@@ -60,14 +69,8 @@
                   <p class="text mb-1">
                     Card Number*
                   </p>
-                  <input
-                    class="form-control mb-3"
-                    type="text"
-                    placeholder="1234 5678 435678"
-                    maxlength="16"
-                    name="cardNumber"
-                    value="{{balance.cardNumber}}"
-                  />
+                  <input class="form-control mb-3" type="text" placeholder="1234 5678 435678" maxlength="16"
+                    name="cardNumber" value="{{balance.cardNumber}}" disabled />
                 </div>
               </div>
               <div class="col-6">
@@ -75,14 +78,8 @@
                   <p class="text mb-1">
                     Expires*
                   </p>
-                  <input
-                    class="form-control"
-                    type="text"
-                    placeholder="MM/YY"
-                    maxlength="5"
-                    name="expires"
-                    value="{{balance.expires}}"
-                  />
+                  <input class="form-control" type="text" placeholder="MM/YY" maxlength="5" name="expires"
+                    value="{{balance.expires}}" disabled />
                 </div>
               </div>
               <div class="col-6">
@@ -90,32 +87,30 @@
                   <p class="text mb-1">
                     CVV2/CVC2/CAV2*
                   </p>
-                  <input
-                    class="form-control  pt-2"
-                    type="password"
-                    placeholder="***"
-                    maxlength="3"
-                    name="cvv"
-                    value="{{balance.cvv}}"
-                  />
+                  <input class="form-control  pt-2" type="password" placeholder="***" maxlength="3" name="cvv"
+                    value="{{balance.cvv}}" disabled />
                 </div>
-              </div>
-              <div class="col-12 mt-3 text-end">
-                <button class="btn btn-outline-primary" type="submit">
-                  Update card information
-                </button>
               </div>
             </div>
           </form>
+          {{else}}
+          <div class="text-center">
+            <p>
+              You don't have any payment methods yet.
+            </p>
+            <a role="button" class="btn btn-primary btn-login w-10 m-auto px-4 border-0" href="/auth/profile/payments"
+              data-bs-toggle="modal" data-bs-target="#paymentMethodModal">
+              Add new payment methods
+            </a>
+          </div>
+          {{/if}}
         </div>
       </div>
     </div>
-    <div class="col-6 flex d-flex flex-column" style="gap: 24px">
+    <div class="col-4 flex d-flex flex-column" style="gap: 24px">
       <div class="h-100">
         <div class="card h-100">
-          <div
-            class="card-header d-flex justify-content-between align-items-center bg-info-subtle"
-          >
+          <div class="card-header d-flex justify-content-between align-items-center bg-info-subtle">
             <p class="header-font fw-bold fs-4 m-0">
               <i class="fa-solid fa-up-long text-success me-2"></i>
               Income
@@ -123,16 +118,14 @@
           </div>
           <div class="card-body">
             <h1>
-              $10000.0
+              ${{formatNumber income}}
             </h1>
           </div>
         </div>
       </div>
       <div class="h-100">
         <div class="card h-100">
-          <div
-            class="card-header d-flex justify-content-between align-items-center bg-info-subtle"
-          >
+          <div class="card-header d-flex justify-content-between align-items-center bg-info-subtle">
             <p class="header-font fw-bold fs-4 m-0">
               <i class="fa-solid fa-down-long text-danger me-2"></i>
               Expense
@@ -140,7 +133,7 @@
           </div>
           <div class="card-body">
             <h1>
-              $10.0
+              ${{formatNumber expense}}
             </h1>
           </div>
         </div>
@@ -150,7 +143,7 @@
 
   <div class="mb-4">
     <p class="header-font fw-bold fs-1 m-0 my-4">
-      History
+      Payment History
     </p>
 
     <div class="table-responsive text-nowrap">
@@ -176,25 +169,29 @@
         </thead>
         <tbody class="table-border-bottom-0">
           {{#each transactions}}
-            <tr>
-              <td>
-                {{this.id}}
-              </td>
-              <td>
-                <div style="width: 400px !important;">
-                  {{this.activity}}
-                </div>
-              </td>
-              <td>
-                {{this.date}}
-              </td>
-              <td>
-                {{this.amount}}
-              </td>
-              <td>
-                {{this.status}}
-              </td>
-            </tr>
+          <tr>
+            <td>
+              {{this.id}}
+            </td>
+            <td>
+              <div style="width: 400px !important;">
+                {{this.activity}}
+              </div>
+            </td>
+            <td>
+              {{this.date}}
+            </td>
+            {{#if this.income}}
+            <td class="text-success"> ${{formatNumber this.amount}} <i class="fa fa-arrow-up"></i></td>
+            {{else}}
+            <td class="text-danger"> ${{formatNumber this.amount}} <i class="fa fa-arrow-down"></i></td>
+            {{/if}}
+            {{#if this.success}}
+            <td class="text-success"><i class="fa-regular fa-circle-check"></i></td>
+            {{else}}
+            <td class="text-danger"><i class="fa-regular fa-circle-xmark"></i></td>
+            {{/if}}
+          </tr>
           {{/each}}
         </tbody>
       </table>
@@ -202,45 +199,80 @@
   </div>
 </div>
 
+<!-- Payment Method modal -->
+<div class="modal fade" id="paymentMethodModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">
+          Add new payment method
+        </h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form id="paymentMethodForm">
+        <div class="modal-body row">
+          <img src="/assets/creditcards.png" alt="" width="100%" class="mb-2">
+          <div class="col-12">
+            <div class="d-flex flex-column">
+              <p class="text mb-1">Cardholder Name*</p>
+              <input class="form-control mb-3 text-uppercase" type="text" name="cardholderName" placeholder="Name">
+            </div>
+          </div>
+          <div class="col-12">
+            <div class="d-flex flex-column">
+              <p class="text mb-1">Card Number*</p>
+              <input class="form-control mb-3" type="text" placeholder="1234 5678 435678" maxlength="16"
+                name="cardNumber">
+            </div>
+          </div>
+          <div class="col-12">
+            <div class="d-flex flex-column">
+              <p class="text mb-1">Expires*</p>
+              <input class="form-control mb-3" type="text" placeholder="MM/YY" maxlength="5" name="expires">
+            </div>
+          </div>
+          <div class="col-12">
+            <div class="d-flex flex-column">
+              <p class="text mb-1">CVV2/CVC2/CAV2*</p>
+              <input class="form-control mb-3 pt-2 " type="password" placeholder="***" maxlength="3" name="cvv">
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-success" type="submit">
+            <span>Add</span>
+          </button>
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+            Cancel
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
 
 <!-- Top up modal -->
 <div class="modal fade" id="topUpModal" tabindex="-1">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
         <h1 class="modal-title fs-5" id="exampleModalLabel">
           Top-up
         </h1>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-        ></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <form action="/recharge" method="POST">
         <div class="modal-body">
           <div class="form-floating mb-3">
-            <input
-              type="number"
-              name="money"
-              class="form-control"
-              id="money"
-              placeholder="Input balance you want to recharge"
-              required
-              style="height: 56px"
-            />
+            <input type="number" name="money" class="form-control" id="money"
+              placeholder="Input balance you want to recharge" required style="height: 56px" />
             <label for="title">
               Money
             </label>
           </div>
         </div>
         <div class="modal-footer">
-          <button
-            type="button"
-            class="btn btn-secondary"
-            data-bs-dismiss="modal"
-          >
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
             Close
           </button>
           <button type="submit" class="btn btn-primary">
@@ -251,42 +283,34 @@
     </div>
   </div>
 </div>
-
+{{> payment/balance}}
 <script>
   document.addEventListener('DOMContentLoaded', function () {
-    const form = document.getElementById('updateCardForm');
+    const form = document.getElementById('paymentMethodForm');
     form.addEventListener('submit', async (event) => {
       event.preventDefault();
-      if (validateForm()) {
-        const formData = new FormData(form);
+      const formData = new FormData(form);
 
-        const data = {};
-        formData.forEach((value, key) => {
-          data[key] = value;
-        });
-
-        // này viết đại nha nhưng mà ý là sẽ dùng để update card info
-        fetch('/card/update', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(data),
-        })
-          .then(async (res) => {
-            const responseData = await res.json();
-            if (responseData.success) {
-              alert(responseData.message);
-              // Redirect hoặc thực hiện các hành động khác sau khi cập nhật thành công
-            } else {
-              alert(responseData.message);
-            }
-          })
-          .catch((err) => {
-            console.error('Update Card Information failed');
-            alert('Update Card Information failed');
-          });
-      }
+      const data = {};
+      formData.forEach((value, key) => {
+        data[key] = value;
+      });
+      fetch("/payments/{{session.user._id}}", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      }).then(async (res) => {
+        const data = await res.json();
+        if (data.success) {
+          alert(data.message);
+          window.location.reload();
+        }
+      }).catch(err => {
+        console.error(err)
+        alert('Add new payment method failed');
+      });
     });
 
     function validateForm() {

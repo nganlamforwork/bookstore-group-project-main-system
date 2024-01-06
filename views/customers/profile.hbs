@@ -130,29 +130,67 @@
             </div>
           </div>
         </div>
-      </div>
-      <div class="row my-4">
-        <div class="col-md-12">
-          <div class="card mb-4 mb-md-0">
-            <p class="card-header header-font fw-bold fs-4" style="color: var(--palette-02)">
-              Orders History
+        <div class="card mb-4 mb-md-0">
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <p class="header-font fw-bold fs-4 m-0" style="color: var(--palette-02)">
+              Addresses Book
             </p>
-            {{#if orders.length}}
-            <div class="table-responsive">
+            <a href="/auth/profile/addresses">
+              <i class="fa-solid fa-pen-to-square"></i>
+            </a>
+          </div>
+          <div class="card-body text-center">
+            <div class="text-center">
+              {{#if defaultAddress}}
+              <div class="flex d-flex gap-4 mb-3">
+                <p class="text-start m-0 p-0 ">
+                  <b>Default address:</b>
+                </p>
+                <div class=" m-0 p-0 text-start ">
+                  {{defaultAddress.name}} </br>
+                  {{defaultAddress.phone}} </br>
+                  {{defaultAddress.address}} </br>
+                </div>
+              </div>
 
-              <table class="table table-borderless mt-2">
-                <thead>
-                  <tr>
-                    <th>#</th>
-                    <th>Book</th>
-                    <th>Quantity</th>
-                    <th>Price</th>
-                    <th>Total</th>
-                    <th>Created</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {{#each orders}}
+              <a role="button" class="btn btn-primary btn-login w-10 m-auto px-4 border-0"
+                style="background-color: var(--palette-02);" href="/auth/profile/addresses">
+                Go to addresses book
+              </a>
+              {{else}}
+              <p>
+                You don't have any default addresses yet.
+              </p>
+              <a role="button" class="btn btn-primary btn-login w-10 m-auto px-4 border-0"
+                style="background-color: var(--palette-02);" href="/auth/profile/addresses">
+                Add new default address
+              </a>
+              {{/if}}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-12 my-4">
+        <div class="card mb-4 mb-md-0">
+          <p class="card-header header-font fw-bold fs-4" style="color: var(--palette-02)">
+            Orders History
+          </p>
+          {{#if orders.length}}
+          <div class="table-responsive">
+            <table class="table table-striped mt-2">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Book</th>
+                  <th>Quantity</th>
+                  <th>Price</th>
+                  <th>Total</th>
+                  <th>Created</th>
+                </tr>
+              </thead>
+              <tbody>
+                {{#each orders}}
+                <tr>
                   <td>{{@index}}</td>
                   <td>
                     {{#each products}}
@@ -171,98 +209,22 @@
                   </td>
                   <td>${{subTotal}}</td>
                   <td>{{created_at}}</td>
-                  {{/each}}
-                </tbody>
-              </table>
-            </div>
-            {{else}}
-            <div class="text-center p-4">
-              <p>
-                You don't have any orders yet.
-              </p>
-              <a role="button" class="btn btn-primary btn-login w-10 m-auto px-4 border-0"
-                style="background-color: var(--palette-02);" href="/">
-                Buy now
-              </a>
-            </div>
-            {{/if}}
+                </tr>
+                {{/each}}
+              </tbody>
+            </table>
           </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-6">
-          <div class="card mb-4 mb-md-0">
-            <div class="card-header d-flex justify-content-between align-items-center">
-              <p class="header-font fw-bold fs-4 m-0" style="color: var(--palette-02)">
-                Payment Methods
-              </p>
-              <a type="button" style="cursor: pointer" id="changePaymentMethod">
-                <i class="fa-solid fa-pen-to-square"></i>
-              </a>
-            </div>
-            <div class="card-body">
-              {{#if balance}}
-              <div class="d-flex flex-column mb-3">
-                <h4>Visa/Mastercard</h4>
-                <p><b>Cardholder Name:</b> {{balance.cardholderName}}</p>
-                <p><b>Card Number:</b> {{hideCardNumber balance.cardNumber}}</p>
-                <p><b>Expires:</b> {{balance.expires}}</p>
-              </div>
-              {{else}}
-              <div class="text-center">
-                <p>
-                  You don't have any payment methods yet.
-                </p>
-                <a role="button" class="btn btn-primary btn-login w-10 m-auto px-4 border-0"
-                  style="background-color: var(--palette-02);" href="/auth/profile/payments">
-                  Add new payment methods
-                </a>
-              </div>
-              {{/if}}
-            </div>
+          {{else}}
+          <div class="text-center p-4">
+            <p>
+              You don't have any orders yet.
+            </p>
+            <a role="button" class="btn btn-primary btn-login w-10 m-auto px-4 border-0"
+              style="background-color: var(--palette-02);" href="/">
+              Buy now
+            </a>
           </div>
-        </div>
-        <div class="col-md-6">
-          <div class="card mb-4 mb-md-0">
-            <div class="card-header d-flex justify-content-between align-items-center">
-              <p class="header-font fw-bold fs-4 m-0" style="color: var(--palette-02)">
-                Addresses Book
-              </p>
-              <a href="/auth/profile/addresses">
-                <i class="fa-solid fa-pen-to-square"></i>
-              </a>
-            </div>
-            <div class="card-body text-center">
-              <div class="text-center">
-
-                {{#if defaultAddress}}
-                <div class="flex d-flex gap-4 mb-3">
-                  <p class="text-start m-0 p-0 ">
-                    <b>Default address:</b>
-                  </p>
-                  <div class=" m-0 p-0 text-start ">
-                    {{defaultAddress.name}} </br>
-                    {{defaultAddress.phone}} </br>
-                    {{defaultAddress.address}} </br>
-                  </div>
-                </div>
-
-                <a role="button" class="btn btn-primary btn-login w-10 m-auto px-4 border-0"
-                  style="background-color: var(--palette-02);" href="/auth/profile/addresses">
-                  Go to addresses book
-                </a>
-                {{else}}
-                <p>
-                  You don't have any default addresses yet.
-                </p>
-                <a role="button" class="btn btn-primary btn-login w-10 m-auto px-4 border-0"
-                  style="background-color: var(--palette-02);" href="/auth/profile/addresses">
-                  Add new default address
-                </a>
-                {{/if}}
-              </div>
-            </div>
-          </div>
+          {{/if}}
         </div>
       </div>
     </div>

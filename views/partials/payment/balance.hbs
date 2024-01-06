@@ -93,7 +93,7 @@
     defaultButton.classList.add('active');
     function updateBalanceLink() {
         const balanceLink = document.getElementById('balanceLink');
-        balanceLink.href = `https://localhost:8080/balance/${userId}/recharge?amount=${amountInput.value}`;
+        balanceLink.href = `/balance/${userId}/recharge?amount=${amountInput.value}`;
     }
 
     function setAmount(amount) {
