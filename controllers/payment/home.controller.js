@@ -1,3 +1,6 @@
+const UserModel = require("../../models/payment/user.model");
+const bcrypt = require("bcrypt");
+
 const homeController = {
   show: async (req, res, next) => {
     const fakeData = [
@@ -38,6 +41,10 @@ const homeController = {
       },
     ];
     try {
+      if (!req.session.user) {
+        res.redirect("/auth/login");
+        return;
+      }
       res.render("payment/home", {
         title: "Payment - Home",
         layout: "payment",
@@ -49,9 +56,63 @@ const homeController = {
   },
   showLogIn: async (req, res, next) => {
     try {
+      if (req.session.user) {
+        return res.redirect("/");
+      }
       res.render("payment/login", {
         title: "Log In",
         layout: "payment",
+      });
+    } catch (err) {
+      next(err);
+    }
+  },
+
+  login: async (req, res, next) => {
+    try {
+      const { email, password } = req.body;
+      const founded = await UserModel.get(email);
+      // console.log(founded);
+      if (!founded)
+        return res.render("login", {
+          error: `User with ${email} not founded`,
+        });
+
+      // // Create user login for tracking
+      // await LoginModel.create({ user: founded._id, req: req });
+
+      bcrypt.compare(password, founded.password, function (err, result) {
+        if (err || !result) {
+          req.flash("error", "Wrong password for that email");
+          // console.log("Wrong password for that email");
+          req.session.save((err) => {
+            if (err) {
+              return next(err);
+            }
+            res.redirect("/auth/login");
+          });
+        } else {
+          req.session.user = founded;
+          req.flash("success", "Welcome back");
+          req.session.save((err) => {
+            if (err) {
+              return next(err);
+            }
+            res.redirect("/");
+          });
+        }
+      });
+    } catch (err) {
+      next(err);
+    }
+  },
+  logOut: async (req, res, next) => {
+    try {
+      req.session.destroy((err) => {
+        if (err) {
+          return next(err);
+        }
+        res.redirect("/auth/login");
       });
     } catch (err) {
       next(err);
