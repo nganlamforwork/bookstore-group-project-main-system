@@ -9,7 +9,6 @@
         />
       </div>
       <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
-        <form>
           <div
             class="d-flex flex-row align-items-center justify-content-center justify-content-lg-start"
           >
@@ -18,6 +17,20 @@
             </h1>
           </div>
 
+        <div class="mb-3 flex d-flex gap-2 align-items-center">
+          <p class="m-0">With</p>
+          <a href="/auth/google" class="btn btn-primary">
+            <i class="fa-brands fa-google"></i>
+          </a>
+          <button href="/auth/facebook" class="btn btn-primary" disabled>
+            <i class="fa-brands fa-facebook"></i>
+          </button>
+          <button href="/auth/twitter" class="btn btn-primary" disabled>
+            <i class="fa-brands fa-twitter"></i>
+          </button>
+        </div>
+        <p class="fw-bold fs-5">OR</p>
+        <form action='/auth/login' method="post">
           <!-- Email input -->
           <div class="form-outline mb-4">
             <label class="form-label" for="form3Example3">

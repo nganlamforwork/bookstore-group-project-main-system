@@ -29,7 +29,12 @@
           <p class="header-font fw-bold fs-4 m-0">
             Card Information
           </p>
-          <button class="btn btn-primary">
+          <button 
+            class="btn btn-primary" 
+            data-bs-toggle="modal"
+            data-bs-target="#topUpModal"
+            type="button"
+          >
             Top-up
           </button>
         </div>
@@ -144,7 +149,7 @@
   </div>
 
   <div class="mb-4">
-    <p class="header-font fw-bold fs-1 m-0 mb-4">
+    <p class="header-font fw-bold fs-1 m-0 my-4">
       History
     </p>
 
@@ -196,6 +201,57 @@
     </div>
   </div>
 </div>
+
+
+<!-- Top up modal -->
+<div class="modal fade" id="topUpModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">
+          Top-up
+        </h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <form action="/recharge" method="POST">
+        <div class="modal-body">
+          <div class="form-floating mb-3">
+            <input
+              type="number"
+              name="money"
+              class="form-control"
+              id="money"
+              placeholder="Input balance you want to recharge"
+              required
+              style="height: 56px"
+            />
+            <label for="title">
+              Money
+            </label>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+          >
+            Close
+          </button>
+          <button type="submit" class="btn btn-primary">
+            Recharge Now
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
 <script>
   document.addEventListener('DOMContentLoaded', function () {
     const form = document.getElementById('updateCardForm');
@@ -209,7 +265,7 @@
           data[key] = value;
         });
 
-        // này viết đại nha
+        // này viết đại nha nhưng mà ý là sẽ dùng để update card info
         fetch('/card/update', {
           method: 'POST',
           headers: {
