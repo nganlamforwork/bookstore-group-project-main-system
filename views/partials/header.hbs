@@ -21,7 +21,7 @@
     <a href="">
       <i class="fa-solid fa-sun"></i>
     </a>
-    {{#if session.balance}}
+    {{#notEqual session.balance.amount undefined}}
     <div class="d-flex align-items-center gap-2" style="color: #48c5a9">
       <i class="fas fa-wallet"></i>
       <span>${{session.balance.amount}}</span>
@@ -30,7 +30,7 @@
         <i class="fa-solid fa-plus"></i>
       </a>
     </div>
-    {{/if}}
+    {{/notEqual}}
     <a href="/auth/login">
       <i class="fa-solid fa-user"></i>
     </a>
