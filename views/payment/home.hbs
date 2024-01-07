@@ -239,11 +239,11 @@
           </div>
         </div>
         <div class="modal-footer">
+          <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">
+            Cancel
+          </button>
           <button class="btn btn-success" type="submit">
             <span>Add</span>
-          </button>
-          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
-            Cancel
           </button>
         </div>
       </form>
@@ -251,38 +251,7 @@
   </div>
 </div>
 
-<!-- Top up modal -->
-<div class="modal fade" id="topUpModal" tabindex="-1">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">
-          Top-up
-        </h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <form action="/recharge" method="POST">
-        <div class="modal-body">
-          <div class="form-floating mb-3">
-            <input type="number" name="money" class="form-control" id="money"
-              placeholder="Input balance you want to recharge" required style="height: 56px" />
-            <label for="title">
-              Money
-            </label>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-            Close
-          </button>
-          <button type="submit" class="btn btn-primary">
-            Recharge Now
-          </button>
-        </div>
-      </form>
-    </div>
-  </div>
-</div>
+
 {{> payment/balance}}
 <script>
   document.addEventListener('DOMContentLoaded', function () {
