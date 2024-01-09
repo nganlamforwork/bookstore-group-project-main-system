@@ -49,7 +49,6 @@ app.use(cookieParser(SECRET_KEY));
 app.use(cors());
 app.use(
 	session({
-		secret: SECRET_KEY,
 		resave: true,
 		saveUninitialized: true,
 		cookie: {

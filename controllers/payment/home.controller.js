@@ -26,10 +26,12 @@ const homeController = {
 			var income = 0,
 				expense = 0;
 			transactions.map((trans) => {
-				if (trans.income) {
-					income += parseInt(trans.amount);
-				} else {
-					expense += parseInt(trans.amount);
+				if (trans.success) {
+					if (trans.income) {
+						income += parseInt(trans.amount);
+					} else {
+						expense += parseInt(trans.amount);
+					}
 				}
 			});
 

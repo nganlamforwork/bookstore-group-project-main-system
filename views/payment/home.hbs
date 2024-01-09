@@ -181,14 +181,18 @@
             <td>
               {{this.date}}
             </td>
+            {{#if this.success}}
             {{#if this.income}}
             <td class="text-success"> ${{formatNumber this.amount}} <i class="fa fa-arrow-up"></i></td>
             {{else}}
             <td class="text-danger"> ${{formatNumber this.amount}} <i class="fa fa-arrow-down"></i></td>
             {{/if}}
-            {{#if this.success}}
             <td class="text-success"><i class="fa-regular fa-circle-check"></i></td>
             {{else}}
+            <td class="text-secondary">
+              <i class="fa-regular fa-face-sad-tear"></i>
+              <i class="fa-solid fa-dollar-sign"></i>
+            </td>
             <td class="text-danger"><i class="fa-regular fa-circle-xmark"></i></td>
             {{/if}}
           </tr>

@@ -3,6 +3,7 @@ const OrderModel = require('../models/order.model');
 const BalanceModel = require('../models/payment/balance.model');
 const CartModel = require('../models/cart.model');
 const PaymentHistoryModel = require('../models/payment/history.model');
+const BooksModel = require('../models/admin/books.model');
 
 const checkoutController = {
 	show: async (req, res, next) => {
@@ -37,20 +38,20 @@ const checkoutController = {
 				};
 			});
 
+			const cart = req.session.cart.cart;
+			cart.map(async (c) => {
+				const bookId = c.book._id;
+				const quantity = c.quantity;
+				const remainInInventory = c.book.inventory - quantity;
+				await BooksModel.updateById(bookId, { inventory: remainInInventory });
+			});
+
 			const newOrder = {
 				customerId: user._id,
 				defaultAddress: user.default_address,
 				subTotal: subTotal,
 				products: formattedProducts,
 			};
-
-			await PaymentHistoryModel.add({
-				customerId: user._id,
-				activity: 'Pay bookstore bill',
-				amount: subTotal,
-				income: false,
-				success: true,
-			});
 
 			const existingBalance = await BalanceModel.getBalance(user._id);
 
@@ -69,6 +70,14 @@ const checkoutController = {
 					// update balance
 					balance = await BalanceModel.getBalance(user._id);
 					req.session.balance = balance;
+
+					await PaymentHistoryModel.add({
+						customerId: user._id,
+						activity: 'Pay bookstore bill',
+						amount: subTotal,
+						income: false,
+						success: true,
+					});
 
 					res.status(200).send({
 						success: true,
