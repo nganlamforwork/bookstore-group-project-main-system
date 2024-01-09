@@ -15,7 +15,6 @@ const CustomersModel = {
         role: { $in: ["customer"] },
       };
       const customers = await db.getAllQuery(schema, customersQuery);
-      console.log(customers);
       return customers;
     } catch (err) {
       console.error(err);

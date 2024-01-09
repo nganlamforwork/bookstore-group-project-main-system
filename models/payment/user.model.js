@@ -18,7 +18,7 @@ const UserModel = {
         password: pw,
       });
       const customerId = doc._id;
-      await db.add("balance", {
+      await db.add("payment_balance", {
         customerId,
         cardholderName: null,
         cardNumber: null,
