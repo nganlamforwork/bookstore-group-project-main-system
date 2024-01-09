@@ -140,7 +140,7 @@ const carts = new Schema({
   },
 });
 
-const payment_balance = new Schema({
+const payment_balances = new Schema({
   customerId: {
     type: Schema.Types.ObjectId,
     ref: "users",
@@ -232,7 +232,7 @@ module.exports = {
   books: books,
   addresses: address,
   carts: carts,
-  payment_balance: payment_balance,
+  payment_balances: payment_balances,
   login: login,
   orders: order,
   payment_history: payment_history,

@@ -1,24 +1,15 @@
 const db = require("../db");
-const schema = "payment_balance";
+const schema = "payment_balances";
 
 const BalanceModel = {
-  rechargeBalance: async (
-    customerId,
-    cardholderName,
-    cardNumber,
-    expires,
-    cvv,
-    amount
-  ) => {
+  updateCard: async (customerId, cardInfo) => {
     try {
-      const result = await db.add(schema, {
+      const result = await db.update(
+        schema,
+        "customerId",
         customerId,
-        cardholderName,
-        cardNumber,
-        expires,
-        cvv,
-        amount,
-      });
+        cardInfo
+      );
       return result;
     } catch (err) {
       console.error(err);

@@ -24,7 +24,16 @@
         color: #000;
         transition: background-color 0.3s ease;
     }
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+    }
 
+    /* Firefox */
+    input[type=number] {
+    -moz-appearance: textfield;
+    }
     @media (max-width: 1024px) {
         #balanceContainer {
             flex-direction: column;
@@ -43,7 +52,7 @@
                     <h5>Enter amount you want to top up:</h5>
                     <div class="d-flex align-items-center justify-content-evenly mb-3 gap-3">
                         <button class="btn btn-secondary" onclick="adjustAmount(-1)">-</button>
-                        <h1 class="fs-1 text-success fw-bold m-0">$<span id="amountValue">0</span></h1>
+                         <input type="number" id="amountInput" class="fs-1 text-success fw-bold m-0 text-center" inputmode="none" style="width: 100px;" min="0" value="0" />
                         <button class="btn btn-secondary" onclick="adjustAmount(1)">+</button>
                     </div>
                     <a href="#" id="balanceLink">
@@ -56,9 +65,8 @@
         </div>
     </div>
 </div>
-
 <script>
-    const amountInput = document.getElementById('amountValue');
+    const amountInput = document.getElementById('amountInput');
     const userId = "{{session.user._id}}"
 
     const defaultAmount = 0;
@@ -67,12 +75,6 @@
     function updateBalanceLink() {
         const balanceLink = document.getElementById('balanceLink');
         balanceLink.href = `/balance/${userId}/recharge?amount=${amountInput.value}`;
-    }
-
-    function setAmount(amount) {
-        amountInput.textContent = amount;
-        amountInput.value = amount;
-        updateBalanceLink(); // Update the balance link when amount changes
     }
 
     function adjustAmount(delta) {
@@ -85,6 +87,20 @@
         }
         setAmount(newAmount);
     }
+
+    function setAmount(amount) {
+        amountInput.value = amount;
+        updateBalanceLink(); // Update the balance link when amount changes
+    }
+
+    amountInput.addEventListener('input', function () {
+        // Validate the input to ensure it's a non-negative number
+        let enteredAmount = parseInt(amountInput.value) || 0;
+        if (enteredAmount < 0) {
+            enteredAmount = 0;
+        }
+        setAmount(enteredAmount);
+    });
 
     updateBalanceLink(); // Initial setup of the balance link
 </script>

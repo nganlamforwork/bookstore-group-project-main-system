@@ -78,7 +78,7 @@
                   <p class="text mb-1">
                     Expires*
                   </p>
-                  <input class="form-control" type="text" placeholder="MM/YY" maxlength="5" name="expires"
+                  <input class="form-control mb-3" type="month" pattern="\d{2}/\d{2}" placeholder="MM/YY"  name="expires"
                     value="{{balance.expires}}" disabled />
                 </div>
               </div>
@@ -117,7 +117,7 @@
             </p>
           </div>
           <div class="card-body">
-            <h1>
+            <h1 style="font-size: 64px;">
               ${{formatNumber income}}
             </h1>
           </div>
@@ -132,7 +132,7 @@
             </p>
           </div>
           <div class="card-body">
-            <h1>
+            <h1 style="font-size: 64px;">
               ${{formatNumber expense}}
             </h1>
           </div>
@@ -232,7 +232,7 @@
           <div class="col-12">
             <div class="d-flex flex-column">
               <p class="text mb-1">Expires*</p>
-              <input class="form-control mb-3" type="text" placeholder="MM/YY" maxlength="5" name="expires">
+              <input class="form-control mb-3" type="month"  placeholder="MM/YY"  name="expires">
             </div>
           </div>
           <div class="col-12">
@@ -256,7 +256,7 @@
 </div>
 
 
-{{> payment/balance}}
+{{> payment/topup}}
 <script>
   document.addEventListener('DOMContentLoaded', function () {
     const form = document.getElementById('paymentMethodForm');
