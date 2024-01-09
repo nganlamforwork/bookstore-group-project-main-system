@@ -1,11 +1,11 @@
 <style>
-    #amount {
+    #amountInput {
         border: none;
         border-bottom: 1px solid #ced4da;
         outline: none;
         padding-bottom: 5px;
-        width: 100%;
         font-size: 24px;
+        width: 100px;
     }
 
     #optionAmount {
@@ -49,10 +49,11 @@
             </div>
             <div class="modal-body">
                 <div class="d-flex flex-column align-items-center gap-3 w-100 p-3" id="balanceContainer">
-                    <h5>Enter amount you want to top up:</h5>
-                    <div class="d-flex align-items-center justify-content-evenly mb-3 gap-3">
+                    <h5>Enter amount you want to top up (maxium $1,000):</h5>
+                    <div class="d-flex align-items-center justify-content-center mb-3 gap-3">
                         <button class="btn btn-secondary" onclick="adjustAmount(-1)">-</button>
-                         <input type="number" id="amountInput" class="fs-1 text-success fw-bold m-0 text-center" inputmode="none" style="width: 100px;" min="0" value="0" />
+                        <span class="fs-1 text-success fw-bold m-0 text-center" >$</span>
+                         <input type="number" id="amountInput" class="fs-1 text-success fw-bold m-0 text-center"min="0" value="0" />
                         <button class="btn btn-secondary" onclick="adjustAmount(1)">+</button>
                     </div>
                     <a href="#" id="balanceLink">
@@ -74,6 +75,14 @@
 
     function updateBalanceLink() {
         const balanceLink = document.getElementById('balanceLink');
+        const amount = parseInt(amountInput.value) || 0;
+
+        if (amount > 1000) {
+            alert("Maximum amount is $1,000.");
+            amountInput.value = 1000;
+            return;
+        }
+
         balanceLink.href = `/balance/${userId}/recharge?amount=${amountInput.value}`;
     }
 
