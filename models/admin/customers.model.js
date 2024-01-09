@@ -1,5 +1,5 @@
 const db = require("../db");
-const schema = "customers";
+const schema = "users";
 
 const CustomersModel = {
   add: async (data) => {
@@ -11,7 +11,11 @@ const CustomersModel = {
   },
   getAll: async () => {
     try {
-      const customers = await db.getAll(schema);
+      const customersQuery = {
+        role: { $in: ["customer"] },
+      };
+      const customers = await db.getAllQuery(schema, customersQuery);
+      console.log(customers);
       return customers;
     } catch (err) {
       console.error(err);
@@ -20,6 +24,11 @@ const CustomersModel = {
   getAllWithAddresses: async () => {
     try {
       const pipeline = [
+        {
+          $match: {
+            role: "customer",
+          },
+        },
         {
           $lookup: {
             from: "addresses",

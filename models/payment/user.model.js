@@ -1,5 +1,5 @@
 const db = require("../db");
-const schema = "customers";
+const schema = "users";
 
 const UserModel = {
   add: async (firstname, lastname, email, pw) => {

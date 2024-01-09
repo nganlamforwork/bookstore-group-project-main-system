@@ -27,7 +27,7 @@ const AddressModel = {
   },
   changeDefault: async (customer_id, address_id) => {
     try {
-      return await db.update("customers", "_id", customer_id, {
+      return await db.update("users", "_id", customer_id, {
         default_address: address_id,
       });
     } catch (err) {
