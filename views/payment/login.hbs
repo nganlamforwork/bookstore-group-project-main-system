@@ -2,21 +2,15 @@
   <div class="container-fluid h-custom">
     <div class="row d-flex justify-content-center align-items-center mt-4">
       <div class="col-md-9 col-lg-6 col-xl-5">
-        <img
-          src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
-          class="img-fluid"
-          alt="Sample image"
-        />
+        <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp" class="img-fluid"
+          alt="Sample image" />
       </div>
       <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
-          <div
-            class="d-flex flex-row align-items-center justify-content-center justify-content-lg-start"
-          >
-            <h1 class="mb-4 me-3">
-              Log In
-            </h1>
-          </div>
-
+        <div class="d-flex flex-row align-items-center justify-content-center justify-content-lg-start">
+          <h1 class="mb-4 me-3">
+            Log In
+          </h1>
+        </div>
         <div class="mb-3 flex d-flex gap-2 align-items-center">
           <p class="m-0">With</p>
           <a href="/auth/google" class="btn btn-primary">
@@ -30,19 +24,19 @@
           </button>
         </div>
         <p class="fw-bold fs-5">OR</p>
+        {{#if error}}
+        <div class="alert alert-danger" role="alert">
+          {{error}}
+        </div>
+        {{/if}}
         <form action='/auth/login' method="post">
           <!-- Email input -->
           <div class="form-outline mb-4">
             <label class="form-label" for="form3Example3">
               Email address
             </label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              class="form-control form-control-lg"
-              placeholder="Enter a valid email address"
-            />
+            <input type="email" id="email" name="email" class="form-control form-control-lg"
+              placeholder="Enter a valid email address" />
           </div>
 
           <!-- Password input -->
@@ -50,21 +44,12 @@
             <label class="form-label" for="form3Example4">
               Password
             </label>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              class="form-control form-control-lg"
-              placeholder="Enter password"
-            />
+            <input type="password" id="password" name="password" class="form-control form-control-lg"
+              placeholder="Enter password" />
           </div>
 
           <div class="text-center text-lg-start mt-4 pt-2">
-            <button
-              type="submit"
-              class="btn btn-primary btn-lg"
-              style="padding-left: 2.5rem; padding-right: 2.5rem;"
-            >
+            <button type="submit" class="btn btn-primary btn-lg" style="padding-left: 2.5rem; padding-right: 2.5rem;">
               Log In
             </button>
           </div>
@@ -73,3 +58,11 @@
     </div>
   </div>
 </section>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const error = '{{#if error}}{{error}}{{/if}}';
+    if (error) {
+      toastr.error(error);
+    }
+  });
+</script>

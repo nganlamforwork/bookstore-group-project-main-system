@@ -24,16 +24,18 @@
         color: #000;
         transition: background-color 0.3s ease;
     }
+
     input::-webkit-outer-spin-button,
     input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
+        -webkit-appearance: none;
+        margin: 0;
     }
 
     /* Firefox */
     input[type=number] {
-    -moz-appearance: textfield;
+        -moz-appearance: textfield;
     }
+
     @media (max-width: 1024px) {
         #balanceContainer {
             flex-direction: column;
@@ -52,8 +54,9 @@
                     <h5>Enter amount you want to top up <i>(maximum $1,000)</i>:</h5>
                     <div class="d-flex align-items-center justify-content-center mb-3 gap-3">
                         <button class="btn btn-secondary" onclick="adjustAmount(-1)">-</button>
-                        <span class="fs-1 text-success fw-bold m-0 text-center" >$</span>
-                         <input type="number" id="amountInput" class="fs-1 text-success fw-bold m-0 text-center"min="0" value="0" />
+                        <span class="fs-1 text-success fw-bold m-0 text-center">$</span>
+                        <input type="number" id="amountInput" class="fs-1 text-success fw-bold m-0 text-center" min="0"
+                            value="0" />
                         <button class="btn btn-secondary" onclick="adjustAmount(1)">+</button>
                     </div>
                     <a href="#" id="balanceLink">
@@ -92,7 +95,7 @@
         let newAmount = currentAmount + delta;
 
         if (newAmount < 0) {
-            newAmount = 0; 
+            newAmount = 0;
         }
         setAmount(newAmount);
     }
