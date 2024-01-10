@@ -1,34 +1,64 @@
-<div
-  style='padding: 4rem 10rem;'
-  class='text-center d-flex flex-column align-items-center'
+
+<div style="padding: 4rem 10rem;"
+  class="text-center d-flex flex-column align-items-center"
 >
-  <h1 class='text-uppercase mb-4 fw-bold header-font fs-2'>New arrivals</h1>
-
-  <div class='book-cards-container mt-4 row'>
-    {{#each newArrivalBooks}}
-      <div class='col-3'>
-        <div class='book-card-container'>
-          <a href='/product/{{this._id}}'>
-
-            <div
-              class='img-container'
-              style="width: 100%;
-      padding-top: 150%;
-      background-image: url('{{this.thumbnail}}');
-      background-size: cover;"
-            >
-            </div>
-          </a>
-          <div class='card-body text-center py-4'>
-            <div
-              style='overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-overflow: ellipsis;'
-            >
-              <a href='/product/{{this._id}}'>
-                <h1 class='fs-4 header-font fw-bold'>{{this.title}}</h1>
+  <h1 class="text-uppercase mb-4 fw-bold header-font fs-2">New arrivals</h1>
+  <ul class="nav nav-pills mb-3 gap-3" id="pills-tab" role="tablist">
+      <li class="nav-item" role="presentation">
+        <button class="nav-link active tab-button shadow rounded-0 p-3" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">All</button>
+      </li>
+    {{#each categories}}
+      <li class="nav-item" role="presentation">
+        <button class="nav-link tab-button shadow rounded-0 p-3" id="pills-profile-tab-{{@index}}" data-bs-toggle="pill" data-bs-target="#pills-profile-{{@index}}" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">{{this.title}}</button>
+      </li>
+    {{/each}}
+  </ul>
+  <div class="tab-content" id="pills-tabContent">
+    <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab" tabindex="0">
+      <div class="book-cards-container mt-4 row">
+        {{#each newArrivalBooks}}
+          <div class="col-3">
+            <a class="book-card-container" href="/product/{{this._id}}">
+              <div
+                class="img-container"
+                style="width: 100%;
+                  min-width: 240px;
+                  padding-top: 150%;
+                  background-image: url('{{this.thumbnail}}');
+                  background-size: cover;"
+              >
+              </div>
+              <div class="card-body text-start py-4">
+                <h1 class="fs-4 header-font fw-bold">{{this.title}}</h1>
+                <p class="text-secondary fs-5">${{this.price}}</p>
+              </div>
+            </a>
+          </div>
+        {{/each}}
+      </div>
+    </div>
+    {{#each categories}}
+      <div class="tab-pane fade" id="pills-profile-{{@index}}" role="tabpanel" aria-labelledby="pills-profile-tab-{{@index}}" tabindex="0">
+        <div class="book-cards-container mt-4 row">
+          {{#each newBooks}}
+            <div class="col-3">
+              <a class="book-card-container" href="/product/{{this._id}}">
+                <div
+                  class="img-container"
+                  style="width: 100%;
+                    min-width: 240px;
+                    padding-top: 150%;
+                    background-image: url('{{this.thumbnail}}');
+                    background-size: cover;"
+                >
+                </div>
+                <div class="card-body text-start py-4">
+                  <h1 class="fs-4 header-font fw-bold">{{this.title}}</h1>
+                  <p class="text-secondary fs-5">${{this.price}}</p>
+                </div>
               </a>
             </div>
-            <p class='text-secondary fs-5'>${{this.price}}</p>
-          </div>
+          {{/each}}
         </div>
       </div>
     {{/each}}

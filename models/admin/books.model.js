@@ -70,6 +70,15 @@ const BooksModel = {
       console.error(error);
     }
   },
+  getByCategory: async (categoryId) => {
+    try {
+      const query = { category_id: categoryId };
+
+      return await db.getAllQuery(schema, query);
+    } catch (error) {
+      console.error(error);
+    }
+  },
 
   deleteById: async (bookId) => {
     try {
