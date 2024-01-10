@@ -1,4 +1,4 @@
-const db = require("../db");
+const db = require("../../db");
 const schema = "addresses";
 
 const AddressModel = {

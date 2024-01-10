@@ -1,9 +1,9 @@
-const CustomerModel = require("../models/customer.model");
-const AddressModel = require("../models/customer/addresses.model");
-const LoginModel = require("../models/login.model");
-const BalanceModel = require("../models/payment/balance.model");
-const OrderModel = require("../models/order.model");
-const BooksModel = require("../models/admin/books.model");
+const CustomerModel = require("../../models/main/customer.model");
+const AddressModel = require("../../models/main/profile/addresses.model");
+const LoginModel = require("../../models/main/login.model");
+const BalanceModel = require("../../models/payment/balance.model");
+const OrderModel = require("../../models/main/order.model");
+const BooksModel = require("../../models/admin/books.model");
 const bcrypt = require("bcrypt");
 
 const customerController = {

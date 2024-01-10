@@ -1,7 +1,7 @@
 const passport = require("passport");
 const bcrypt = require("bcrypt");
 const AdminModel = require("../models/admin/admin.model");
-const CustomerModel = require("../models/customer.model");
+const CustomerModel = require("../models/main/customer.model");
 const MyStrategy = require("./strategy");
 const GoogleStrategy = require("passport-google-oauth2").Strategy;
 

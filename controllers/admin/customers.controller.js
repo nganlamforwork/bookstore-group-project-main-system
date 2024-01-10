@@ -1,5 +1,5 @@
 const CustomerModel = require("../../models/admin/customers.model");
-const AddressesModel = require("../../models/customer/addresses.model");
+const AddressesModel = require("../../models/main/profile/addresses.model");
 
 const customerController = {
   getAll: async (req, res, next) => {

@@ -1,4 +1,4 @@
-const AddressModel = require("../../models/customer/addresses.model");
+const AddressModel = require("../../../models/main/profile/addresses.model");
 
 const addressController = {
   getAddressesPage: async (req, res, next) => {

@@ -2,8 +2,6 @@ const express = require("express");
 const router = express.Router();
 const homeController = require("../../controllers/payment/home.controller.js");
 
-const LoginModel = require("../../models/login.model.js");
-
 const passport = require("passport");
 
 router.get("/", homeController.show);

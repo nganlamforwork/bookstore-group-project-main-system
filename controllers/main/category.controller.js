@@ -1,6 +1,5 @@
-const CategoriesModel = require('../models/admin/categories.model');
-const BooksModel = require('../models/admin/books.model');
-
+const CategoriesModel = require("../../models/admin/categories.model");
+const BooksModel = require("../../models/admin/books.model");
 
 const categoryController = {
   show: async (req, res, next) => {
@@ -8,10 +7,9 @@ const categoryController = {
       let books = await BooksModel.getAll();
       let categories = await CategoriesModel.getAll();
 
-
-      res.render('category', {
-        title: 'Category Page',
-        layout: 'main',
+      res.render("category", {
+        title: "Category Page",
+        layout: "main",
         books: books,
         categories: categories,
       });
@@ -40,7 +38,7 @@ const categoryController = {
           let tmp = await CategoriesModel.getListBooksById(categoryId);
           categoryFilterBooks.push(...tmp);
         }
-      } else if (filters?.category && typeof filters.category === 'string') {
+      } else if (filters?.category && typeof filters.category === "string") {
         let tmp = await CategoriesModel.getListBooksById(filters?.category);
         categoryFilterBooks.push(...tmp);
       }
@@ -52,9 +50,9 @@ const categoryController = {
       );
     }
 
-    res.render('category', {
-      title: 'Category Page',
-      layout: 'main',
+    res.render("category", {
+      title: "Category Page",
+      layout: "main",
       books,
       categories,
     });

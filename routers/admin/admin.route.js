@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const adminController = require("../controllers/admin/admin.controller");
-const categoriesController = require("../controllers/admin/categories.controller");
+const adminController = require("../../controllers/admin/admin.controller");
+const categoriesController = require("../../controllers/admin/categories.controller");
 const passport = require("passport");
 
 router.get("/", adminController.getLoginAdmin);
@@ -26,9 +26,9 @@ router.use((req, res, next) => {
 router.get("/dashboard", adminController.getAdminDashboard);
 router.get("/reviews", adminController.getReviews);
 router.get("/subscribers", adminController.getSubscribers);
-router.use("/categories", require("./admin/categories.route"));
-router.use("/books", require("./admin/books.route"));
-router.use("/customers", require("./admin/customers.route"));
+router.use("/categories", require("./categories.route"));
+router.use("/books", require("./books.route"));
+router.use("/customers", require("./customers.route"));
 
 // Admin
 router.get("/profile", adminController.getAdminProfile);

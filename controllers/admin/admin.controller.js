@@ -1,5 +1,5 @@
-const CustomerModel = require("../../models/customer.model");
-const SubscriberModel = require("../../models/subscriber.model");
+const CustomerModel = require("../../models/main/customer.model");
+const SubscriberModel = require("../../models/main/subscriber.model");
 const BooksModel = require("../../models/admin/books.model");
 
 const adminController = {

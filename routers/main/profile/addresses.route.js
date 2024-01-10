@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const addressController = require("../../controllers/customer/addresses.controller");
+const addressController = require("../../../controllers/main/profile/addresses.controller");
 
 router.get("/", addressController.getAddressesPage);
 router.post("/:uid/add", addressController.add);
