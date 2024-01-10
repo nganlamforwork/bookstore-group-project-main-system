@@ -249,9 +249,9 @@
             </td>
             {{#if this.success}}
             {{#if this.income}}
-            <td class="text-success"> ${{formatNumber this.amount}} <i class="fa fa-arrow-up"></i></td>
-            {{else}}
             <td class="text-danger"> ${{formatNumber this.amount}} <i class="fa fa-arrow-down"></i></td>
+            {{else}}
+            <td class="text-success"> ${{formatNumber this.amount}} <i class="fa fa-arrow-up"></i></td>
             {{/if}}
             <td class="text-success"><i class="fa-regular fa-circle-check"></i></td>
             {{else}}

@@ -1,36 +1,36 @@
-<div style='padding:24px; display: flex; gap: 80px;'>
-  <div style='width: 500px;'>
-    <div class='large-image' style='width: 100%; height:500px;'>
+<div style='display: flex; gap: 80px;'>
+  <div style='width: 25vw;'>
+    <div class='large-image' style='width: 100%; '>
       <img src={{book.thumbnail}} width='100%' height='100%' style='object-fit: contain;' />
     </div>
   </div>
   <div style='flex: 1; display: flex; flex-direction: column; gap:16px;'>
-    <h1 class='m-0'>{{book.title}}</h1>
+    <h1 class='m-0 header-font fw-bold' style="font-size: 56px;">{{book.title}}</h1>
     <div class='short-desc'>
       {{book.brief_des}}
     </div>
     <div>
-      <p class='product-label'>Price</p>
-      <span class='text-secondary fs-5 m-0'>${{book.price}}</span>
+      <p class='product-label fw-bold'>Price</p>
+      <span class='text-secondary fs-5 m-0 text-success'>${{book.price}}</span>
     </div>
     <div>
-      <p class='product-label'>Vendor</p>
+      <p class='product-label fw-bold'>Vendor</p>
       <span>{{book.vendor}}</span>
     </div>
     <div>
-      <p class='product-label'>Type</p>
+      <p class='product-label fw-bold'>Type</p>
       <span>{{category.title}}</span>
     </div>
     <div>
-      <p class='product-label'>Language</p>
+      <p class='product-label fw-bold'>Language</p>
       <span>{{book.language}}</span>
     </div>
     <div>
-      <p class='product-label'>Publication Date</p>
+      <p class='product-label fw-bold'>Publication Date</p>
       <span>{{date}}</span>
     </div>
     <div class='d-flex'>
-      <p class='product-label'>Quantity</p>
+      <p class='product-label fw-bold'>Quantity</p>
       <div class='quantityWrap'>
         <div class='quantityBtn' onclick='changeQuantity(-1)'>-</div>
         <span id='quantity' class='quantityValue'>1</span>
@@ -38,7 +38,7 @@
       </div>
     </div>
     <div>
-      <p class='product-label'>Availability</p>
+      <p class='product-label fw-bold'>Availability</p>
       <span>
         {{book.inventory}}
         In stock</span>
@@ -49,10 +49,6 @@
           style='background-color: var(--palette-02); padding: 0.75rem 3rem;'>
           Add to cart
         </div>
-      </a>
-      <a href="">
-        <div class='btn btn-primary rounded-0 border-0 shopping-btn'
-          style='background-color: var(--palette-02); padding: 0.75rem 3rem;'>Shop now</div>
       </a>
     </div>
     <div>
