@@ -20,14 +20,6 @@ const BooksModel = {
           },
         },
         {
-          $lookup: {
-            from: "authors",
-            localField: "author_id",
-            foreignField: "_id",
-            as: "authorInfo",
-          },
-        },
-        {
           $unwind: {
             path: "$authorInfo",
             preserveNullAndEmptyArrays: true,
@@ -39,12 +31,18 @@ const BooksModel = {
             title: 1,
             votes: 1,
             category_title: "$categoryInfo.title",
-            author_name: "$authorInfo.name", // Thay thế 'name' bằng trường tên của tác giả
+            author_name: 1,
             inventory: 1,
             price: 1,
             discount_id: 1,
             created_at: 1,
-            last_updated: 1,
+            last_updated: {
+              $dateToString: {
+                format: "%H:%M %d-%m-%Y", // Use %Y for a four-digit year
+                date: "$last_updated",
+                timezone: "Asia/Ho_Chi_Minh", // Change this based on your timezone
+              },
+            },
           },
         },
       ];
@@ -90,6 +88,8 @@ const BooksModel = {
 
   updateById: async (bookId, data) => {
     try {
+      data.last_updated = new Date();
+
       return await db.updateById(schema, bookId, data);
     } catch (error) {
       console.error(error);

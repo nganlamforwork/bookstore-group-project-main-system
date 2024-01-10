@@ -72,6 +72,9 @@
             Price
           </th>
           <th>
+            Last Updated
+          </th>
+          <th>
             Quick Actions
           </th>
         </tr>
@@ -94,14 +97,19 @@
             <td>
               {{this.category_title}}
             </td>
-            <td>
-              {{this.author_id}}
+            <td class="text-wrap">
+              <div style="max-width: 200px !important;">
+              {{this.author_name}}
+              </div>
             </td>
             <td>
               {{this.inventory}}
             </td>
             <td>
               ${{this.price}}
+            </td>
+            <td>
+              {{this.last_updated}}
             </td>
             <td>
               <div class="flex d-flex justify-content-start gap-4">

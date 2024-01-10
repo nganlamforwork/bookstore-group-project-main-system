@@ -13,7 +13,7 @@ const CustomerController = {
           phone: user.phone || "",
           default_payment: user.default_payment || "",
           default_address: user.default_address
-            ? `${user.addressInfo.name}\n${user.addressInfo.phone}\n${user.addressInfo.address}`
+            ? `${user.addressInfo.name}<br/>${user.addressInfo.phone}<br/>${user.addressInfo.address}`
             : "No default address",
           created_at: user.created_at || "",
           last_updated: user.last_updated || "",
