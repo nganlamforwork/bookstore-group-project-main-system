@@ -1,8 +1,8 @@
 const express = require("express");
 const router = express.Router();
-const balanceController = require("../../controllers/payment/balance.controller.js");
+const BalanceController = require("../../controllers/payment/balance.controller.js");
 
-router.get("/:userId/recharge", balanceController.show);
-router.post("/:userId/recharge", balanceController.rechargeBalance);
+router.get("/:userId/recharge", BalanceController.displayRecharge);
+router.post("/:userId/recharge", BalanceController.rechargeBalance);
 
 module.exports = router;

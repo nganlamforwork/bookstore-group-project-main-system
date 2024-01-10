@@ -1,6 +1,6 @@
 const SubscriberModel = require("../../models/main/subscriber.model");
 
-const subscriberController = {
+const SubscriberController = {
   add: async (req, res, next) => {
     try {
       const { email } = req.body;
@@ -28,4 +28,4 @@ const subscriberController = {
   },
 };
 
-module.exports = subscriberController;
+module.exports = SubscriberController;

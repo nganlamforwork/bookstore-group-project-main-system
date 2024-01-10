@@ -5,7 +5,7 @@ const BooksModel = require("../../models/admin/books.model");
 const adminController = {
   getAdminProfile: async (req, res, next) => {
     try {
-      res.render("dashboard/admin/profile", {
+      res.render("admin/profile", {
         title: "Admin Profile",
         layout: "admin",
         admin: req.user,
@@ -19,7 +19,7 @@ const adminController = {
       if (req.isAuthenticated()) {
         res.redirect("/admin/dashboard");
       }
-      res.render("dashboard/login", {
+      res.render("admin/login", {
         title: "Admin Login",
         layout: "base",
       });
@@ -32,7 +32,7 @@ const adminController = {
       const customers = await CustomerModel.getAll();
       const books = await BooksModel.getAll();
 
-      res.render("dashboard/dashboards", {
+      res.render("admin/dashboards", {
         title: "Admin Dashboard",
         layout: "admin",
         totalCustomers: customers.length,
@@ -52,7 +52,7 @@ const adminController = {
         };
       });
 
-      res.render("dashboard/subscribers", {
+      res.render("admin/subscribers", {
         title: "Subscribers",
         layout: "admin",
         subscribers: sanitizedSubscribers,
@@ -77,7 +77,7 @@ const adminController = {
   },
   getReviews: async (req, res, next) => {
     try {
-      res.render("dashboard/reviews", {
+      res.render("admin/reviews", {
         title: "Reviews",
         layout: "admin",
         reviews: [],

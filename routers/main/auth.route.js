@@ -3,8 +3,12 @@ const router = express.Router();
 const multer = require("multer");
 const fs = require("fs");
 const path = require("path");
-const LoginModel = require("../../models/main/login.model");
+const passport = require("passport");
 
+const LoginsTrackerModel = require("../../models/main/loginsTracker.model");
+const CustomerController = require("../../controllers/main/customer.controller");
+
+// Settings
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     const uid = req.params.uid;
@@ -21,14 +25,16 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage });
 
-const customerController = require("../../controllers/main/customer.controller");
-const passport = require("passport");
+// Define routes
 
-router.get("/login", customerController.getLoginPage);
-router.get("/register", customerController.getRegisterPage);
-// Login using username, password
-router.post("/login", customerController.login);
+router.get("/login", CustomerController.getLoginPage);
+router.post("/login", CustomerController.login);
+router.get("/register", CustomerController.getRegisterPage);
+router.post("/register", CustomerController.register);
+router.post("/change-password", CustomerController.changePassword);
+router.get("/logout", CustomerController.logOut);
 
+// OAuth 2.0 with Google
 router.get(
   "/google",
   passport.authenticate("google", { scope: ["email", "profile"] })
@@ -40,31 +46,18 @@ router.get(
     // Successful authentication, redirect to home
     // Create user login for tracking
     console.log(req.user);
-    await LoginModel.create({ user: req.user._id, req: req });
+    await LoginsTrackerModel.create({ user: req.user._id, req: req });
     req.session.user = req.user;
     req.flash("success", "Welcome back");
     res.redirect("/");
   }
 );
 
-router.post("/register", customerController.register);
-router.post("/change-password", customerController.changePassword);
-router.get("/logout", customerController.logOut);
-router.get("/profile/", customerController.getProfilePage);
-router.get("/profile/information", customerController.getInformationPage);
-router.post("/profile/information", customerController.updateInformation);
-
-router.get("/profile/orders", customerController.getOrdersPage);
-router.get("/profile/payments", customerController.getPaymentsPage);
-
-// Addresses Books
-router.use("/profile/addresses", require("./profile/addresses.route"));
-
 // Avatar
 router.post(
   "/:uid/profile/avatar",
   upload.single("avatar"),
-  customerController.uploadAvatar
+  CustomerController.uploadAvatar
 );
 
 module.exports = router;

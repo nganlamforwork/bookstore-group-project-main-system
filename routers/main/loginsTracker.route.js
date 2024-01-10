@@ -1,10 +1,10 @@
 const express = require("express");
 const router = express.Router();
-const LoginModel = require("../../models/main/login.model");
+const LoginsTrackerModel = require("../../models/main/loginsTracker.model");
 
 router.get("/getAll", async (req, res, next) => {
   try {
-    const logins = await LoginModel.getAll();
+    const logins = await LoginsTrackerModel.getAll();
     const sanitizedLogins = logins.map((log) => {
       return {
         ...log,

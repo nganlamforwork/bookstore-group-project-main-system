@@ -3,7 +3,7 @@ const { v4: uuidv4 } = require("uuid");
 
 const schema = "login";
 
-const LoginModel = {
+const LoginsTrackerModel = {
   create: async function ({ user, req }) {
     // get ip address
     const ip =
@@ -42,4 +42,4 @@ const LoginModel = {
   },
 };
 
-module.exports = LoginModel;
+module.exports = LoginsTrackerModel;

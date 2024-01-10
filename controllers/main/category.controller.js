@@ -1,13 +1,13 @@
 const CategoriesModel = require("../../models/admin/categories.model");
 const BooksModel = require("../../models/admin/books.model");
 
-const categoryController = {
-  show: async (req, res, next) => {
+const CategoryController = {
+  displayCategory: async (req, res, next) => {
     try {
       let books = await BooksModel.getAll();
       let categories = await CategoriesModel.getAll();
 
-      res.render("category", {
+      res.render("main/category", {
         title: "Category Page",
         layout: "main",
         books: books,
@@ -50,7 +50,7 @@ const categoryController = {
       );
     }
 
-    res.render("category", {
+    res.render("main/category", {
       title: "Category Page",
       layout: "main",
       books,
@@ -59,4 +59,4 @@ const categoryController = {
   },
 };
 
-module.exports = categoryController;
+module.exports = CategoryController;

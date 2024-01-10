@@ -96,7 +96,7 @@
                 <textarea type="text" class="form-control" id="address" placeholder="1234 Main St" disabled
                   requiredstyle="height: 100px" name="address">{{this.default_address.address}}</textarea>
               </div>
-              <div class="col-12 text-end mt-4 mb-0"><a href="/auth/profile/addresses" class="m-0"
+              <div class="col-12 text-end mt-4 mb-0"><a href="/profile/addresses" class="m-0"
                   style="color: var(--palette-02)">Change your default address</a></div>
               <hr class="my-4" />
               <button class="btn btn-primary rounded-1 border-0 shopping-btn mt-3 w-100"
@@ -148,7 +148,7 @@
         const data = await res.json();
         if (data.success) {
           alert(data.message);
-          window.location.href = "/auth/profile"
+          window.location.href = "/profile"
         } else {
           alert(data.message);
           window.location.href = "/"

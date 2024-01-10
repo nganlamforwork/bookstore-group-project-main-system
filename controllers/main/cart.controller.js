@@ -2,12 +2,12 @@ const CartModel = require("../../models/main/cart.model");
 const BooksModel = require("../../models/admin/books.model");
 const moment = require("moment");
 
-const cartController = {
-  show: async (req, res, next) => {
+const CartController = {
+  displayCart: async (req, res, next) => {
     try {
       const user = req.session.user;
       if (!user) {
-        return res.render("customers/shopping-cart", {
+        return res.render("main/customers/shopping-cart", {
           books: null,
           unauthorized: true,
         });
@@ -15,7 +15,7 @@ const cartController = {
       const cart = await CartModel.getCartByCustomerId(user._id);
       // If cart is empty
       if (!cart) {
-        return res.render("customers/shopping-cart", {
+        return res.render("main/customers/shopping-cart", {
           books: null,
         });
       }
@@ -52,7 +52,7 @@ const cartController = {
         cart: cartInfo,
         subTotal,
       };
-      res.render("customers/shopping-cart", {
+      res.render("main/customers/shopping-cart", {
         books: cartInfo,
         subTotal: Number(subTotal).toFixed(2),
       });
@@ -126,4 +126,4 @@ const cartController = {
   },
 };
 
-module.exports = cartController;
+module.exports = CartController;

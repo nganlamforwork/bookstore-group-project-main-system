@@ -2,8 +2,8 @@ const BooksModel = require("../../models/admin/books.model");
 const CategoriesModel = require("../../models/admin/categories.model");
 const moment = require("moment");
 
-const productController = {
-  showBook: async (req, res, next) => {
+const ProductController = {
+  displayBook: async (req, res, next) => {
     try {
       const bookId = req.params.id;
       const book = await BooksModel.getById(bookId);
@@ -14,7 +14,7 @@ const productController = {
         relatedBooks = relatedBooks.slice(0, 4);
       }
 
-      res.render("product", {
+      res.render("main/product", {
         title: "Detail Book",
         layout: "main",
         book: book,
@@ -29,4 +29,4 @@ const productController = {
   },
 };
 
-module.exports = productController;
+module.exports = ProductController;

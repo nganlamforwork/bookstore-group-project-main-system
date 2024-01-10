@@ -1,7 +1,7 @@
 const AddressModel = require("../../../models/main/profile/addresses.model");
 
-const addressController = {
-  getAddressesPage: async (req, res, next) => {
+const AddressController = {
+  displayAddresses: async (req, res, next) => {
     try {
       if (req.session.user) {
         let addresses = await AddressModel.getAll(req.session.user._id);
@@ -12,7 +12,7 @@ const addressController = {
           default: address._id == defaultAddressId,
         }));
 
-        addresses = res.render("customers/addresses", {
+        addresses = res.render("main/customers/addresses", {
           title: "Addresses Book",
           _id: req.session.user._id,
           addresses: addresses,
@@ -34,7 +34,7 @@ const addressController = {
           };
           await AddressModel.changeDefault(req.params.uid, address._id);
         }
-        res.redirect("/auth/profile/addresses");
+        res.redirect("/profile/addresses");
       } else res.redirect("/auth/login");
     } catch (error) {
       next(err);
@@ -44,7 +44,7 @@ const addressController = {
     try {
       if (req.session.user) {
         await AddressModel.delete(req.params.uid, req.params.id);
-        res.redirect("/auth/profile/addresses");
+        res.redirect("/profile/addresses");
       } else res.redirect("/auth/login");
     } catch (error) {
       next(err);
@@ -61,7 +61,7 @@ const addressController = {
           await AddressModel.changeDefault(req.params.uid, req.params.id);
         }
         await AddressModel.update(req.params.uid, req.params.id, req.body);
-        res.redirect("/auth/profile/addresses");
+        res.redirect("/profile/addresses");
       } else res.redirect("/auth/login");
     } catch (error) {
       next(err);
@@ -69,4 +69,4 @@ const addressController = {
   },
 };
 
-module.exports = addressController;
+module.exports = AddressController;

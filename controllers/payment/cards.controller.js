@@ -1,11 +1,11 @@
-const BalanceModel = require("../../models/payment/balance.model");
+const CardModel = require("../../models/payment/cards.model");
 
 const paymentsController = {
-  addNewPayment: async (req, res, next) => {
+  add: async (req, res, next) => {
     try {
       const { cardholderName, cardNumber, expires, cvv } = req.body;
       const userId = req.params.userId;
-      await BalanceModel.updateCard(userId, {
+      await CardModel.updateCard(userId, {
         cardholderName: cardholderName,
         cardNumber: cardNumber,
         expires: expires,

@@ -1,7 +1,7 @@
 const CustomerModel = require("../../models/main/customer.model");
 const AddressModel = require("../../models/main/profile/addresses.model");
-const LoginModel = require("../../models/main/login.model");
-const BalanceModel = require("../../models/payment/balance.model");
+const LoginsTrackerModel = require("../../models/main/loginsTracker.model");
+const CardModel = require("../../models/payment/cards.model");
 const OrderModel = require("../../models/main/order.model");
 const BooksModel = require("../../models/admin/books.model");
 const bcrypt = require("bcrypt");
@@ -18,7 +18,7 @@ const customerController = {
         if (user.avatar && user.avatar.startsWith("uploads")) {
           modifiedAvatar = "/" + user.avatar;
         }
-        const balance = await BalanceModel.getBalance(user._id);
+        const balance = await CardModel.getBalance(user._id);
         req.session.balance = balance;
 
         const orders = await OrderModel.getAll(user._id);
@@ -46,7 +46,7 @@ const customerController = {
           success: req.flash("success"),
           error: req.flash("error"),
         };
-        res.render("customers/profile", data);
+        res.render("main/customers/profile", data);
       } else res.redirect("/auth/login");
     } catch (error) {
       next(error);
@@ -55,7 +55,7 @@ const customerController = {
   getOrdersPage: async (req, res, next) => {
     try {
       if (req.session.user) {
-        res.render("customers/orders", {
+        res.render("main/customers/orders", {
           title: "Orders History",
         });
       } else res.redirect("/auth/login");
@@ -66,7 +66,7 @@ const customerController = {
   getPaymentsPage: async (req, res, next) => {
     try {
       if (req.session.user) {
-        res.render("customers/payments", {
+        res.render("main/customers/payments", {
           title: "Payment Methods",
           userId: req.session.user._id,
         });
@@ -78,10 +78,10 @@ const customerController = {
   getLoginPage: async (req, res, next) => {
     try {
       if (req.session.user) {
-        return res.redirect("/auth/profile");
+        return res.redirect("/profile");
       }
 
-      res.render("login", {
+      res.render("main/login", {
         title: "Login",
         error: req.flash("error"),
         success: req.flash("success"),
@@ -93,9 +93,9 @@ const customerController = {
   getRegisterPage: async (req, res, next) => {
     try {
       if (req.session.user) {
-        return res.redirect("/auth/profile");
+        return res.redirect("/profile");
       }
-      res.render("register", {
+      res.render("main/register", {
         title: "Create account",
       });
     } catch (error) {
@@ -129,12 +129,12 @@ const customerController = {
       const { email, password } = req.body;
       const founded = await CustomerModel.get(email);
       if (!founded)
-        return res.render("login", {
+        return res.render("main/login", {
           error: `User with ${email} not founded`,
         });
 
       // Create user login for tracking
-      await LoginModel.create({ user: founded._id, req: req });
+      await LoginsTrackerModel.create({ user: founded._id, req: req });
 
       bcrypt.compare(password, founded.password, function (err, result) {
         if (err || !result) {
@@ -193,7 +193,7 @@ const customerController = {
           success: req.flash("success"),
           error: req.flash("error"),
         };
-        res.render("customers/information", data);
+        res.render("main/customers/information", data);
       } else res.redirect("/auth/login");
     } catch (error) {
       next(err);
@@ -213,12 +213,12 @@ const customerController = {
 
         const updateResult = await CustomerModel.update(email, updateData);
         if (!updateResult) {
-          return res.redirect("/auth/profile/information");
+          return res.redirect("/profile/information");
         }
 
         req.session.user = { ...req.session.user, ...updateData };
 
-        res.redirect("/auth/profile");
+        res.redirect("/profile");
       } else {
         res.redirect("/auth/login");
       }
@@ -238,7 +238,7 @@ const customerController = {
 
         if (!isPasswordMatch) {
           req.flash("error", "Current password is not matched");
-          return res.redirect("/auth/profile");
+          return res.redirect("/profile");
         }
 
         const hash = await bcrypt.hash(new_pw, 10);
@@ -248,12 +248,12 @@ const customerController = {
         // update customer information
         const updateResult = await CustomerModel.update(email, customer);
         if (!updateResult) {
-          return res.redirect("/auth/profile");
+          return res.redirect("/profile");
         }
 
         req.session.user = customer;
         req.flash("success", "Change password successfully");
-        res.redirect("/auth/profile");
+        res.redirect("/profile");
       } else {
         res.redirect("/auth/login");
       }
@@ -276,11 +276,11 @@ const customerController = {
 
       const updateResult = await CustomerModel.update(email, updateData);
       if (!updateResult) {
-        return res.redirect("/auth/profile/information");
+        return res.redirect("/profile/information");
       }
 
       req.session.user = { ...req.session.user, ...updateData };
-      res.redirect("/auth/profile");
+      res.redirect("/profile");
     } catch (err) {
       next(err);
     }

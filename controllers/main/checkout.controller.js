@@ -1,12 +1,12 @@
 const AddressModel = require("../../models/main/profile/addresses.model");
 const OrderModel = require("../../models/main/order.model");
-const BalanceModel = require("../../models/payment/balance.model");
+const CardModel = require("../../models/payment/cards.model");
 const CartModel = require("../../models/main/cart.model");
 const PaymentHistoryModel = require("../../models/payment/history.model");
 const BooksModel = require("../../models/admin/books.model");
 
-const checkoutController = {
-  show: async (req, res, next) => {
+const CheckoutController = {
+  displayCheckout: async (req, res, next) => {
     try {
       const currentCart = req.session.cart.cart;
       const subTotal = req.session.cart.subTotal;
@@ -14,7 +14,7 @@ const checkoutController = {
       const user = req.session.user;
       const defaultAddress = await AddressModel.get(user.default_address);
 
-      res.render("customers/checkout", {
+      res.render("main/customers/checkout", {
         title: "Checkout",
         layout: "main",
         user: user,
@@ -53,14 +53,14 @@ const checkoutController = {
         products: formattedProducts,
       };
 
-      const existingBalance = await BalanceModel.getBalance(user._id);
+      const existingBalance = await CardModel.getBalance(user._id);
 
       if (existingBalance) {
         const updatedAmount =
           parseInt(existingBalance.amount) - parseInt(subTotal);
 
         if (updatedAmount > 0) {
-          await BalanceModel.updateBalance(existingBalance._id, updatedAmount);
+          await CardModel.updateBalance(existingBalance._id, updatedAmount);
           await OrderModel.add(newOrder);
           await CartModel.removeAll(user._id);
 
@@ -68,7 +68,7 @@ const checkoutController = {
           req.session.cart = {};
 
           // update balance
-          balance = await BalanceModel.getBalance(user._id);
+          balance = await CardModel.getBalance(user._id);
           req.session.balance = balance;
 
           await PaymentHistoryModel.add({
@@ -103,4 +103,4 @@ const checkoutController = {
   },
 };
 
-module.exports = checkoutController;
+module.exports = CheckoutController;

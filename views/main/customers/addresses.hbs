@@ -10,7 +10,7 @@
               </a>
             </li>
             <li class="breadcrumb-item">
-              <a href="/auth/profile">
+              <a href="/profile">
                 Profile
               </a>
             </li>
@@ -40,7 +40,7 @@
       <ul class="list-group">
         {{#each addresses}}
           <form
-            action="/auth/profile/addresses/{{_id}}/{{this._id}}/delete"
+            action="/profile/addresses/{{_id}}/{{this._id}}/delete"
             method="POST"
           >
             <li class="list-group-item" style="position: relative;">
@@ -138,7 +138,7 @@
           aria-label="Close"
         ></button>
       </div>
-      <form action="/auth/profile/addresses/{{_id}}/add" method="POST">
+      <form action="/profile/addresses/{{_id}}/add" method="POST">
         <div class="modal-body">
           <div class="form-floating mb-3">
             <input
@@ -232,7 +232,7 @@
             ></button>
           </div>
           <form
-            action="/auth/profile/addresses/{{this.customer_id}}/{{this._id}}/update"
+            action="/profile/addresses/{{this.customer_id}}/{{this._id}}/update"
             method="POST"
           >
             <div class="modal-body">

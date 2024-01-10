@@ -1,7 +1,7 @@
 const db = require("../db");
 const schema = "payment_balances";
 
-const BalanceModel = {
+const CardModel = {
   updateCard: async (customerId, cardInfo) => {
     try {
       const result = await db.update(
@@ -34,4 +34,4 @@ const BalanceModel = {
   },
 };
 
-module.exports = BalanceModel;
+module.exports = CardModel;

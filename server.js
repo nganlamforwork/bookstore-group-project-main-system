@@ -75,27 +75,29 @@ app.use(function (req, res, next) {
 });
 
 // Define routes
-const userRoutes = require("./routers/main/customer.route.js");
+const authRoutes = require("./routers/main/auth.route.js");
+const profileRoutes = require("./routers/main/profile/profile.route.js");
 const adminRoutes = require("./routers/admin/admin.route");
-const subscriberRoutes = require("./routers/main/subscriber.route.js");
+const subscribersRoutes = require("./routers/main/subscribers.route.js");
 const productRoutes = require("./routers/main/product.route.js");
 const categoryRoutes = require("./routers/main/category.route.js");
 const homeRoutes = require("./routers/main/home.route.js");
 const cartRoutes = require("./routers/main/cart.route.js");
 const checkoutRoutes = require("./routers/main/checkout.route.js");
-const loginsRoutes = require("./routers/main/logins.route.js");
+const loginsRoutes = require("./routers/main/loginsTracker.route.js");
 
 app.get("/", homeRoutes);
-app.use("/auth", userRoutes);
+app.use("/auth", authRoutes);
+app.use("/profile", profileRoutes);
 app.use("/admin", adminRoutes);
-app.use("/subscriber", subscriberRoutes);
+app.use("/subscribers", subscribersRoutes);
 app.use("/product", productRoutes);
 app.use("/category", categoryRoutes);
 app.use("/cart", cartRoutes);
 app.use("/checkout", checkoutRoutes);
 app.use("/logins", loginsRoutes);
 app.get("/faq", (req, res) => {
-  res.render("faq", {
+  res.render("main/faq", {
     title: "FAQ",
     data: FAQContent,
   });

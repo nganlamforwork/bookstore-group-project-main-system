@@ -1,9 +1,9 @@
 const express = require("express");
 const router = express.Router();
-const addressController = require("../../../controllers/main/profile/addresses.controller");
+const AddressController = require("../../../controllers/main/profile/addresses.controller");
 
-router.get("/", addressController.getAddressesPage);
-router.post("/:uid/add", addressController.add);
-router.post("/:uid/:id/delete", addressController.delete);
-router.post("/:uid/:id/update", addressController.update);
+router.get("/", AddressController.displayAddresses);
+router.post("/:uid/add", AddressController.add);
+router.post("/:uid/:id/delete", AddressController.delete);
+router.post("/:uid/:id/update", AddressController.update);
 module.exports = router;

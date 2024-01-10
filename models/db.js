@@ -1,9 +1,10 @@
 const mongoose = require("mongoose");
 const schemas = require("./schemas");
-const { ObjectId } = mongoose.Types;
 
+// Settings
 const uri = `mongodb+srv://admin:${process.env.DB_PW}@bookstore.s5hrnv5.mongodb.net/${process.env.DB_DB}?retryWrites=true&w=majority`;
 
+// Functions
 async function add(schema, data) {
   try {
     await mongoose.connect(uri);

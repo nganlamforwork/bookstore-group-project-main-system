@@ -1,18 +1,18 @@
-const UserModel = require("../../models/payment/user.model");
-const BalanceModel = require("../../models/payment/balance.model");
-const PaymentHistoryModel = require("../../models/payment/history.model");
 const bcrypt = require("bcrypt");
 const moment = require("moment");
+const UserModel = require("../../models/payment/user.model");
+const CardModel = require("../../models/payment/cards.model");
+const PaymentHistoryModel = require("../../models/payment/history.model");
 
-const homeController = {
-  show: async (req, res, next) => {
+const HomeController = {
+  displayHome: async (req, res, next) => {
     try {
       if (!req.session.user) {
         res.redirect("/auth/login");
         return;
       }
       const user = req.session.user;
-      balance = await BalanceModel.getBalance(user._id);
+      balance = await CardModel.getBalance(user._id);
       req.session.balance = balance;
 
       transactions = await PaymentHistoryModel.get(user._id);
@@ -47,7 +47,7 @@ const homeController = {
       next(error);
     }
   },
-  showLogIn: async (req, res, next) => {
+  displayLogIn: async (req, res, next) => {
     try {
       if (req.session.user) {
         return res.redirect("/");
@@ -61,18 +61,18 @@ const homeController = {
     }
   },
 
-  login: async (req, res, next) => {
+  logIn: async (req, res, next) => {
     try {
       const { email, password } = req.body;
       const founded = await UserModel.get(email);
       // console.log(founded);
       if (!founded)
-        return res.render("login", {
+        return res.render("main/login", {
           error: `User with ${email} not founded`,
         });
 
       // // Create user login for tracking
-      // await LoginModel.create({ user: founded._id, req: req });
+      // await LoginsTrackerModel.create({ user: founded._id, req: req });
 
       bcrypt.compare(password, founded.password, function (err, result) {
         if (err || !result) {
@@ -113,4 +113,4 @@ const homeController = {
   },
 };
 
-module.exports = homeController;
+module.exports = HomeController;

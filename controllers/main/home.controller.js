@@ -1,10 +1,10 @@
 const BooksModel = require("../../models/admin/books.model");
 const CategoriesModel = require("../../models/admin/categories.model");
 const CartModel = require("../../models/main/cart.model");
-const BalanceModel = require("../../models/payment/balance.model");
+const CardModel = require("../../models/payment/cards.model");
 
-const homeController = {
-  show: async (req, res, next) => {
+const HomeController = {
+  displayHome: async (req, res, next) => {
     try {
       let newArrivalBooks = await BooksModel.getAll();
       if (newArrivalBooks?.length > 0) {
@@ -23,10 +23,10 @@ const homeController = {
           cart,
           totalQuantity,
         };
-        balance = await BalanceModel.getBalance(user._id);
+        balance = await CardModel.getBalance(user._id);
         req.session.balance = balance;
       }
-      res.render("home", {
+      res.render("main/home", {
         title: "Home",
         success: req.flash("success"),
         error: req.flash("error"),
@@ -40,4 +40,4 @@ const homeController = {
   },
 };
 
-module.exports = homeController;
+module.exports = HomeController;
