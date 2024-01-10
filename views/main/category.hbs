@@ -11,30 +11,25 @@
   >
     <div class='book-cards-container row' style='width: 100%;'>
       {{#each books}}
-        <div class='col-3'>
-          <div class='book-card-container'>
-            <a href='/product/{{this._id}}'>
-
-              <div
-                class='img-container'
-                style="width: 100%;
-      padding-top: 150%;
-      background-image: url('{{this.thumbnail}}');
-      background-size: cover;"
-              >
-              </div>
-            </a>
-            <div class='card-body text-center py-4'>
-              <div
-                style='overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-overflow: ellipsis;'
-              >
-                <a href='/product/{{this._id}}'>
-                  <h1 class='fs-4 header-font fw-bold'>{{this.title}}</h1>
-                </a>
-              </div>
-              <p class='text-secondary fs-5'>${{this.price}}</p>
+        <div class="col-3  book-card">
+          <a class="book-card-container" href="/product/{{this._id}}">
+            <div
+              class="img-container"
+              style="width: 100%;
+                min-width: 240px;
+                padding-top: 150%;
+                background-image: url('{{this.thumbnail}}');
+                background-size: cover;"
+            >
+            <div class="overlay fs-2 text-light">
+              <i class="fa-solid fa-eye"></i>
             </div>
-          </div>
+            </div>
+            <div class="card-body text-start py-4">
+              <h1 class="fs-4 header-font fw-bold">{{this.title}}</h1>
+              <p class="text-secondary fs-5">${{this.price}}</p>
+            </div>
+          </a>
         </div>
       {{/each}}
     </div>
@@ -42,8 +37,25 @@
 </div>
 
 <style>
-  .tab-button{ background-color: white; color: black !important; transition: all
-  0.4s ease-in-out;} .tab-button:hover{background-color: var(--palette-02)
-  !important;color: white !important;} .tab-button.active{ background-color:
-  var(--palette-02) !important; color: white !important;} 
+  .img-container {
+    position: relative;
+    overflow: hidden;
+  }
+  .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .overlay:hover {
+    opacity: 1;
+  }
 </style>
