@@ -1,7 +1,7 @@
 const CustomerModel = require("../../models/admin/customers.model");
-const AddressesModel = require("../../models/customer/addresses.model");
+const AddressesModel = require("../../models/main/profile/addresses.model");
 
-const customerController = {
+const CustomerController = {
   getAll: async (req, res, next) => {
     try {
       const users = await CustomerModel.getAllWithAddresses();
@@ -21,7 +21,7 @@ const customerController = {
         };
       });
 
-      res.render("dashboard/customers", {
+      res.render("admin/customers", {
         title: "Customers",
         layout: "admin",
         users: sanitizedUsers,
@@ -30,7 +30,7 @@ const customerController = {
       next(err);
     }
   },
-  getDetailCustomerPage: async (req, res, next) => {
+  displayDetailCustomer: async (req, res, next) => {
     try {
       const customer = await CustomerModel.getById(req.params.id);
       let addresses = await AddressesModel.getAll(req.params.id);
@@ -41,7 +41,7 @@ const customerController = {
         default: address._id.equals(defaultAddressId),
       }));
 
-      res.render("dashboard/customerDetail", {
+      res.render("admin/customerDetail", {
         title: "Detail Customer",
         layout: "admin",
         customer: customer,
@@ -113,4 +113,4 @@ const customerController = {
   },
 };
 
-module.exports = customerController;
+module.exports = CustomerController;

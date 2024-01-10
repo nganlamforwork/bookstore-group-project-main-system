@@ -1,7 +1,7 @@
 const db = require("../db");
 const schema = "users";
 
-const UserModel = {
+const CustomerModel = {
   add: async (firstname, lastname, email, pw) => {
     try {
       const customer = await db.get(schema, "email", email);
@@ -71,7 +71,10 @@ const UserModel = {
   },
   getAll: async () => {
     try {
-      const customers = await db.getAll(schema);
+      const customerQuery = {
+        role: { $in: ["customer"] },
+      };
+      const customers = await db.getAllQuery(schema, customerQuery);
       return customers;
     } catch (err) {
       console.error(err);
@@ -88,4 +91,4 @@ const UserModel = {
   },
 };
 
-module.exports = UserModel;
+module.exports = CustomerModel;

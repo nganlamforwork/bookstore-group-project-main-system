@@ -1,12 +1,12 @@
 const BooksModel = require("../../models/admin/books.model");
 const CategoriesModel = require("../../models/admin/categories.model");
 
-const booksController = {
-  getBooks: async (req, res, next) => {
+const BooksController = {
+  displayBooks: async (req, res, next) => {
     try {
       const allBooks = await BooksModel.getAll();
       const allCategories = await CategoriesModel.getAll();
-      res.render("dashboard/books", {
+      res.render("admin/books", {
         title: "Books",
         layout: "admin",
         books: allBooks,
@@ -16,14 +16,14 @@ const booksController = {
       next(error);
     }
   },
-  getDetailBookPage: async (req, res, next) => {
+  displayDetailBook: async (req, res, next) => {
     try {
       const book = await BooksModel.getById(req.params.id);
       const authors = [];
       const categories = await CategoriesModel.getAll();
 
       const successMessage = req.query.success;
-      res.render("dashboard/bookDetail", {
+      res.render("admin/bookDetail", {
         title: "Detail Book",
         layout: "admin",
         book: book,
@@ -36,7 +36,7 @@ const booksController = {
     }
   },
 
-  addBook: async (req, res, next) => {
+  add: async (req, res, next) => {
     try {
       await BooksModel.add(req.body);
       res.redirect("/admin/books");
@@ -55,7 +55,7 @@ const booksController = {
     }
   },
 
-  deleteBookById: async (req, res, next) => {
+  delete: async (req, res, next) => {
     try {
       const bookId = req.params.id;
       await BooksModel.deleteById(bookId);
@@ -65,7 +65,7 @@ const booksController = {
     }
   },
 
-  updateDetailBook: async (req, res, next) => {
+  update: async (req, res, next) => {
     try {
       const bookId = req.params.id;
       await BooksModel.updateById(bookId, req.body);
@@ -78,4 +78,4 @@ const booksController = {
   },
 };
 
-module.exports = booksController;
+module.exports = BooksController;

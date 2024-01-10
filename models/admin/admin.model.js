@@ -1,10 +1,16 @@
 const db = require("../db");
-const schema = "admins";
+const schema = "users";
 
 const AdminModel = {
   get: async (email) => {
     try {
-      const admin = await db.get(schema, "email", email);
+      const adminQuery = {
+        email: email,
+        role: { $in: ["superadmin", "admin"] },
+      };
+
+      const admin = await db.getQuery(schema, adminQuery);
+      console.log(admin);
       return admin;
     } catch (err) {
       console.error(err);

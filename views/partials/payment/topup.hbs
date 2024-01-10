@@ -1,0 +1,115 @@
+<style>
+    #amountInput {
+        border: none;
+        border-bottom: 1px solid #ced4da;
+        outline: none;
+        padding-bottom: 5px;
+        font-size: 24px;
+        width: 100px;
+    }
+
+    #optionAmount {
+        background-color: var(--gradient-base-background-2);
+        color: #000;
+        border: none
+    }
+
+    #optionAmount.active {
+        background-color: var(--palette-03);
+        color: white;
+    }
+
+    #optionAmount:hover {
+        background-color: var(--gradient-base-background-3);
+        color: #000;
+        transition: background-color 0.3s ease;
+    }
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+    }
+
+    /* Firefox */
+    input[type=number] {
+    -moz-appearance: textfield;
+    }
+    @media (max-width: 1024px) {
+        #balanceContainer {
+            flex-direction: column;
+        }
+    }
+</style>
+<div class="modal fade" id="balanceModal" tabindex="-1" aria-labelledby="balanceModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="balanceModalLabel">TOP UP BALANCE</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="d-flex flex-column align-items-center gap-3 w-100 p-3" id="balanceContainer">
+                    <h5>Enter amount you want to top up <i>(maximum $1,000)</i>:</h5>
+                    <div class="d-flex align-items-center justify-content-center mb-3 gap-3">
+                        <button class="btn btn-secondary" onclick="adjustAmount(-1)">-</button>
+                        <span class="fs-1 text-success fw-bold m-0 text-center" >$</span>
+                         <input type="number" id="amountInput" class="fs-1 text-success fw-bold m-0 text-center"min="0" value="0" />
+                        <button class="btn btn-secondary" onclick="adjustAmount(1)">+</button>
+                    </div>
+                    <a href="#" id="balanceLink">
+                        <div class='btn btn-primary rounded-0 border-0 shopping-btn'
+                            style='background-color: var(--palette-02); padding: 0.75rem 6rem; '>
+                            Continue</div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    const amountInput = document.getElementById('amountInput');
+    const userId = "{{session.user._id}}"
+
+    const defaultAmount = 0;
+    amountInput.value = defaultAmount;
+
+    function updateBalanceLink() {
+        const balanceLink = document.getElementById('balanceLink');
+        const amount = parseInt(amountInput.value) || 0;
+
+        if (amount > 1000) {
+            alert("Maximum amount is $1,000.");
+            amountInput.value = 1000;
+            return;
+        }
+
+        balanceLink.href = `/balance/${userId}/recharge?amount=${amountInput.value}`;
+    }
+
+    function adjustAmount(delta) {
+        // Adjust the amount based on the delta (1 for increase, -1 for decrease)
+        let currentAmount = parseInt(amountInput.value) || 0;
+        let newAmount = currentAmount + delta;
+
+        if (newAmount < 0) {
+            newAmount = 0; 
+        }
+        setAmount(newAmount);
+    }
+
+    function setAmount(amount) {
+        amountInput.value = amount;
+        updateBalanceLink(); // Update the balance link when amount changes
+    }
+
+    amountInput.addEventListener('input', function () {
+        // Validate the input to ensure it's a non-negative number
+        let enteredAmount = parseInt(amountInput.value) || 0;
+        if (enteredAmount < 0) {
+            enteredAmount = 0;
+        }
+        setAmount(enteredAmount);
+    });
+
+    updateBalanceLink(); // Initial setup of the balance link
+</script>

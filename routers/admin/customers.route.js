@@ -1,18 +1,19 @@
 const express = require("express");
 const router = express.Router();
-const customersController = require("../../controllers/admin/customers.controller");
+const CustomersController = require("../../controllers/admin/customers.controller");
 
-router.get("/", customersController.getAll);
-router.get("/:id", customersController.getDetailCustomerPage);
-router.post("/:id/update", customersController.update);
-router.post("/:id/delete", customersController.delete);
-router.post("/:id/addresses/:aid/delete", customersController.deleteAddress);
-router.post("/:id/addresses/:aid/update", customersController.updateAddress);
+router.get("/", CustomersController.getAll);
+
+router.get("/:id", CustomersController.displayDetailCustomer);
+router.post("/:id/update", CustomersController.update);
+router.post("/:id/delete", CustomersController.delete);
+
+router.post("/:id/addresses/add", CustomersController.addAddress);
+router.post("/:id/addresses/:aid/delete", CustomersController.deleteAddress);
+router.post("/:id/addresses/:aid/update", CustomersController.updateAddress);
 router.post(
   "/:id/addresses/:aid/makedefault",
-  customersController.makeDefaultAddress
+  CustomersController.makeDefaultAddress
 );
-router.post("/:id/addresses/add", customersController.addAddress);
-// router.post("/new", customersController.addBook);
 
 module.exports = router;

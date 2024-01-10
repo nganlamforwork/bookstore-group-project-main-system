@@ -52,7 +52,7 @@
           </p>
         </div>
         <div class="card-body">
-          {{#if balance}}
+          {{#if balance.cardholderName}}
           <form id="updateCardForm">
             <div class="row">
               <div class="col-12">
@@ -78,7 +78,7 @@
                   <p class="text mb-1">
                     Expires*
                   </p>
-                  <input class="form-control" type="text" placeholder="MM/YY" maxlength="5" name="expires"
+                  <input class="form-control mb-3" type="month" pattern="\d{2}/\d{2}" placeholder="MM/YY"  name="expires"
                     value="{{balance.expires}}" disabled />
                 </div>
               </div>
@@ -98,7 +98,7 @@
             <p>
               You don't have any payment methods yet.
             </p>
-            <a role="button" class="btn btn-primary btn-login w-10 m-auto px-4 border-0" href="/auth/profile/payments"
+            <a role="button" class="btn btn-primary btn-login w-10 m-auto px-4 border-0" href="/profile/payments"
               data-bs-toggle="modal" data-bs-target="#paymentMethodModal">
               Add new payment methods
             </a>
@@ -117,7 +117,7 @@
             </p>
           </div>
           <div class="card-body">
-            <h1>
+            <h1 style="font-size: 64px;">
               ${{formatNumber income}}
             </h1>
           </div>
@@ -132,7 +132,7 @@
             </p>
           </div>
           <div class="card-body">
-            <h1>
+            <h1 style="font-size: 64px;">
               ${{formatNumber expense}}
             </h1>
           </div>
@@ -171,7 +171,7 @@
           {{#each transactions}}
           <tr>
             <td>
-              {{this.id}}
+              {{inc @index}}
             </td>
             <td>
               <div style="width: 400px !important;">
@@ -232,7 +232,7 @@
           <div class="col-12">
             <div class="d-flex flex-column">
               <p class="text mb-1">Expires*</p>
-              <input class="form-control mb-3" type="text" placeholder="MM/YY" maxlength="5" name="expires">
+              <input class="form-control mb-3" type="month"  placeholder="MM/YY"  name="expires">
             </div>
           </div>
           <div class="col-12">
@@ -243,11 +243,11 @@
           </div>
         </div>
         <div class="modal-footer">
+          <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">
+            Cancel
+          </button>
           <button class="btn btn-success" type="submit">
             <span>Add</span>
-          </button>
-          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
-            Cancel
           </button>
         </div>
       </form>
@@ -255,39 +255,8 @@
   </div>
 </div>
 
-<!-- Top up modal -->
-<div class="modal fade" id="topUpModal" tabindex="-1">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">
-          Top-up
-        </h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <form action="/recharge" method="POST">
-        <div class="modal-body">
-          <div class="form-floating mb-3">
-            <input type="number" name="money" class="form-control" id="money"
-              placeholder="Input balance you want to recharge" required style="height: 56px" />
-            <label for="title">
-              Money
-            </label>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-            Close
-          </button>
-          <button type="submit" class="btn btn-primary">
-            Recharge Now
-          </button>
-        </div>
-      </form>
-    </div>
-  </div>
-</div>
-{{> payment/balance}}
+
+{{> payment/topup}}
 <script>
   document.addEventListener('DOMContentLoaded', function () {
     const form = document.getElementById('paymentMethodForm');

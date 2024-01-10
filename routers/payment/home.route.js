@@ -1,17 +1,16 @@
 const express = require("express");
 const router = express.Router();
-const homeController = require("../../controllers/payment/home.controller.js");
-
-const LoginModel = require("../../models/login.model.js");
+const HomeController = require("../../controllers/payment/home.controller.js");
 
 const passport = require("passport");
 
-router.get("/", homeController.show);
-router.get("/auth/login", homeController.showLogIn);
+router.get("/", HomeController.displayHome);
 
-// Login using username, password
-router.post("/auth/login", homeController.login);
+// Login using email, password
+router.get("/auth/login", HomeController.displayLogIn);
+router.post("/auth/login", HomeController.logIn);
 
+// Login using Google Account
 router.get(
   "/auth/google",
   passport.authenticate("google", { scope: ["email", "profile"] })
@@ -27,6 +26,7 @@ router.get(
     res.redirect("/");
   }
 );
-router.get("/logout", homeController.logOut);
+
+router.get("/logout", HomeController.logOut);
 
 module.exports = router;
