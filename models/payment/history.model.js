@@ -11,10 +11,34 @@ const PaymentHistoryModel = {
 	},
 	get: async (customerId) => {
 		try {
-			const history = await db.getAll(schema, 'customerId', customerId);
-			return history;
+			const transactions = await db.getAll(schema, 'customerId', customerId);
+			return transactions;
 		} catch (err) {
 			console.log(err);
+		}
+	},
+	getAll: async () => {
+		try {
+			const query = {
+				success: true,
+				income: false,
+			};
+			const transactions = await db.getAllQuery(schema, query);
+			return transactions;
+		} catch (err) {
+			console.error(err);
+		}
+	},
+	getBankTransactions: async () => {
+		try {
+			const query = {
+				success: true,
+				income: true,
+			};
+			const transactions = await db.getAllQuery(schema, query);
+			return transactions;
+		} catch (err) {
+			console.error(err);
 		}
 	},
 };

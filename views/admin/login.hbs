@@ -1,6 +1,6 @@
 <div class="container-fluid py-3">
   <a href="/">
-    <i class="fa-solid fa-backward fs-3"></i>
+    <i class="fa fa-home fs-5" aria-hidden="true"></i>
   </a>
   <div class="container" style="transform: translateY(50%)">
     <div class="row">
@@ -9,7 +9,7 @@
           <div class="card-body p-4 p-sm-5">
             <div class="mb-4">
               <h1 class="text-center mb-3 fw-light header-font" style="font-size: 48px">Admin Login</h1>
-              <p class="text-secondary text-center">Please enter your detais</p>
+              <p class="text-secondary text-center">Please enter your details</p>
             </div>
             {{#if error}}
             <div class="alert alert-danger" role="alert">
@@ -34,3 +34,11 @@
     </div>
   </div>
 </div>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const error = '{{#if error}}{{error}}{{/if}}';
+    if (error) {
+      toastr.error(error);
+    }
+  });
+</script>

@@ -20,9 +20,15 @@
 </style>
 <div class="container p-0">
   <div class="card px-4">
+    {{#if admin}}
+    <p class="h3 fs-1 header-font fw-bold py-3 text-center mt-3">
+      Withdrawal Confirmation
+    </p>
+    {{else}}
     <p class="h3 fs-1 header-font fw-bold py-3 text-center mt-3">
       Payment Confirmation
     </p>
+    {{/if}}
     <h4>Total:
       <span id="payAmount" class="text-success">
         $
@@ -76,9 +82,15 @@
               </div>
             </a>
             <button class="btn btn-primary mb-3" type="submit">
+              {{#if admin}}
+              <span>
+                Withdraw now
+              </span>
+              {{else}}
               <span>
                 Pay now
               </span>
+              {{/if}}
             </button>
           </div>
         </div>
@@ -97,15 +109,20 @@
     if (match && match[1]) {
       userId = match[1];
     }
+    const admin = "{{admin}}"
     const payAmount = document.getElementById('payAmount');
-    payAmount.textContent = `$${amount}`;
+    payAmount.textContent = `$${amount}.00`;
 
     const form = document.getElementById('rechargeForm');
     form.addEventListener('submit', async (event) => {
       event.preventDefault();
       if (validateForm()) {
         const formData = new FormData(form);
-        formData.append('amount', amount);
+        if (admin) {
+          formData.append('amount', amount * -1);
+        } else {
+          formData.append('amount', amount);
+        }
 
         const data = {};
         formData.forEach((value, key) => {

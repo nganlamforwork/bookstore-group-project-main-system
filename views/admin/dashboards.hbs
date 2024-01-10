@@ -219,110 +219,114 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <!-- / Content -->
 <script>
-  const fetchSubscribers = () => {
-    return $.ajax({
-      url: '/subscriber/getAll',
-      method: 'GET',
-      dataType: 'json'
-    });
-  };
-
-  const fetchLogins = () => {
-    return $.ajax({
-      url: '/logins/getAll',
-      method: 'GET',
-      dataType: 'json'
-    });
-  };
-
-  fetchLogins()
-    .then(function (data) {
-      console.log('Received data:', data);
-
-      // Process the received data
-      const dateCounts = {};
-      data.forEach(log => {
-        const date = new Date(log.time_login).toLocaleDateString();
-        if (!dateCounts[date]) {
-          dateCounts[date] = 0;
-        }
-        dateCounts[date]++;
+  document.addEventListener('DOMContentLoaded', function () {
+    const success = '{{#if success}}{{success}}{{/if}}';
+    if (success) {
+      toastr.success(success);
+    }
+    const fetchSubscribers = () => {
+      return $.ajax({
+        url: '/subscriber/getAll',
+        method: 'GET',
+        dataType: 'json'
       });
+    };
 
-      const dates = Object.keys(dateCounts);
-      const loginsCount = Object.values(dateCounts);
+    const fetchLogins = () => {
+      return $.ajax({
+        url: '/logins/getAll',
+        method: 'GET',
+        dataType: 'json'
+      });
+    };
 
-      // Get the canvas element where the chart will be rendered
-      const ctx = document.getElementById('loginsChart').getContext('2d');
+    fetchLogins()
+      .then(function (data) {
+        // Process the received data
+        const dateCounts = {};
+        data.forEach(log => {
+          const date = new Date(log.time_login).toLocaleDateString();
+          if (!dateCounts[date]) {
+            dateCounts[date] = 0;
+          }
+          dateCounts[date]++;
+        });
 
-      // Create the chart
-      const loginsChart = new Chart(ctx, {
-        type: 'line',
-        data: {
-          labels: dates,
-          datasets: [{
-            label: 'Logins',
-            data: loginsCount,
-            backgroundColor: 'rgba(54, 162, 235, 0.2)',
-            borderColor: 'rgba(54, 162, 235, 1)',
-            borderWidth: 1
-          }]
-        },
-        options: {
-          scales: {
-            y: {
-              beginAtZero: true
+        const dates = Object.keys(dateCounts);
+        const loginsCount = Object.values(dateCounts);
+
+        // Get the canvas element where the chart will be rendered
+        const ctx = document.getElementById('loginsChart').getContext('2d');
+
+        // Create the chart
+        const loginsChart = new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels: dates,
+            datasets: [{
+              label: 'Logins',
+              data: loginsCount,
+              backgroundColor: 'rgba(54, 162, 235, 0.2)',
+              borderColor: 'rgba(54, 162, 235, 1)',
+              borderWidth: 1
+            }]
+          },
+          options: {
+            scales: {
+              y: {
+                beginAtZero: true
+              }
             }
           }
-        }
-      });
-    })
-    .fail(function (xhr, textStatus, errorThrown) {
-      console.error('There was a problem with the fetch operation:', errorThrown);
-    });
-
-  fetchSubscribers()
-    .then(function (data) {
-
-      // Process the received data
-      const dateCounts = {};
-      data.forEach(subscriber => {
-        const date = new Date(subscriber.created_at).toLocaleDateString();
-        if (!dateCounts[date]) {
-          dateCounts[date] = 0;
-        }
-        dateCounts[date]++;
+        });
+      })
+      .fail(function (xhr, textStatus, errorThrown) {
+        console.error('There was a problem with the fetch operation:', errorThrown);
       });
 
-      const dates = Object.keys(dateCounts);
-      const subscribersCount = Object.values(dateCounts);
+    fetchSubscribers()
+      .then(function (data) {
 
-      // Get the canvas element where the chart will be rendered
-      const ctx = document.getElementById('subscriptionChart').getContext('2d');
+        // Process the received data
+        const dateCounts = {};
+        data.forEach(subscriber => {
+          const date = new Date(subscriber.created_at).toLocaleDateString();
+          if (!dateCounts[date]) {
+            dateCounts[date] = 0;
+          }
+          dateCounts[date]++;
+        });
 
-      // Create the chart
-      const subscriptionChart = new Chart(ctx, {
-        type: 'line',
-        data: {
-          labels: dates,
-          datasets: [{
-            label: 'Subscribers',
-            data: subscribersCount,
-            backgroundColor: 'rgba(54, 162, 235, 0.2)',
-            borderColor: 'rgba(54, 162, 235, 1)',
-            borderWidth: 1
-          }]
-        },
-        options: {
-          scales: {
-            y: {
-              beginAtZero: true
+        const dates = Object.keys(dateCounts);
+        const subscribersCount = Object.values(dateCounts);
+
+        // Get the canvas element where the chart will be rendered
+        const ctx = document.getElementById('subscriptionChart').getContext('2d');
+
+        // Create the chart
+        const subscriptionChart = new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels: dates,
+            datasets: [{
+              label: 'Subscribers',
+              data: subscribersCount,
+              backgroundColor: 'rgba(54, 162, 235, 0.2)',
+              borderColor: 'rgba(54, 162, 235, 1)',
+              borderWidth: 1
+            }]
+          },
+          options: {
+            scales: {
+              y: {
+                beginAtZero: true
+              }
             }
           }
-        }
+        });
+      })
+      .fail(function (xhr, textStatus, errorThrown) {
+        console.error('There was a problem with the fetch operation:', errorThrown);
       });
-    })
-    .fail(function (xhr, textStatus, errorThrown) {
-      console.error('There was a problem with the fetch operation:', errorThrown);
-    });
+  });
 </script>
