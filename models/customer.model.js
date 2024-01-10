@@ -71,7 +71,10 @@ const CustomerModel = {
   },
   getAll: async () => {
     try {
-      const customers = await db.getAll(schema);
+      const customerQuery = {
+        role: { $in: ["customer"] },
+      };
+      const customers = await db.getAllQuery(schema, customerQuery);
       return customers;
     } catch (err) {
       console.error(err);
