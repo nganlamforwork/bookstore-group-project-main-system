@@ -1,7 +1,5 @@
-<h1 class='text-uppercase pt-4 fw-bold header-font fs-2' style='text-align: center;'>{{category.title}}</h1>
 <div style='padding: 2rem 4rem; display: flex; gap:40px;'>
   {{> category/filter}}
-
   <div class='text-center d-flex flex-column align-items-center' style='flex:1;'>
     <div id="book-cards-container" class='book-cards-container row' style='width: 100%;'>
       {{#each books}}
@@ -29,6 +27,17 @@
       </div>
       {{/each}}
     </div>
+
+    <nav id="paginationWrapper" aria-label="...">
+      <ul class="pagination">
+        {{#loopTill totalPages}}
+        <li class="page-item {{#ifEquals ../currentPage index}}active{{/ifEquals}}">
+          <a class="page-link" style="cursor: pointer;" onclick="paging({{index}})">{{index}}</a>
+        </li>
+        {{/loopTill}}
+      </ul>
+    </nav>
+
   </div>
 </div>
 

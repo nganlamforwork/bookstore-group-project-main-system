@@ -1,17 +1,27 @@
 const CategoriesModel = require('../../models/admin/categories.model');
 const BooksModel = require('../../models/admin/books.model');
 
+const PER_PAGE = 8;
+
 const CategoryController = {
   displayCategory: async (req, res, next) => {
     try {
       let books = await BooksModel.getAll();
       let categories = await CategoriesModel.getAll();
 
+      const page = 1;
+      const offset = (page - 1) * PER_PAGE;
+      const totalPages = Math.ceil(books.length / PER_PAGE);
+
+      books = books.slice(offset, offset + PER_PAGE);
+
       res.render('main/category', {
         title: 'Category Page',
         layout: 'main',
-        books: books,
-        categories: categories,
+        books,
+        categories,
+        currentPage: page,
+        totalPages,
       });
     } catch (error) {
       next(error);
@@ -21,7 +31,7 @@ const CategoryController = {
   filter: async (req, res, next) => {
     try {
       let books = await BooksModel.getAll();
-      let filters = req.body;
+      let filters = req.query;
 
       let categoryFilterBooks = [];
 
@@ -51,8 +61,16 @@ const CategoryController = {
         );
       }
 
+      const page = parseInt(filters?.page) || 1;
+      const offset = (page - 1) * PER_PAGE;
+      const totalPages = Math.ceil(books.length / PER_PAGE);
+
+      books = books.slice(offset, offset + PER_PAGE);
+
       res.json({
         books,
+        currentPage: page,
+        totalPages,
       });
     } catch (err) {
       res.status(500).json(err);

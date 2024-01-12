@@ -1,4 +1,4 @@
-const productsTemplate = `
+const productsTemplateString = `
 {{#each books}}
         <div class='col-3'>
           <div class='book-card-container'>
@@ -43,13 +43,14 @@ function updateUrl(params) {
 
 function handleFilter(e) {
   e.preventDefault();
-  const params = getParamsString();
+  let params = getParamsString();
+
+  params = params + '&page=1'; // default page is 1
 
   $.ajax({
-    url: '/category/filter',
-    type: 'POST',
+    url: '/category/filter?' + params,
+    type: 'GET',
     dataType: 'json',
-    data: params,
     success: function (data) {
       updateUrl(params);
       renderData(data);
@@ -61,7 +62,52 @@ function handleFilter(e) {
 }
 
 function renderData(data) {
-  var template = Handlebars.compile(productsTemplate);
-  var html = template(data);
-  document.getElementById('book-cards-container').innerHTML = html;
+  var productsTemplate = Handlebars.compile(productsTemplateString);
+  var productsHtml = productsTemplate(data);
+  document.getElementById('book-cards-container').innerHTML = productsHtml;
+
+  const paginationTemplateString = `
+  <ul class="pagination">
+    {{#loopTill totalPages}}
+      <li class="page-item {{#ifEquals ../currentPage index}}active{{/ifEquals}}">
+        <a class="page-link" style="cursor: pointer;" onclick="paging({{index}})">{{index}}</a>
+      </li>
+    {{/loopTill}}
+  </ul>
+`;
+
+  Handlebars.registerHelper('ifEquals', function (arg1, arg2, options) {
+    return arg1 === arg2 ? options.fn(this) : options.inverse(this);
+  });
+
+  Handlebars.registerHelper('loopTill', function (totalPages, options) {
+    let result = '';
+    for (let i = 1; i <= totalPages; i++) {
+      result += options.fn({ index: i });
+    }
+    return result;
+  });
+
+  var paginationTemplate = Handlebars.compile(paginationTemplateString);
+  var paginationHtml = paginationTemplate(data);
+  document.getElementById('paginationWrapper').innerHTML = paginationHtml;
+}
+
+function paging(page) {
+  let params = getParamsString();
+
+  params = params + '&page=' + page;
+
+  $.ajax({
+    url: '/category/filter?' + params,
+    type: 'GET',
+    dataType: 'json',
+    success: function (data) {
+      updateUrl(params);
+      renderData(data);
+    },
+    error: function (error) {
+      console.log('Error:', error);
+    },
+  });
 }
