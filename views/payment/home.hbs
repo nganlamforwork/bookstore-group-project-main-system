@@ -37,11 +37,18 @@
               {{/if}}
             </div>
           </div>
-          {{#if balance}}
-          <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#balanceModal" type="button">
-            TOP UP
+          {{#if admin}}
+          <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#withdrawModal" type="button">
+            Withdraw
             <i class="fa-solid fa-arrow-right"></i>
           </button>
+          {{else}}
+          {{#if balance}}
+          <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#balanceModal" type="button">
+            Top-up
+            <i class="fa-solid fa-arrow-right"></i>
+          </button>
+          {{/if}}
           {{/if}}
         </div>
       </div>
@@ -78,7 +85,7 @@
                   <p class="text mb-1">
                     Expires*
                   </p>
-                  <input class="form-control mb-3" type="month" pattern="\d{2}/\d{2}" placeholder="MM/YY"  name="expires"
+                  <input class="form-control mb-3" type="month" pattern="\d{2}/\d{2}" placeholder="MM/YY" name="expires"
                     value="{{balance.expires}}" disabled />
                 </div>
               </div>
@@ -142,10 +149,127 @@
   </div>
 
   <div class="mb-4">
+    {{#if admin}}
+    <p class="header-font fw-bold fs-1 m-0 my-4">
+      Withdraw History
+    </p>
+    <div class="table-responsive text-nowrap">
+      <table class="table table-hover">
+        <thead class="table-light">
+          <tr>
+            <th>
+              ID
+            </th>
+            <th>
+              Activity
+            </th>
+            <th>
+              Date
+            </th>
+            <th>
+              Amount
+            </th>
+            <th>
+              Status
+            </th>
+          </tr>
+        </thead>
+        <tbody class="table-border-bottom-0">
+          {{#each withdraw_transactions}}
+          <tr>
+            <td>
+              {{inc @index}}
+            </td>
+            <td>
+              <div style="width: 400px !important;">
+                {{this.activity}}
+              </div>
+            </td>
+            <td>
+              {{this.date}}
+            </td>
+            {{#if this.success}}
+            <td class="text-danger"> ${{formatNumber this.amount}} <i class="fa fa-arrow-down"></i></td>
+            <td class="text-success"><i class="fa-regular fa-circle-check"></i></td>
+            {{else}}
+            <td class="text-secondary">
+              <i class="fa-regular fa-face-sad-tear"></i>
+              <i class="fa-solid fa-dollar-sign"></i>
+            </td>
+            <td class="text-danger"><i class="fa-regular fa-circle-xmark"></i></td>
+            {{/if}}
+          </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+    <p class="header-font fw-bold fs-1 m-0 my-4">
+      Users Transactions
+    </p>
+    <div class="table-responsive text-nowrap">
+      <table class="table table-hover">
+        <thead class="table-light">
+          <tr>
+            <th>
+              ID
+            </th>
+            <th>
+              User
+            </th>
+            <th>
+              Activity
+            </th>
+            <th>
+              Date
+            </th>
+            <th>
+              Amount
+            </th>
+            <th>
+              Status
+            </th>
+          </tr>
+        </thead>
+        <tbody class="table-border-bottom-0">
+          {{#each transactions}}
+          <tr>
+            <td>
+              {{inc @index}}
+            </td>
+            <td>
+              {{this.customerId}}
+            </td>
+            <td>
+              <div style="width: 400px !important;">
+                {{this.activity}}
+              </div>
+            </td>
+            <td>
+              {{this.date}}
+            </td>
+            {{#if this.success}}
+            {{#if this.income}}
+            <td class="text-danger"> ${{formatNumber this.amount}} <i class="fa fa-arrow-down"></i></td>
+            {{else}}
+            <td class="text-success"> ${{formatNumber this.amount}} <i class="fa fa-arrow-up"></i></td>
+            {{/if}}
+            <td class="text-success"><i class="fa-regular fa-circle-check"></i></td>
+            {{else}}
+            <td class="text-secondary">
+              <i class="fa-regular fa-face-sad-tear"></i>
+              <i class="fa-solid fa-dollar-sign"></i>
+            </td>
+            <td class="text-danger"><i class="fa-regular fa-circle-xmark"></i></td>
+            {{/if}}
+          </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+    {{else}}
     <p class="header-font fw-bold fs-1 m-0 my-4">
       Payment History
     </p>
-
     <div class="table-responsive text-nowrap">
       <table class="table table-hover">
         <thead class="table-light">
@@ -200,6 +324,7 @@
         </tbody>
       </table>
     </div>
+    {{/if}}
   </div>
 </div>
 
@@ -232,7 +357,7 @@
           <div class="col-12">
             <div class="d-flex flex-column">
               <p class="text mb-1">Expires*</p>
-              <input class="form-control mb-3" type="month"  placeholder="MM/YY"  name="expires">
+              <input class="form-control mb-3" type="month" placeholder="MM/YY" name="expires">
             </div>
           </div>
           <div class="col-12">
@@ -254,11 +379,20 @@
     </div>
   </div>
 </div>
-
-
+{{#if admin}}
+{{> payment/withdraw}}
+{{else}}
 {{> payment/topup}}
+{{/if}}
 <script>
   document.addEventListener('DOMContentLoaded', function () {
+    // Displaying toastr
+    const success = '{{#if success}}{{success}}{{/if}}';
+    console.log(success)
+    if (success) {
+      toastr.success(success);
+    }
+
     const form = document.getElementById('paymentMethodForm');
     form.addEventListener('submit', async (event) => {
       event.preventDefault();

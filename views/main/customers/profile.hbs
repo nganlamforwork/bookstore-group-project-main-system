@@ -191,7 +191,7 @@
               <tbody>
                 {{#each orders}}
                 <tr>
-                  <td>{{@index}}</td>
+                  <td>{{inc @index}}</td>
                   <td>
                     {{#each products}}
                     <p>{{book.title}}</p>
@@ -253,7 +253,8 @@
             </div>
           </form>
           <hr>
-          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal" aria-label="Close">Cancel</button>
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal"
+            aria-label="Close">Cancel</button>
           <button class="btn text-light" id="upload" style="background-color: var(--palette-02)">
             Crop And Upload</button>
         </div>
@@ -327,7 +328,6 @@
 
     const fileInput = document.getElementById('avatar-upload');
 
-
     $("#avatar-container").on("change", function (event) {
       $("#avatarModal").modal();
     });
@@ -359,7 +359,8 @@
             url: imgSrc,
           });
 
-          $('.rotate').on('click', function () {
+          $('.rotate').on('click', function (e) {
+            e.preventDefault();
             const deg = $(this).data('deg');
             croppie.rotate(deg);
           });

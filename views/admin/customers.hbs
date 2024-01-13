@@ -30,6 +30,9 @@
         <thead class="table-light">
           <tr>
             <th class="text-truncate">
+              ID
+            </th>
+            <th class="text-truncate">
               First Name
             </th>
             <th class="text-truncate">
@@ -40,9 +43,6 @@
             </th>
             <th class="text-truncate">
               Phone
-            </th>
-            <th class="text-truncate">
-              Default Payment
             </th>
             <th class="text-truncate">
               Default Address
@@ -56,6 +56,9 @@
           {{#each users}}
             <tr>
               <td class="text-truncate">
+                {{inc @index}}
+              </td>
+              <td class="text-truncate">
                 {{this.first_name}}
               </td>
               <td class="text-truncate">
@@ -67,11 +70,8 @@
               <td class="text-truncate">
                 {{this.phone}}
               </td>
-              <td class="text-truncate">
-                {{this.default_payment}}
-              </td>
-              <td class="text-truncate">
-                {{this.default_address}}
+              <td class="text-wrap">
+                {{{this.default_address}}}
               </td>
               <td>
                 <div class="flex d-flex justify-content-start gap-4">

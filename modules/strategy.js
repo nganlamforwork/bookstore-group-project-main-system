@@ -8,8 +8,7 @@ module.exports = class MyStrategy extends Strategy {
 		this.verify = verify; // Set the verify function for authentication
 		// Any additional options or configuration can be handled here
 		this.email = options && options.email ? options.email : 'email';
-		this.password =
-			options && options.password ? options.password : 'password';
+		this.password = options && options.password ? options.password : 'password';
 		passport.strategies[this.name] = this; // Register the strategy with Passport
 	}
 
@@ -23,11 +22,11 @@ module.exports = class MyStrategy extends Strategy {
 		// Call your verify function to check credentials
 		this.verify(email, password, (err, user) => {
 			if (err) {
-				return this.fail('Invalid username or password');
+				return this.fail('Invalid email or password');
 			}
 
 			if (!user) {
-				return this.fail('Invalid username or password');
+				return this.fail('Invalid email or password');
 			}
 
 			// If authentication is successful, call this.success
