@@ -4,20 +4,20 @@
       <span class='fw-bold header-font fs-5'>Price</span>
       <div style='display: flex; gap:8px; align-items: center;'>
         <span>$</span>
-        <div style='width:100%; display: flex; gap:16px;'>
+        <div class="w-100 flex d-flex gap-1 justify-content-start align-items-center">
           <input
             class='price_input'
             id='minPrice'
             name='minPrice'
             type='number'
-            placeholder='min price'
-          />
+            placeholder='Min price'
+          /> <i class="fa-solid fa-minus"></i>
           <input
             class='price_input'
             id='maxPrice'
             name='maxPrice'
             type='number'
-            placeholder='max price'
+            placeholder='Max price'
           />
         </div>
       </div>
@@ -49,7 +49,7 @@
     class='btn btn-primary rounded-0 border-0 mt-4'
     style='background-color: var(--palette-02); padding: 0.75rem 2rem;'
     type='submit'
-  >Submit</button>
+  >Filter</button>
 </form>
 
 <style>
