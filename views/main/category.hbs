@@ -3,7 +3,6 @@
   <div class='text-center d-flex flex-column align-items-center' style='flex:1;'>
     <div id="book-cards-container" class='book-cards-container row' style='width: 100%;'>
       {{#each books}}
-
         <div class="col-3  book-card">
           <a class="book-card-container" href="/product/{{this._id}}">
             <div
@@ -24,7 +23,6 @@
             </div>
           </a>
         </div>
-      </div>
       {{/each}}
     </div>
 
@@ -32,7 +30,7 @@
       <ul class="pagination">
         {{#loopTill totalPages}}
         <li class="page-item {{#ifEquals ../currentPage index}}active{{/ifEquals}}">
-          <a class="page-link" style="cursor: pointer;" onclick="paging({{index}})">{{index}}</a>
+          <a class="page-link" style="cursor: pointer; " onclick="paging({{index}})">{{index}}</a>
         </li>
         {{/loopTill}}
       </ul>
