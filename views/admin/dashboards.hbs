@@ -93,7 +93,7 @@
                   Revenue
                 </div>
                 <h5 class="mb-0">
-                  $88k
+                  ${{totalRevenue}}
                 </h5>
               </div>
             </div>
@@ -109,42 +109,16 @@
     <div class="card">
       <div class="card-header d-flex align-items-center justify-content-between">
         <h5 class="card-title m-0 me-2">
-          Total Earning
+          Completed Orders
         </h5>
-        <div class="dropdown">
-          <button class="btn p-0" type="button" id="totalEarnings" data-bs-toggle="dropdown" aria-haspopup="true"
-            aria-expanded="false">
-            <i class="fa-solid fa-ellipsis-vertical"></i>
-          </button>
-          <div class="dropdown-menu dropdown-menu-end" aria-labelledby="totalEarnings">
-            <a class="dropdown-item" href="javascript:void(0);">
-              Last 28 Days
-            </a>
-            <a class="dropdown-item" href="javascript:void(0);">
-              Last Month
-            </a>
-            <a class="dropdown-item" href="javascript:void(0);">
-              Last Year
-            </a>
-          </div>
-        </div>
       </div>
       <div class="card-body">
         <div class="mt-md-3">
           <div class="d-flex align-items-center">
             <h2 class="mb-0 fs-1">
-              $24,895
+              {{completedOrders}}
             </h2>
-            <span class="text-success ms-2 fw-medium">
-              <i class="mdi mdi-menu-up mdi-24px"></i>
-              <small>
-                10%
-              </small>
-            </span>
           </div>
-          <small class="mt-1">
-            Compared to $84,325 last year
-          </small>
         </div>
       </div>
     </div>
@@ -157,40 +131,14 @@
         <h5 class="card-title m-0 me-2">
           Total Earning
         </h5>
-        <div class="dropdown">
-          <button class="btn p-0" type="button" id="totalEarnings" data-bs-toggle="dropdown" aria-haspopup="true"
-            aria-expanded="false">
-            <i class="fa-solid fa-ellipsis-vertical"></i>
-          </button>
-          <div class="dropdown-menu dropdown-menu-end" aria-labelledby="totalEarnings">
-            <a class="dropdown-item" href="javascript:void(0);">
-              Last 28 Days
-            </a>
-            <a class="dropdown-item" href="javascript:void(0);">
-              Last Month
-            </a>
-            <a class="dropdown-item" href="javascript:void(0);">
-              Last Year
-            </a>
-          </div>
-        </div>
       </div>
       <div class="card-body">
         <div class="mt-md-3">
           <div class="d-flex align-items-center">
             <h2 class="mb-0 fs-1">
-              $24,895
+              ${{totalRevenue}}
             </h2>
-            <span class="text-success ms-2 fw-medium">
-              <i class="mdi mdi-menu-up mdi-24px"></i>
-              <small>
-                10%
-              </small>
-            </span>
           </div>
-          <small class="mt-1">
-            Compared to $84,325 last year
-          </small>
         </div>
       </div>
     </div>
@@ -201,6 +149,10 @@
   <div class="col-xl-12">
     <div class="card h-100">
       <div class="card-body row g-2">
+        {{!-- Revenue line chart --}}
+        <canvas id="revenueChart" width="400" height="200">
+          <input type="hidden" id="listRevenue">
+        </canvas>
         {{!-- Subscribers line chart --}}
         <canvas id="subscriptionChart" width="400" height="200">
           <input type="hidden" value="{{subscribers}}" id="listSubscribers">
@@ -240,6 +192,14 @@
       });
     };
 
+    const fetchRevenue = () => {
+      return $.ajax({
+        url: '/admin/revenue',
+        method: 'GET',
+        dataType: 'json'
+      });
+    };
+
     fetchLogins()
       .then(function (data) {
         // Process the received data
@@ -266,6 +226,55 @@
             datasets: [{
               label: 'Logins',
               data: loginsCount,
+              backgroundColor: 'rgba(54, 162, 235, 0.2)',
+              borderColor: 'rgba(54, 162, 235, 1)',
+              borderWidth: 1
+            }]
+          },
+          options: {
+            scales: {
+              y: {
+                beginAtZero: true
+              }
+            }
+          }
+        });
+      })
+      .fail(function (xhr, textStatus, errorThrown) {
+        console.error('There was a problem with the fetch operation:', errorThrown);
+      });
+
+    fetchRevenue()
+      .then(function (data) {
+        // Process the received data
+        const revenueCounts = {};
+        data.forEach(log => {
+          const ngay = new Date(log.date);
+          const dd = String(ngay.getDate()).padStart(2, '0');
+          const mm = String(ngay.getMonth() + 1).padStart(2, '0'); 
+          const yyyy = ngay.getFullYear();
+          const date = `${dd}/${mm}/${yyyy}`
+
+          if (!revenueCounts[date]) {
+            revenueCounts[date] = 0;
+          }
+          revenueCounts[date] += log.amount;
+        });
+
+        const dates = Object.keys(revenueCounts);
+        const revenueCount = Object.values(revenueCounts);
+
+        // Get the canvas element where the chart will be rendered
+        const ctx = document.getElementById('revenueChart').getContext('2d');
+
+        // Create the chart
+        const revenueChart = new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels: dates,
+            datasets: [{
+              label: 'Revenue',
+              data: revenueCount,
               backgroundColor: 'rgba(54, 162, 235, 0.2)',
               borderColor: 'rgba(54, 162, 235, 1)',
               borderWidth: 1
