@@ -38,3 +38,10 @@ a:hover {
 .body-font {
 	font-family: var(--font-body-family);
 }
+
+.darkmode-toggle {
+	z-index: 999;
+}
+.darkmode--activated .logo {
+	mix-blend-mode: difference;
+}

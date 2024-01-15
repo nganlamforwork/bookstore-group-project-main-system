@@ -68,7 +68,8 @@ const HomeController = {
 				title: 'Payment - Home',
 				layout: 'payment',
 				transactions: transactions,
-				withdraw_transactions: withdraw_transactions,
+				withdraw_transactions:
+					user.role === 'superadmin' ? withdraw_transactions : null,
 				balance: balance,
 				income: income,
 				expense: expense,

@@ -226,7 +226,7 @@
     }
     const fetchSubscribers = () => {
       return $.ajax({
-        url: '/subscriber/getAll',
+        url: '/subscribers/getAll',
         method: 'GET',
         dataType: 'json'
       });
@@ -286,7 +286,7 @@
 
     fetchSubscribers()
       .then(function (data) {
-
+        console.log(data)
         // Process the received data
         const dateCounts = {};
         data.forEach(subscriber => {

@@ -1,7 +1,7 @@
 <div class="container-fluid bg-light d-flex align-items-center justify-content-between" style="padding: 2rem 6rem;">
   <div id="header-left-icons" class="d-flex gap-4">
     <a href="/cart" class="position-relative">
-      <i class="fa fa-shopping-cart"></i>
+      <i class="fa fa-shopping-cart" style="color: var(--palette-04)"></i>
       {{#if session.cart.totalQuantity}}
       <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
         {{session.cart.totalQuantity}}
@@ -15,12 +15,6 @@
     </h1>
   </a>
   <div id="header-right-icons" class="d-flex gap-4 align-items-center">
-    <a href="">
-      <i class="fa-solid fa-moon"></i>
-    </a>
-    <a href="">
-      <i class="fa-solid fa-sun"></i>
-    </a>
     <a href="/auth/login">
       <i class="fa-solid fa-user"></i>
     </a>
