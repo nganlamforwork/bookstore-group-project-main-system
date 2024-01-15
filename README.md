@@ -5,7 +5,7 @@
 1. Trần Tùng Lâm - 21127337
 2. Lê Vũ Ngân Lam - 21127334
 3. Trần Bình Kha - 21127065
-4. ...
+4. Phạm Duy Anh - 21127008
 
 ## Thông tin đồ án
 
