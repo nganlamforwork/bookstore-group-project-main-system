@@ -1,6 +1,8 @@
 const CustomerModel = require('../../models/main/customer.model');
 const SubscriberModel = require('../../models/main/subscriber.model');
 const BooksModel = require('../../models/admin/books.model');
+const PaymentHistoryModel = require('../../models/payment/history.model');
+
 
 const adminController = {
 	getAdminProfile: async (req, res, next) => {
@@ -34,12 +36,19 @@ const adminController = {
 		try {
 			const customers = await CustomerModel.getAll();
 			const books = await BooksModel.getAll();
+			const transactions = await PaymentHistoryModel.getAll();
+
+			let totalRevenue = transactions.reduce((acc, transaction) => acc + transaction.amount, 0);
+
+			const completedOrders = transactions.length;
 
 			res.render('admin/dashboards', {
 				title: 'Admin Dashboard',
 				layout: 'admin',
 				totalCustomers: customers.length,
 				totalBooks: books.length,
+				totalRevenue,
+				completedOrders,
 				success: req.flash('success'),
 				error: req.flash('error'),
 			});
@@ -89,6 +98,14 @@ const adminController = {
 			});
 		} catch (error) {
 			next(err);
+		}
+	},
+	getRevenue: async (req, res, next) => {
+		try {
+			const transactions = await PaymentHistoryModel.getAll();
+			res.status(200).send(transactions);
+		} catch (error) {
+			next(error);
 		}
 	},
 };
