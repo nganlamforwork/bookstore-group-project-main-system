@@ -123,5 +123,29 @@ const adminController = {
       next(error);
     }
   },
+  getOrdersList: async (req, res, next) => {
+    try {
+      const orders = await OrderModel.getAll();
+      for (const order of orders) {
+        // Fetch the customer information using customerId
+        const customer = await CustomerModel.getById(order.customerId);
+
+        // Add customer email to the customerName field in the order
+        order["customer_name"] = customer.email;
+
+        for (const prod of order.products) {
+          const book = await BooksModel.getById(prod.bookId);
+          prod["book"] = book;
+        }
+      }
+      res.render("admin/orders", {
+        title: "Orders List",
+        layout: "admin",
+        orders: orders,
+      });
+    } catch (error) {
+      next(err);
+    }
+  },
 };
 module.exports = adminController;

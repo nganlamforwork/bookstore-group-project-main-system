@@ -27,6 +27,7 @@ router.use((req, res, next) => {
 router.get("/dashboard", adminController.getAdminDashboard);
 router.get("/revenue", adminController.getRevenue);
 router.get("/orders", adminController.getOrders);
+router.get("/orders-list", adminController.getOrdersList);
 router.get("/reviews", adminController.getReviews);
 router.get("/subscribers", adminController.getSubscribers);
 router.use("/categories", require("./categories.route"));

@@ -1,0 +1,67 @@
+<div class="mb-3">
+  <div class="row">
+    <div class="col">
+      <nav aria-label="breadcrumb" class="bg-white rounded-3 p-3 mb-4">
+        <ol class="breadcrumb mb-0">
+          <li class="breadcrumb-item">
+            <a href="/admin">
+              Admin
+            </a>
+          </li>
+          <li class="breadcrumb-item active" aria-current="page">
+            Orders List
+          </li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+  <div class="row">
+    <h1 class="header-font">
+      Orders List
+    </h1>
+  </div>
+</div>
+
+<!-- Hoverable Table rows -->
+<div class="card">
+  <div class="table-responsive text-nowrap">
+    <table class="table table-hover">
+      <thead class="table-light">
+        <tr>
+          <th>#</th>
+          <th>Customer Email</th>
+          <th>Book</th>
+          <th>Quantity</th>
+          <th>Price</th>
+          <th>Total</th>
+          <th>Created</th>
+        </tr>
+      </thead>
+      <tbody class="table-border-bottom-0">
+        {{#each orders}}
+        <tr>
+          <td>{{inc @index}}</td>
+          <td>{{this.customer_name}}</td>
+          <td>
+            {{#each products}}
+            <p>{{book.title}}</p>
+            {{/each}}
+          </td>
+          <td>
+            {{#each products}}
+            <p>{{quantity}}</p>
+            {{/each}}
+          </td>
+          <td>
+            {{#each products}}
+            <p>${{book.price}}</p>
+            {{/each}}
+          </td>
+          <td>${{this.subTotal}}</td>
+          <td>{{created_at}}</td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+</div>
