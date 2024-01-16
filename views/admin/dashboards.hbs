@@ -7,25 +7,8 @@
       <div class="card-header">
         <div class="d-flex align-items-center justify-content-between">
           <h5 class="card-title m-0 me-2">
-            Transactions
+            Overall
           </h5>
-          <div class="dropdown">
-            <button class="btn p-0" type="button" id="transactionID" data-bs-toggle="dropdown" aria-haspopup="true"
-              aria-expanded="false">
-              <i class="fa-solid fa-ellipsis-vertical"></i>
-            </button>
-            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="transactionID">
-              <a class="dropdown-item" href="javascript:void(0);">
-                Refresh
-              </a>
-              <a class="dropdown-item" href="javascript:void(0);">
-                Share
-              </a>
-              <a class="dropdown-item" href="javascript:void(0);">
-                Update
-              </a>
-            </div>
-          </div>
         </div>
       </div>
       <div class="card-body">
@@ -34,32 +17,15 @@
             <div class="d-flex align-items-center">
               <div class="avatar">
                 <div class="avatar-initial bg-primary rounded shadow">
-                  <i class="fa-solid fa-chart-line"></i>
+                  <i class="fa-solid fa-book"></i>
                 </div>
               </div>
               <div class="ms-3">
                 <div class="small mb-1">
-                  Sales
+                  Categories
                 </div>
                 <h5 class="mb-0">
-                  245k
-                </h5>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-3 col-6">
-            <div class="d-flex align-items-center">
-              <div class="avatar">
-                <div class="avatar-initial bg-success rounded shadow">
-                  <i class="fa-solid fa-users"></i>
-                </div>
-              </div>
-              <div class="ms-3">
-                <div class="small mb-1">
-                  Customers
-                </div>
-                <h5 class="mb-0">
-                  {{totalCustomers}}
+                  {{totalCategories}}
                 </h5>
               </div>
             </div>
@@ -77,6 +43,23 @@
                 </div>
                 <h5 class="mb-0">
                   {{totalBooks}}
+                </h5>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 col-6">
+            <div class="d-flex align-items-center">
+              <div class="avatar">
+                <div class="avatar-initial bg-success rounded shadow">
+                  <i class="fa-solid fa-users"></i>
+                </div>
+              </div>
+              <div class="ms-3">
+                <div class="small mb-1">
+                  Customers
+                </div>
+                <h5 class="mb-0">
+                  {{totalCustomers}}
                 </h5>
               </div>
             </div>
@@ -104,40 +87,48 @@
   </div>
   <!--/ Transactions -->
 
-  <!-- Total Earnings -->
+  <!-- Completed Orders -->
   <div class="col-xl-6 col-md-6">
     <div class="card">
-      <div class="card-header d-flex align-items-center justify-content-between">
+      <div class="card-header d-flex align-items-center justify-content-between pb-0">
         <h5 class="card-title m-0 me-2">
-          Completed Orders
+          Total Orders
         </h5>
       </div>
       <div class="card-body">
-        <div class="mt-md-3">
-          <div class="d-flex align-items-center">
-            <h2 class="mb-0 fs-1">
-              {{completedOrders}}
+        <div class="my-0">
+          <div class="d-flex align-items-center flex-column">
+            <h2 class="my-2 fs-1" style="color: var(--palette-02)">
+              {{totalOrders}}
             </h2>
+            {{!-- Revenue line chart --}}
+            <canvas id="ordersChart" width="400" height="200">
+              <input type="hidden" id="listRevenue">
+            </canvas>
           </div>
         </div>
       </div>
     </div>
   </div>
-  <!--/ Total Earnings -->
+  <!--/ Completed Orders -->
   <!-- Total Earnings -->
   <div class="col-xl-6 col-md-6">
     <div class="card">
-      <div class="card-header d-flex align-items-center justify-content-between">
+      <div class="card-header d-flex align-items-center justify-content-between pb-0">
         <h5 class="card-title m-0 me-2">
           Total Earning
         </h5>
       </div>
       <div class="card-body">
-        <div class="mt-md-3">
-          <div class="d-flex align-items-center">
-            <h2 class="mb-0 fs-1">
+        <div class="my-0">
+          <div class="d-flex align-items-center flex-column">
+            <h2 class="my-2 fs-1" style="color: var(--palette-02)">
               ${{totalRevenue}}
             </h2>
+            {{!-- Revenue line chart --}}
+            <canvas id="revenueChart" width="400" height="200">
+              <input type="hidden" id="listRevenue">
+            </canvas>
           </div>
         </div>
       </div>
@@ -145,28 +136,49 @@
   </div>
   <!--/ Total Earnings -->
 
-  <!-- Charts -->
-  <div class="col-xl-12">
-    <div class="card h-100">
-      <div class="card-body row g-2">
-        {{!-- Revenue line chart --}}
-        <canvas id="revenueChart" width="400" height="200">
-          <input type="hidden" id="listRevenue">
-        </canvas>
-        {{!-- Subscribers line chart --}}
-        <canvas id="subscriptionChart" width="400" height="200">
-          <input type="hidden" value="{{subscribers}}" id="listSubscribers">
-        </canvas>
-        {{!-- Logins time line chart --}}
-        <canvas id="loginsChart" width="400" height="200">
-          <input type="hidden" value="{{subscribers}}" id="listLogins">
-        </canvas>
+  <!-- Subscribers -->
+  <div class="col-xl-6 col-md-6">
+    <div class="card">
+      <div class="card-header d-flex align-items-center justify-content-between pb-0">
+        <h5 class="card-title m-0 me-2">
+          Subscribers
+        </h5>
+      </div>
+      <div class="card-body">
+        <div class="my-0">
+          <div class="d-flex align-items-center flex-column">
+            <h2 class="my-2 fs-1" style="color: var(--palette-02)">
+              {{totalSubscribers}}
+            </h2>
+            <canvas id="subscriptionChart" width="400" height="200">
+              <input type="hidden" value="{{subscribers}}" id="listSubscribers">
+            </canvas>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-  <!-- Deposit / Withdraw -->
+  <!--/ Subscribers -->
 
-  <!--/ Data Tables -->
+  <!-- Log In -->
+  <div class="col-xl-6 col-md-6">
+    <div class="card h-100">
+      <div class="card-header d-flex align-items-center justify-content-between pb-0">
+        <h5 class="card-title m-0 me-2">
+          Log In Times
+        </h5>
+      </div>
+      <div class="card-body h-100">
+        <div class="my-0 h-100">
+          <div class="d-flex h-100 align-items-center justify-content-end flex-column">
+            <canvas id="loginsChart" width="400" height="200">
+              <input type="hidden" value="{{subscribers}}" id="listLogins">
+            </canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <!-- / Content -->
@@ -176,6 +188,13 @@
     if (success) {
       toastr.success(success);
     }
+    const fetchOrders = () => {
+      return $.ajax({
+        url: '/admin/orders',
+        method: 'GET',
+        dataType: 'json'
+      });
+    };
     const fetchSubscribers = () => {
       return $.ajax({
         url: '/subscribers/getAll',
@@ -228,7 +247,7 @@
               data: loginsCount,
               backgroundColor: 'rgba(54, 162, 235, 0.2)',
               borderColor: 'rgba(54, 162, 235, 1)',
-              borderWidth: 1
+              borderWidth: 3
             }]
           },
           options: {
@@ -277,7 +296,7 @@
               data: revenueCount,
               backgroundColor: 'rgba(54, 162, 235, 0.2)',
               borderColor: 'rgba(54, 162, 235, 1)',
-              borderWidth: 1
+              borderWidth: 3
             }]
           },
           options: {
@@ -322,7 +341,56 @@
               data: subscribersCount,
               backgroundColor: 'rgba(54, 162, 235, 0.2)',
               borderColor: 'rgba(54, 162, 235, 1)',
-              borderWidth: 1
+              borderWidth: 3
+            }]
+          },
+          options: {
+            scales: {
+              y: {
+                beginAtZero: true
+              }
+            }
+          }
+        });
+      })
+      .fail(function (xhr, textStatus, errorThrown) {
+        console.error('There was a problem with the fetch operation:', errorThrown);
+      });
+    fetchOrders()
+      .then(function (data) {
+        // Process the received data
+        const orderCounts = {};
+        console.log(data);
+        data.forEach(log => {
+          const ngay = new Date(log.created_at);
+          const dd = String(ngay.getDate()).padStart(2, '0');
+          const mm = String(ngay.getMonth() + 1).padStart(2, '0'); 
+          const yyyy = ngay.getFullYear();
+          const date = `${dd}/${mm}/${yyyy}`
+
+          if (!orderCounts[date]) {
+            orderCounts[date] = 0;
+          }
+          orderCounts[date] += 1;
+        });
+
+        const dates = Object.keys(orderCounts);
+        const orderCount = Object.values(orderCounts);
+
+        // Get the canvas element where the chart will be rendered
+        const ctx = document.getElementById('ordersChart').getContext('2d');
+
+        // Create the chart
+        const ordersChart = new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels: dates,
+            datasets: [{
+              label: 'Order',
+              data: orderCount,
+              backgroundColor: 'rgba(54, 162, 235, 0.2)',
+              borderColor: 'rgba(54, 162, 235, 1)',
+              borderWidth: 3
             }]
           },
           options: {

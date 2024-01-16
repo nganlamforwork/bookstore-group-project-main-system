@@ -1,0 +1,158 @@
+<div style="padding: 4rem 10rem; overflow: hidden" class="text-center d-flex flex-column align-items-center ">
+  <div class="text-center mb-4 flex d-flex flex-column align-items-center">
+    <h1 class="text-uppercase mb-2 fw-bold header-font fs-2">Best Selling</h1>
+    <p style="height: 2px; width: 56px; background-color: var(--palette-02)"></p>
+  </div>
+  <div class="bestselling-section w-100"style="overflow: hidden">
+    <div class="owl-carousel custom-carousel owl-theme">
+      {{#each newArrivalBooks}}
+      <a href="/product/{{this._id}}" class="item" style="background-image: url({{this.thumbnail}});">
+        <div class="item-desc">
+          <p class="title text-light m-0 text-uppercase">{{this.author_name}}</p>
+          <h3 class="title fs-2 header-font fw-bold">{{this.title}}</h3>
+          <p class="hidden-title text-light fs-5">${{this.price}}</p>
+        </div>
+      </a>
+      {{/each}}
+    </div>
+
+  </div>
+</div>
+
+<style>
+  .bestselling-section .clear {
+    clear: both;
+  }
+
+  .bestselling-section img {
+    max-width: 100%;
+    border: 0px;
+  }
+
+  .bestselling-section button {
+    outline: none !important;
+  }
+
+  /******* Common Element CSS End *********/
+
+  /******* Middle section CSS Start ******/
+  /* -------- Landing page ------- */
+  .bestselling-section .owl-stage {
+    margin: 15px 0;
+    display: flex;
+  }
+
+  .bestselling-section .item {
+    margin: 0 16px;
+    width: 360px;
+    height: 480px;
+    display: flex;
+    align-items: flex-end;
+    background: rgba(0, 0, 0, 0.1) no-repeat center center / cover;
+    overflow: hidden;
+    position: relative;
+    transition: all 0.4s ease-in-out;
+    cursor: pointer;
+  }
+
+  .bestselling-section .item:hover {
+    width: 480px;
+  }
+
+  .bestselling-section .item:after {
+    content: "";
+    display: block;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    left: 0;
+    top: 0;
+    background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.5));
+  }
+
+  .bestselling-section .item-desc {
+    padding: 0 24px 12px;
+    color: #fff;
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+    transition: all 0.4s ease-in-out;
+    width: 100%;
+  }
+
+  .bestselling-section .item:hover .item-desc {
+    transform: none;
+    -webkit-transform: none;
+    width: 100%;
+  }
+
+  .bestselling-section .item-desc .hidden-title{
+    opacity: 0;
+    transform: translateY(48px);
+    transition: all 0.4s ease-in-out 0.2s;
+    height: 0;
+  }
+
+  .bestselling-section .item:hover .item-desc .hidden-title {
+    opacity: 1;
+    transform: translateY(0);
+    height: auto;
+  }
+
+  .bestselling-section .owl-theme.custom-carousel .owl-dots {
+    margin-top: 16px;
+    z-index: 5;
+    display: flex;
+    gap: 5px;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .bestselling-section .owl-theme.custom-carousel .owl-nav {
+    display: none;
+  }
+  .bestselling-section .owl-theme.custom-carousel .owl-dot {
+    height: 10px;
+    width: 10px;
+    border-radius: 999px;
+    background-color: rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease-in-out;
+    border: 0px;
+  }
+  .bestselling-section .owl-theme.custom-carousel .owl-dot:hover {
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+
+  .bestselling-section .owl-theme.custom-carousel .owl-dot.active {
+    background-color: var(--palette-02);
+  }
+
+  /******** Middle section CSS End *******/
+</style>
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"
+  integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw=="
+  crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const success = '{{#if success}}{{success}}{{/if}}';
+    if (success) {
+      toastr.success(success);
+    }
+  });
+  $(".custom-carousel").owlCarousel({
+    autoWidth: true,
+    loop: true,
+    dots: true,
+    autoplay: true, // Enable autoplay
+    autoplayTimeout: 3000,
+  });
+  $(document).ready(function () {
+
+    $(".custom-carousel .item").click(function () {
+      $(".custom-carousel .item").not($(this)).removeClass("active");
+      $(this).toggleClass("active");
+    });
+  });
+</script>

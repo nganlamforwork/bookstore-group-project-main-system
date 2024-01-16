@@ -1,93 +1,130 @@
-
-<div style="padding: 4rem 10rem;"
-  class="text-center d-flex flex-column align-items-center"
->
-  <h1 class="text-uppercase mb-4 fw-bold header-font fs-2">New arrivals</h1>
+<div style="padding: 4rem 10rem;" class="text-center d-flex flex-column align-items-center">
+  <div class="text-center mb-4 flex d-flex flex-column align-items-center">
+    <h1 class="text-uppercase mb-2 fw-bold header-font fs-2">New Arrivals</h1>
+    <p style="height: 2px; width: 56px; background-color: var(--palette-02)"></p>
+  </div>
   <ul class="nav nav-pills mb-3 gap-3" id="pills-tab" role="tablist">
-      <li class="nav-item" role="presentation">
-        <button class="nav-link active tab-button shadow rounded-0 p-3" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">All</button>
-      </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link active tab-button shadow rounded-0 p-3" id="pills-home-tab" data-bs-toggle="pill"
+        data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home"
+        aria-selected="true">All</button>
+    </li>
     {{#each categories}}
-      <li class="nav-item" role="presentation">
-        <button class="nav-link tab-button shadow rounded-0 p-3" id="pills-profile-tab-{{@index}}" data-bs-toggle="pill" data-bs-target="#pills-profile-{{@index}}" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">{{this.title}}</button>
-      </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link tab-button shadow rounded-0 p-3" id="pills-profile-tab-{{@index}}" data-bs-toggle="pill"
+        data-bs-target="#pills-profile-{{@index}}" type="button" role="tab" aria-controls="pills-profile"
+        aria-selected="false">{{this.title}}</button>
+    </li>
     {{/each}}
   </ul>
   <div class="tab-content" id="pills-tabContent">
-    <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab" tabindex="0">
+    <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab"
+      tabindex="0">
       <div class="book-cards-container mt-4 row">
         {{#each newArrivalBooks}}
-          <div class="col-3  book-card">
-            <a class="book-card-container" href="/product/{{this._id}}">
-              <div
-                class="img-container"
-                style="width: 100%;
+        <div class="col-3  book-card">
+          <a class="book-card-container" href="/product/{{this._id}}">
+            <div class="img-container" style="width: 100%;
                   min-width: 240px;
                   padding-top: 150%;
+                  position: relative">
+              <div class="thumbnail" style="
+                position: absolute;
+                top: 0;
+                left:0;
+                right:0;
+                bottom:0;
                   background-image: url('{{this.thumbnail}}');
-                  background-size: cover;"
-              >
-              <div class="overlay fs-2 text-light">
+                  background-size: cover;"></div>
+              <div class="overlay fs-2">
                 <i class="fa-solid fa-eye"></i>
               </div>
-              </div>
-              <div class="card-body text-start py-4 text-center">
-                <h1 class="fs-4 header-font fw-bold">{{this.title}}</h1>
-                <p class="text-secondary fs-5">${{this.price}}</p>
-              </div>
-            </a>
-          </div>
+            </div>
+            <div class="card-body text-start py-4 text-center">
+              <p class="text-secondary m-0 text-uppercase">{{this.author_name}}</p>
+              <h1 class="fs-3 header-font fw-bold">{{this.title}}</h1>
+              <p class="text-secondary fs-5">${{this.price}}</p>
+            </div>
+          </a>
+        </div>
         {{/each}}
       </div>
     </div>
     {{#each categories}}
-      <div class="tab-pane fade" id="pills-profile-{{@index}}" role="tabpanel" aria-labelledby="pills-profile-tab-{{@index}}" tabindex="0">
-        <div class="book-cards-container mt-4 row">
-          {{#each newBooks}}
-            <div class="col-3  book-card">
-              <a class="book-card-container" href="/product/{{this._id}}">
-                <div
-                  class="img-container"
-                  style="width: 100%;
-                    min-width: 240px;
-                    padding-top: 150%;
-                    background-image: url('{{this.thumbnail}}');
-                    background-size: cover;"
-                >
-                <div class="overlay fs-2 text-light">
-                  <i class="fa-solid fa-eye"></i>
-                </div>
-                </div>
-                <div class="card-body text-start py-4 text-center">
-                  <h1 class="fs-4 header-font fw-bold">{{this.title}}</h1>
-                  <p class="text-secondary fs-5">${{this.price}}</p>
-                </div>
-
-              </a>
+    <div class="tab-pane fade" id="pills-profile-{{@index}}" role="tabpanel"
+      aria-labelledby="pills-profile-tab-{{@index}}" tabindex="0">
+      <div class="book-cards-container mt-4 row">
+        {{#each newBooks}}
+        <div class="col-3  book-card">
+          <a class="book-card-container" href="/product/{{this._id}}">
+            <div class="img-container" style="width: 100%;
+                  min-width: 240px;
+                  padding-top: 150%;
+                  position: relative">
+              <div class="thumbnail" style="
+                position: absolute;
+                top: 0;
+                left:0;
+                right:0;
+                bottom:0;
+                  background-image: url('{{this.thumbnail}}');
+                  background-size: cover;"></div>
+              <div class="overlay fs-2">
+                <i class="fa-solid fa-eye"></i>
+              </div>
             </div>
-          {{/each}}
+            <div class="card-body text-start py-4 text-center">
+              <p class="text-secondary m-0 text-uppercase">{{this.author_name}}</p>
+              <h1 class="fs-3 header-font fw-bold">{{this.title}}</h1>
+              <p class="text-secondary fs-5">${{this.price}}</p>
+            </div>
+          </a>
         </div>
+        {{/each}}
       </div>
+    </div>
     {{/each}}
   </div>
 </div>
 
 <style>
-  .tab-button{ background-color: white; color: black !important; transition: all
-  0.4s ease-in-out;} .tab-button:hover{background-color: var(--palette-02)
-  !important;color: white !important;} .tab-button.active{ background-color:
-  var(--palette-02) !important; color: white !important;}
+  .tab-button {
+    background-color: white;
+    color: black !important;
+    transition: all 0.4s ease-in-out;
+  }
+
+  .tab-button:hover {
+    background-color: var(--palette-02) !important;
+    color: white !important;
+  }
+
+  .tab-button.active {
+    background-color:
+      var(--palette-02) !important;
+    color: white !important;
+  }
+
   .img-container {
     position: relative;
     overflow: hidden;
   }
+
+  .img-container .thumbnail {
+    transition: all 0.4s ease-in-out;
+  }
+
+  .img-container:hover .thumbnail {
+    transform: scale(1.1);
+  }
+
   .overlay {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(255, 255, 255, 0.5);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -98,5 +135,4 @@
   .overlay:hover {
     opacity: 1;
   }
-
 </style>
