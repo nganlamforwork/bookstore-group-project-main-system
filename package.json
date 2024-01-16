@@ -1,7 +1,7 @@
 {
   "name": "bookstore-group-project-main-system",
   "version": "1.0.0",
-  "description": "",
+  "description": "1. Trần Tùng Lâm - 21127337\r 2. Lê Vũ Ngân Lam - 21127334\r 3. Trần Bình Kha - 21127065\r 4. Phạm Duy Anh - 21127008",
   "main": "server.js",
   "engines": {
     "node": "18.x"
@@ -36,11 +36,13 @@
     "mongoose": "^8.0.2",
     "morgan": "^1.10.0",
     "multer": "^1.4.5-lts.1",
+    "nodemailer": "^6.9.8",
     "nodemon": "^3.0.2",
     "passport": "^0.7.0",
     "passport-google-oauth2": "^0.2.0",
     "passport-strategy": "^1.0.0",
     "pg-promise": "^11.5.4",
-    "uuid": "^9.0.1"
+    "uuid": "^9.0.1",
+    "validator": "^13.11.0"
   }
 }

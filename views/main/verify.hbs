@@ -1,0 +1,47 @@
+<div class="container">
+    <div class="row">
+        <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+            <div class="card border-0 my-5"
+                style="background-color: var(--gradient-base-background-2); max-width: 70rem">
+                <div class="card-body p-4 p-sm-5">
+                    <h1 class="text-center mb-3 fw-light header-font" style="font-size: 48px">Verification</h1>
+                    <div id="verificationMessage"></div>
+                    <form id="verificationForm" action="/auth/verify" method="post">
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="verificationCode" name="verificationCode"
+                                required>
+                            <label for="verificationCode">Verification Code</label>
+                        </div>
+                        <button class="btn btn-primary btn-login text-capitalize w-10 m-auto px-4 border-0"
+                            style="background-color: var(--palette-02);" type="button"
+                            onclick="verify()">Verify</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function verify() {
+        var verificationCode = $('#verificationCode').val();
+        $.ajax({
+            type: "POST",
+            url: "/auth/verify",
+            data: { verificationCode: verificationCode },
+            success: function (response) {
+                if (response.success) {
+                    $('#verificationMessage').html('<div class="alert alert-success" role="alert">' + response.success + '</div>');
+                    setTimeout(function () {
+                        window.location.href = "/auth/login";
+                    }, 2000);
+                } else if (response.error) {
+                    $('#verificationMessage').html('<div class="alert alert-danger" role="alert">' + response.error + '</div>');
+                }
+            },
+            error: function (error) {
+                console.log(error.responseText);
+            }
+        });
+    }
+</script>

@@ -1,93 +1,66 @@
 <div class="container">
   <div class="row">
     <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
-      <div
-        class="card border-0 my-5"
-        style="background-color: var(--gradient-base-background-2); max-width: 70rem"
-      >
+      <div class="card border-0 my-5" style="background-color: var(--gradient-base-background-2); max-width: 70rem">
         <div class="card-body p-4 p-sm-5">
-          <h1
-            class="text-center mb-3 fw-light header-font"
-            style="font-size: 48px"
-          >
-            Create account
-          </h1>
-          {{#if error}}
-            <div class="alert alert-danger" role="alert">
-              {{error}}
-            </div>
+          <h1 class="text-center mb-3 fw-light header-font" style="font-size: 48px">Create account</h1>
+          {{#if verificationSent}}
+          <div id="verificationMessage" class="alert alert-success" role="alert">
+            A verification has been sent to your email, please check.
+          </div>
           {{/if}}
-          <form action="/auth/register" method="post">
-            <div class="form-floating mb-3">
-              <input
-                type="text"
-                class="form-control"
-                id="floatingInputFirstName"
-                placeholder="Enter fullname"
-                name="firstname"
-                required
-              />
-              <label for="floatingInputFirstName">
-                First name
-              </label>
+          {{#if error}}
+          <div class="alert alert-danger" role="alert">
+            {{error}}
+          </div>
+          {{/if}}
+
+          {{#if success}}
+          <div class="alert alert-success" role="alert">
+            {{success}}
+          </div>
+          {{/if}}
+          <div id="emailError" class="alert alert-danger" role="alert" style="display: none;">
+            Please include an '@' in the email address.
+          </div>
+          <form action="/auth/register" method="post" id="registrationForm" onsubmit="return validateForm()">
+            <div class="form-group d-flex gap-3">
+              <div class="form-floating mb-3" style="flex: 1;">
+                <input type="text" class="form-control" id="floatingFirstName" placeholder="Enter first name"
+                  name="firstname" required />
+                <label for="floatingFirstName">First name</label>
+              </div>
+              <div class="form-floating mb-3" style="flex: 1;">
+                <input type="text" class="form-control" id="floatingLastName" placeholder="Enter last name"
+                  name="lastname" />
+                <label for="floatingLastName">Last name</label>
+              </div>
             </div>
             <div class="form-floating mb-3">
-              <input
-                type="text"
-                class="form-control"
-                id="floatingInputLastName"
-                placeholder="Enter fullname"
-                name="lastname"
-              />
-              <label for="floatingInputLastName">
-                Last name
-              </label>
+              <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" name="email"
+                required />
+              <label for="floatingInput">Email address</label>
             </div>
+
             <div class="form-floating mb-3">
-              <input
-                type="email"
-                class="form-control"
-                id="floatingInputEmail"
-                placeholder="name@example.com"
-                name="email"
-                required
-              />
-              <label for="floatingInputEmail">
-                Email address
-              </label>
+              <input type="password" class="form-control" id="floatingPassword" placeholder="Password" name="password"
+                required />
+              <label for="floatingPassword">Password</label>
             </div>
-            <div class="form-floating mb-3">
-              <input
-                type="password"
-                class="form-control"
-                id="floatingPassword"
-                placeholder="Password"
-                name="password"
-                required
-              />
-              <label for="floatingPassword">
-                Password
-              </label>
+            <div id="passwordError" class="alert alert-danger" role="alert" style="display: none;">
+              Password must be at least 8 characters long and contain at least one number and one special character.
             </div>
+
+
             <div class="d-grid">
-              <button
-                class="btn btn-primary btn-login text-capitalize w-10 m-auto px-4 border-0"
-                style="background-color: var(--palette-02);"
-                type="button"
-                onclick="validateAndSubmit()"
-              >
-                Create
-              </button>
+              <button class="btn btn-primary btn-login text-capitalize w-10 m-auto px-4 border-0"
+                style="background-color: var(--palette-02);" type="submit">Create</button>
             </div>
           </form>
           <hr class="border-1 border-top border-secondary" />
           <div class="d-flex flex-row gap-2 justify-content-center mt-3">
-            <p>
-              Already have an account?
-            </p>
-            <a href="/auth/login" style="color: var(--palette-02)">
-              Log in
-            </a>
+            <p>Already have an account?</p>
+            <a href="/auth/login" style="color: var(--palette-02)">Log in</a>
           </div>
         </div>
       </div>
@@ -97,41 +70,27 @@
 
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script>
-  function validateAndSubmit() {
-  var firstname = $("#floatingInputFirstName").val();
-  var lastname = $("#floatingInputLastName").val();
-  var email = $("#floatingInputEmail").val();
-  var password = $("#floatingPassword").val();
-  console.log(email);
+  function validateForm() {
+    var email = $('#floatingInput').val();
+    var password = $('#floatingPassword').val();
 
-  var emailRegex = /^[^\\\\\\\\\\\\\s@]+@[^\s@]+\.[^\s@]+$/;
-
-  if (!emailRegex.test(email)) {
-    alert("Please enter a valid email address");
-    return;
-  }
-
-  if (password.length < 8 || !/[0-9]/.test(password) || !/[!@#$%^&*()_+{}\[\]:;<>,.?~\\/-]/.test(password)) {
-    alert("Password must be at least 8 characters long and contain at least one number and one special character");
-    return;
-  }
-
-  $.ajax({
-    type: "POST",
-    url: "/auth/register",
-    data: {
-      firstname: firstname,
-      lastname: lastname,
-      email: email,
-      password: password
-    },
-    success: function(response) {
-      alert(response);
-        window.location.href = "/auth/login";
-    },
-    error: function(error) {
-      alert(error.responseText);
+    // Kiểm tra email
+    if (email.indexOf('@') === -1) {
+      $('#emailError').show();
+      return false;
+    } else {
+      $('#emailError').hide();
     }
-  });
-}
+
+    // Kiểm tra mật khẩu
+    var passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
+    if (!passwordRegex.test(password)) {
+      $('#passwordError').show();
+      return false;
+    } else {
+      $('#passwordError').hide();
+    }
+
+    return true;
+  }
 </script>

@@ -34,6 +34,9 @@ router.post('/register', CustomerController.register);
 router.post('/change-password', CustomerController.changePassword);
 router.get('/logout', CustomerController.logOut);
 
+router.get('/verify', CustomerController.getVerificationPage);
+router.post('/verify', CustomerController.verifyAccount);
+
 // OAuth 2.0 with Google
 router.get(
 	'/google',
