@@ -17,9 +17,17 @@ const OrderModel = {
       console.error(err);
     }
   },
-  getAll: async (customerId) => {
+  getAllByCustomer: async (customerId) => {
     try {
       const orders = await db.getAll(schema, "customerId", customerId);
+      return orders;
+    } catch (error) {
+      console.error(error);
+    }
+  },
+  getAll: async () => {
+    try {
+      const orders = await db.getAll(schema);
       return orders;
     } catch (error) {
       console.error(error);
