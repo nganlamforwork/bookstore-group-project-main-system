@@ -25,6 +25,7 @@ router.use((req, res, next) => {
 
 // Protected routes - after the authentication middleware
 router.get('/dashboard', adminController.getAdminDashboard);
+router.get('/revenue', adminController.getRevenue);
 router.get('/reviews', adminController.getReviews);
 router.get('/subscribers', adminController.getSubscribers);
 router.use('/categories', require('./categories.route'));
