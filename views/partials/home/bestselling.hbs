@@ -100,7 +100,7 @@
   }
 
   .bestselling-section .owl-theme.custom-carousel .owl-dots {
-    margin-top: 0px;
+    margin-top: 16px;
     z-index: 5;
     display: flex;
     gap: 5px;
@@ -113,6 +113,10 @@
     width: 10px;
     border-radius: 999px;
     background-color: rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease-in-out;
+  }
+  .bestselling-section .owl-theme.custom-carousel .owl-dot:hover {
+    background-color: rgba(0, 0, 0, 0.5);
   }
 
   .bestselling-section .owl-theme.custom-carousel .owl-dot.active {
