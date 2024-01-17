@@ -420,7 +420,7 @@
       }
 
       // Example: Ensure the cardholder name contains only alphabets and spaces
-      if (!/^[a-zA-Z\\\\\\\\\\\\\\\\\\\\s]+$/.test(cardholderName)) {
+      if (!/^[a-zA-Z\s]+$/.test(cardholderName)) {
         alert('Cardholder Name should contain only alphabets and spaces');
         return false;
       }
