@@ -43,15 +43,15 @@
         color: var(--palette-02);
     }
 </style>
-<div class="container p-4 mb-3">
+<div style="padding: 4rem 10rem" class="text-center  ">
     <!-- Display the search query above the books -->
-    <div class="text-center" style="margin-top: 40px; margin-bottom: 90px;">
-        <h2>You search for: {{searchQuery}}</h2>
+    <div class="text-center mb-4">
+        <h2>Search result(s) for: <span class="header-font" style="color: var(--palette-02)">{{searchQuery}}</span></h2>
     </div>
     {{#if books.length}}
     <div class="row">
         {{#each books}}
-        <div class="col-4 mb-4">
+        <div class="col-3 mb-4">
             <a class="w-100" style="display: block;" href="/product/{{this._id}}">
                 <div class="img-container" style="width: 100%;
                             padding-top: 150%;
