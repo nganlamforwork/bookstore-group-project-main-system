@@ -5,6 +5,7 @@ const HomeController = require("../../controllers/payment/home.controller.js");
 const passport = require("passport");
 
 router.get("/", HomeController.displayHome);
+router.get("/paging", HomeController.paging);
 
 // Login using email, password
 router.get("/auth/login", HomeController.displayLogIn);
