@@ -11,13 +11,16 @@
   </div>
   <a href="/">
     <h1 class="header-font">BOOK
-      <span class="header-font" style="color: var(--palette-02);">SHOP</span>
+      <span class="header-font darkmode-ignore" style="color: var(--palette-02);">SHOP</span>
     </h1>
   </a>
   <div id="header-right-icons" class="d-flex gap-4 align-items-center">
     <a href="/auth/login">
       <i class="fa-solid fa-user"></i>
     </a>
-    <i class="fa fa-search"></i>
+    <a type="button" data-bs-toggle="modal" data-bs-target="#searchModal">
+      <i class="fa fa-search" style="cursor: pointer"></i>
+    </a>
   </div>
 </div>
+{{> home/search-modal}}

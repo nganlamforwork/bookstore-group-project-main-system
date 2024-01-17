@@ -1,0 +1,77 @@
+<style>
+    body {
+
+        background: #d1d5db;
+    }
+
+    .height {
+        height: 100vh;
+    }
+
+    .form {
+        position: relative;
+    }
+
+    .form .fa-search {
+
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        color: #9ca3af;
+
+    }
+
+    .form span {
+
+        position: absolute;
+        right: 17px;
+        top: 13px;
+        padding: 2px;
+        border-left: 1px solid #d1d5db;
+
+    }
+
+    .left-pan {
+        padding-left: 7px;
+    }
+
+    .left-pan i {
+
+        padding-left: 10px;
+    }
+
+    .form-input {
+
+        height: 55px;
+        text-indent: 33px;
+        border-radius: 10px;
+    }
+
+    .form-input:focus {
+
+        box-shadow: none;
+        border: none;
+    }
+</style>
+<div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content d-flex justify-content-center align-items-center w-100">
+            <div class="w-100">
+                <div class="form">
+                    <i class="fa fa-search"></i>
+                    <input type="text" class="form-control form-input" id="searchInput" placeholder="Search books...">
+                    <span class="left-pan">
+                        <a href="#" onclick="performSearch()">Search</a>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function performSearch() {
+        const searchValue = document.getElementById('searchInput').value;
+        const searchURL = `/search?query=${encodeURIComponent(searchValue)}`;
+        window.location.href = searchURL;
+    }
+</script>

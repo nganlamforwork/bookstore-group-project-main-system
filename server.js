@@ -87,7 +87,8 @@ const cartRoutes = require('./routers/main/cart.route.js');
 const checkoutRoutes = require('./routers/main/checkout.route.js');
 const loginsRoutes = require('./routers/main/loginsTracker.route.js');
 
-app.get('/', homeRoutes);
+// Using routes
+app.use('/', homeRoutes);
 app.use('/auth', authRoutes);
 app.use('/profile', profileRoutes);
 app.use('/admin', adminRoutes);
@@ -103,7 +104,6 @@ app.get('/faq', (req, res) => {
 		data: FAQContent,
 	});
 });
-// Using routes
 
 // Handling invalid routes
 app.use((req, res, next) => {
