@@ -103,6 +103,27 @@ const CategoryController = {
         );
       }
 
+      // Sorting logic based on the selected option
+      if (filters?.sortBy) {
+        switch (filters.sortBy) {
+          case "price-asc":
+            books.sort((a, b) => a.price - b.price);
+            break;
+          case "price-desc":
+            books.sort((a, b) => b.price - a.price);
+            break;
+          case "name-asc":
+            books.sort((a, b) => a.title.localeCompare(b.title));
+            break;
+          case "name-desc":
+            books.sort((a, b) => a.title.localeCompare(a.title));
+            break;
+          default:
+            // Default sorting or no sorting
+            break;
+        }
+      }
+
       const page = parseInt(filters?.page) || 1;
       const offset = (page - 1) * PER_PAGE;
       const totalPages = Math.ceil(books.length / PER_PAGE);
