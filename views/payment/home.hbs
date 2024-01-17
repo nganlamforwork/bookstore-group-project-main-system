@@ -31,9 +31,9 @@
             <div>
               <h5><b>Main Balance</b></h5>
               {{#if balance}}
-              <h3 class="text-success"><b>${{formatNumber balance.amount}}</b></h3>
+              <h3 class="text-success"><b><span>$</span>{{balance.amount}}</b></h3>
               {{else}}
-              <h3 class="text-success"><b>$0.00</b></h3>
+              <h3 class="text-success"><b><span>$</span>0.00</b></h3>
               {{/if}}
             </div>
           </div>
@@ -67,7 +67,7 @@
                   <p class="text mb-1">
                     Cardholder Name*
                   </p>
-                  <input class="form-control mb-3 text-uppercase" type="text" name="cardholderName" placeholder="Name"
+                  <input class="form-control mb-3 text-uppercase" type="text" name="cardholderName" placeholder="FULL NAME"
                     value="{{balance.cardholderName}}" disabled />
                 </div>
               </div>
@@ -76,7 +76,7 @@
                   <p class="text mb-1">
                     Card Number*
                   </p>
-                  <input class="form-control mb-3" type="text" placeholder="1234 5678 435678" maxlength="16"
+                  <input class="form-control mb-3" type="text" placeholder="0000 0000 0000 0000" maxlength="16"
                     name="cardNumber" value="{{balance.cardNumber}}" disabled />
                 </div>
               </div>
@@ -125,7 +125,7 @@
           </div>
           <div class="card-body">
             <h1 style="font-size: 64px;">
-              ${{formatNumber income}}
+              <span>$</span>{{income}}
             </h1>
           </div>
         </div>
@@ -140,7 +140,7 @@
           </div>
           <div class="card-body">
             <h1 style="font-size: 64px;">
-              ${{formatNumber expense}}
+              <span>$</span>{{expense}}
             </h1>
           </div>
         </div>
@@ -148,7 +148,7 @@
     </div>
   </div>
 
-  <div class="mb-4">
+  <div class="mb-4" id="payment-history">
     {{#if admin}}
     <p class="header-font fw-bold fs-1 m-0 my-4">
       Withdraw History
@@ -157,9 +157,6 @@
       <table class="table table-hover">
         <thead class="table-light">
           <tr>
-            <th>
-              ID
-            </th>
             <th>
               Activity
             </th>
@@ -178,9 +175,6 @@
           {{#each withdraw_transactions}}
           <tr>
             <td>
-              {{inc @index}}
-            </td>
-            <td>
               <div style="width: 400px !important;">
                 {{this.activity}}
               </div>
@@ -189,10 +183,10 @@
               {{this.date}}
             </td>
             {{#if this.success}}
-            <td class="text-danger"> ${{formatNumber this.amount}} <i class="fa fa-arrow-down"></i></td>
+            <td class="text-danger"> <span>$</span>{{this.amount}} <i class="fa fa-arrow-down"></i></td>
             <td class="text-success"><i class="fa-regular fa-circle-check"></i></td>
             {{else}}
-            <td class="text-danger"> ${{formatNumber this.amount}} <i class="fa fa-arrow-down"></i></td>
+            <td class="text-danger"> <span>$</span>{{this.amount}} <i class="fa fa-arrow-down"></i></td>
             <td class="text-danger"><i class="fa-regular fa-circle-xmark"></i></td>
             {{/if}}
           </tr>
@@ -208,16 +202,13 @@
         <thead class="table-light">
           <tr>
             <th>
-              ID
+              Date
             </th>
             <th>
               User
             </th>
             <th>
               Activity
-            </th>
-            <th>
-              Date
             </th>
             <th>
               Amount
@@ -231,7 +222,7 @@
           {{#each transactions}}
           <tr>
             <td>
-              {{inc @index}}
+              {{this.date}}
             </td>
             <td>
               {{this.customerId}}
@@ -241,14 +232,11 @@
                 {{this.activity}}
               </div>
             </td>
-            <td>
-              {{this.date}}
-            </td>
             {{#if this.success}}
-            <td class="text-success"> ${{formatNumber this.amount}} <i class="fa fa-arrow-up"></i></td>
+            <td class="text-success"> <span>$</span>{{this.amount}} <i class="fa fa-arrow-up"></i></td>
             <td class="text-success"><i class="fa-regular fa-circle-check"></i></td>
             {{else}}
-            <td class="text-success"> ${{formatNumber this.amount}} <i class="fa fa-arrow-up"></i></td>
+            <td class="text-success"> <span>$</span>{{this.amount}} <i class="fa fa-arrow-up"></i></td>
             <td class="text-danger"><i class="fa-regular fa-circle-xmark"></i></td>
             {{/if}}
           </tr>
@@ -265,13 +253,10 @@
         <thead class="table-light">
           <tr>
             <th>
-              ID
+              Date
             </th>
             <th>
               Activity
-            </th>
-            <th>
-              Date
             </th>
             <th>
               Amount
@@ -285,28 +270,25 @@
           {{#each transactions}}
           <tr>
             <td>
-              {{inc @index}}
+              {{this.date}}
             </td>
             <td>
               <div style="width: 400px !important;">
                 {{this.activity}}
               </div>
             </td>
-            <td>
-              {{this.date}}
-            </td>
             {{#if this.success}}
             {{#if this.income}}
-            <td class="text-success"> ${{formatNumber this.amount}} <i class="fa fa-arrow-up"></i></td>
+            <td class="text-success"> <span>$</span>{{this.amount}} <i class="fa fa-arrow-up"></i></td>
             {{else}}
-            <td class="text-danger"> ${{formatNumber this.amount}} <i class="fa fa-arrow-down"></i></td>
+            <td class="text-danger"> <span>$</span>{{this.amount}} <i class="fa fa-arrow-down"></i></td>
             {{/if}}
             <td class="text-success"><i class="fa-regular fa-circle-check"></i></td>
             {{else}}
             {{#if this.income}}
-            <td class="text-success"> ${{formatNumber this.amount}} <i class="fa fa-arrow-up"></i></td>
+            <td class="text-success"> <span>$</span>{{this.amount}} <i class="fa fa-arrow-up"></i></td>
             {{else}}
-            <td class="text-danger"> ${{formatNumber this.amount}} <i class="fa fa-arrow-down"></i></td>
+            <td class="text-danger"> <span>$</span>{{this.amount}} <i class="fa fa-arrow-down"></i></td>
             {{/if}}
             <td class="text-danger"><i class="fa-regular fa-circle-xmark"></i></td>
             {{/if}}
@@ -316,7 +298,19 @@
       </table>
     </div>
     {{/if}}
+
   </div>
+
+    <nav id="paginationWrapper" aria-label="...">
+      <ul class="pagination" style="margin-top: 1rem; padding-left: 0.3rem">
+        {{#loopTill totalPages}}
+        <li class="page-item {{#ifEquals ../currentPage index}}active{{/ifEquals}}">
+          <a class="page-link" style="cursor: pointer; border-radius: 0.3125rem;"
+            onclick="paging({{index}})">{{index}}</a>
+        </li>
+        {{/loopTill}}
+      </ul>
+    </nav>
 </div>
 
 <!-- Payment Method modal -->
@@ -423,23 +417,23 @@
       }
 
       // Example: Ensure the cardholder name contains only alphabets and spaces
-      if (!/^[a-zA-Z\\\\\\\\\\\\\\\\\\\\s]+$/.test(cardholderName)) {
+      if (!/^[a-zA-Z\\\\\\\\\\\\\\\\\\\\s]+<span>$</span>/.test(cardholderName)) {
         alert('Cardholder Name should contain only alphabets and spaces');
         return false;
       }
 
-      if (!/^\d{16}$/.test(cardNumber)) {
+      if (!/^\d{16}<span>$</span>/.test(cardNumber)) {
         alert('Please enter a valid 16-digit Card Number');
         return false;
       }
 
       // Assuming MM/YY format for expires
-      if (!/^(0[1-9]|1[0-2])\/\d{2}$/.test(expires)) {
+      if (!/^(0[1-9]|1[0-2])\/\d{2}<span>$</span>/.test(expires)) {
         alert('Please enter a valid Expires date in MM/YY format');
         return false;
       }
 
-      if (!/^\d{3}$/.test(cvv)) {
+      if (!/^\d{3}<span>$</span>/.test(cvv)) {
         alert('Please enter a valid 3-digit CVV');
         return false;
       }
@@ -448,3 +442,4 @@
     }
   });
 </script>
+<script src='/js/payment/history.js'></script>

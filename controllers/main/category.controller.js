@@ -1,10 +1,28 @@
-const CategoriesModel = require('../../models/admin/categories.model');
-const BooksModel = require('../../models/admin/books.model');
+const CategoriesModel = require("../../models/admin/categories.model");
+const BooksModel = require("../../models/admin/books.model");
 
 const PER_PAGE = 8;
 
 const CategoryController = {
-  displayCategory: async (req, res, next) => {
+  displayCategories: async (req, res, next) => {
+    try {
+      let categories = await CategoriesModel.getAll();
+      let books = await BooksModel.getAll();
+      for (let category of categories) {
+        let books = await BooksModel.getByCategory(category._id);
+        category.bookCount = books.length;
+      }
+      res.render("main/categories", {
+        title: "Categories Page",
+        layout: "main",
+        categories: categories,
+        books: books.length,
+      });
+    } catch (error) {
+      next(error);
+    }
+  },
+  displayAllCategories: async (req, res, next) => {
     try {
       let books = await BooksModel.getAll();
       let categories = await CategoriesModel.getAll();
@@ -15,11 +33,35 @@ const CategoryController = {
 
       books = books.slice(offset, offset + PER_PAGE);
 
-      res.render('main/category', {
-        title: 'Category Page',
-        layout: 'main',
+      res.render("main/category", {
+        title: "Category Page",
+        layout: "main",
         books,
         categories,
+        currentPage: page,
+        totalPages,
+      });
+    } catch (error) {
+      next(error);
+    }
+  },
+  displayCategory: async (req, res, next) => {
+    try {
+      let categoryId = req.query.category;
+      let books = await BooksModel.getByCategory(categoryId);
+
+      const page = 1;
+      const offset = (page - 1) * PER_PAGE;
+      const totalPages = Math.ceil(books.length / PER_PAGE);
+
+      books = books.slice(offset, offset + PER_PAGE);
+
+      res.render("main/category", {
+        title: "Category Page",
+        layout: "main",
+        books,
+        categories: false,
+        currentCategory: categoryId,
         currentPage: page,
         totalPages,
       });
@@ -49,7 +91,7 @@ const CategoryController = {
             let tmp = await CategoriesModel.getListBooksById(categoryId);
             categoryFilterBooks.push(...tmp);
           }
-        } else if (filters?.category && typeof filters.category === 'string') {
+        } else if (filters?.category && typeof filters.category === "string") {
           let tmp = await CategoriesModel.getListBooksById(filters?.category);
           categoryFilterBooks.push(...tmp);
         }
@@ -59,6 +101,27 @@ const CategoryController = {
             return itemA._id.toString() === itemB._id.toString();
           })
         );
+      }
+
+      // Sorting logic based on the selected option
+      if (filters?.sortBy) {
+        switch (filters.sortBy) {
+          case "price-asc":
+            books.sort((a, b) => a.price - b.price);
+            break;
+          case "price-desc":
+            books.sort((a, b) => b.price - a.price);
+            break;
+          case "name-asc":
+            books.sort((a, b) => a.title.localeCompare(b.title));
+            break;
+          case "name-desc":
+            books.sort((a, b) => a.title.localeCompare(a.title));
+            break;
+          default:
+            // Default sorting or no sorting
+            break;
+        }
       }
 
       const page = parseInt(filters?.page) || 1;

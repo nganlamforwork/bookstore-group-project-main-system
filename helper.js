@@ -27,12 +27,12 @@ handlebars.registerHelper("formatNumber", function (number) {
   return number?.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,");
 });
 
-handlebars.registerHelper('ifEquals', function(arg1, arg2, options) {
+handlebars.registerHelper("ifEquals", function (arg1, arg2, options) {
   return arg1 === arg2 ? options.fn(this) : options.inverse(this);
 });
 
-handlebars.registerHelper('loopTill', function(n, options) {
-  let result = '';
+handlebars.registerHelper("loopTill", function (n, options) {
+  let result = "";
   for (let i = 1; i <= n; i++) {
     result += options.fn({ index: i });
   }
