@@ -7,6 +7,7 @@ const CategoryController = {
   displayCategories: async (req, res, next) => {
     try {
       let categories = await CategoriesModel.getAll();
+      let books = await BooksModel.getAll();
       for (let category of categories) {
         let books = await BooksModel.getByCategory(category._id);
         category.bookCount = books.length;
@@ -15,12 +16,13 @@ const CategoryController = {
         title: "Categories Page",
         layout: "main",
         categories: categories,
+        books: books.length,
       });
     } catch (error) {
       next(error);
     }
   },
-  displayCategory: async (req, res, next) => {
+  displayAllCategories: async (req, res, next) => {
     try {
       let books = await BooksModel.getAll();
       let categories = await CategoriesModel.getAll();
@@ -36,6 +38,30 @@ const CategoryController = {
         layout: "main",
         books,
         categories,
+        currentPage: page,
+        totalPages,
+      });
+    } catch (error) {
+      next(error);
+    }
+  },
+  displayCategory: async (req, res, next) => {
+    try {
+      let categoryId = req.query.category;
+      let books = await BooksModel.getByCategory(categoryId);
+
+      const page = 1;
+      const offset = (page - 1) * PER_PAGE;
+      const totalPages = Math.ceil(books.length / PER_PAGE);
+
+      books = books.slice(offset, offset + PER_PAGE);
+
+      res.render("main/category", {
+        title: "Category Page",
+        layout: "main",
+        books,
+        categories: false,
+        currentCategory: categoryId,
         currentPage: page,
         totalPages,
       });

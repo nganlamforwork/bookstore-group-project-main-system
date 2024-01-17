@@ -1,8 +1,27 @@
 <div style="padding: 4rem 10rem" class="text-center d-flex flex-column align-items-center ">
     <h1 class="fs-1 header-font mb-4" style="color: var(--palette-02)">All Categories</h1>
     <div class="row">
+        <a class="col-3 p-4" href="/categories/all" style="display: block;">
+            <div class="img-container" style="width: 100%;
+                  min-width: 240px;
+                  padding-top: 100%;
+                  position: relative">
+                <div class="thumbnail" style="
+                position: absolute;
+                top: 0;
+                left:0;
+                right:0;
+                bottom:0;
+                background-image: url('https://upload.wikimedia.org/wikipedia/commons/d/d4/ALL_logo.svg');
+                background-size: contain; background-repeat: no-repeat; background-position: center"></div>
+                <div class="overlay fs-3">
+                    <p>View Details</p>
+                </div>
+            </div>
+            <h3 class="mt-2 mb-4 header-font">See All Books ({{books}})</h3>
+        </a>
         {{#each categories}}
-        <a class="col-3" href="/categories/detail?category={{this._id}}" style="display: block;">
+        <a class="col-3 p-4" href="/categories/detail?category={{this._id}}" style="display: block;">
             <div class="img-container" style="width: 100%;
                   min-width: 240px;
                   padding-top: 100%;
@@ -19,7 +38,7 @@
                     <p>View Details</p>
                 </div>
             </div>
-            <h2 class="mt-2 mb-4 header-font">{{this.title}} ({{this.bookCount}})</h2>
+            <h3 class="mt-2 mb-4 header-font">{{this.title}} ({{this.bookCount}})</h3>
         </a>
         {{/each}}
     </div>

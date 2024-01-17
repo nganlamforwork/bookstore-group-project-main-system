@@ -46,7 +46,7 @@ function handleFilter(e) {
   params = params + "&page=1"; // default page is 1
 
   $.ajax({
-    url: "/category/filter?" + params,
+    url: "/categories/detail/filter?" + params,
     type: "GET",
     dataType: "json",
     success: function (data) {
@@ -97,7 +97,7 @@ function paging(page) {
   params = params + "&page=" + page;
 
   $.ajax({
-    url: "/category/filter?" + params,
+    url: "/categories/detail/filter?" + params,
     type: "GET",
     dataType: "json",
     success: function (data) {
