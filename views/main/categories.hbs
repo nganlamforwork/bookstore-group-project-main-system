@@ -1,0 +1,11 @@
+<div style="padding: 4rem 10rem" class="text-center d-flex flex-column align-items-center ">
+    <h1 class="fs-1 header-font mb-4" style="color: var(--palette-02)">All Categories</h1>
+    <div class="row">
+        {{#each categories}}
+            <div class="col-4">
+                <img class="w-100"src="{{this.thumbnail}}" alt="{{this.title}}"/>
+                <a href="/categories/detail?category={{this._id}}" class="link text-decoration">{{this.title}}</a>
+            </div>
+        {{/each}}
+    </div>
+</div>

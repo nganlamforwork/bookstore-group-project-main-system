@@ -1,9 +1,21 @@
-const CategoriesModel = require('../../models/admin/categories.model');
-const BooksModel = require('../../models/admin/books.model');
+const CategoriesModel = require("../../models/admin/categories.model");
+const BooksModel = require("../../models/admin/books.model");
 
 const PER_PAGE = 8;
 
 const CategoryController = {
+  displayCategories: async (req, res, next) => {
+    try {
+      let categories = await CategoriesModel.getAll();
+      res.render("main/categories", {
+        title: "Categories Page",
+        layout: "main",
+        categories: categories,
+      });
+    } catch (error) {
+      next(error);
+    }
+  },
   displayCategory: async (req, res, next) => {
     try {
       let books = await BooksModel.getAll();
@@ -15,9 +27,9 @@ const CategoryController = {
 
       books = books.slice(offset, offset + PER_PAGE);
 
-      res.render('main/category', {
-        title: 'Category Page',
-        layout: 'main',
+      res.render("main/category", {
+        title: "Category Page",
+        layout: "main",
         books,
         categories,
         currentPage: page,
@@ -49,7 +61,7 @@ const CategoryController = {
             let tmp = await CategoriesModel.getListBooksById(categoryId);
             categoryFilterBooks.push(...tmp);
           }
-        } else if (filters?.category && typeof filters.category === 'string') {
+        } else if (filters?.category && typeof filters.category === "string") {
           let tmp = await CategoriesModel.getListBooksById(filters?.category);
           categoryFilterBooks.push(...tmp);
         }
