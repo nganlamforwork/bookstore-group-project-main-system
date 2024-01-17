@@ -4,7 +4,7 @@
       <div class="card border-0 my-5" style="background-color: var(--gradient-base-background-2); max-width: 70rem">
         <div class="card-body p-4 p-sm-5">
           <h1 class="text-center mb-3 fw-light header-font" style="font-size: 48px">Login</h1>
-          <form action='/auth/login' method="post">
+          <form action='/auth/login' method="post" onsubmit="return validateForm()">
             <div class="mb-3">
               <input type="email" class="form-control" placeholder="Email" name="email" required />
             </div>
@@ -52,4 +52,27 @@
       toastr.error(error_str);
     }
   });
+  function validateForm() {
+    var email = $('#floatingInput').val();
+    var password = $('#floatingPassword').val();
+
+    // Kiểm tra email
+    if (email.indexOf('@') === -1) {
+      $('#emailError').show();
+      return false;
+    } else {
+      $('#emailError').hide();
+    }
+
+    // Kiểm tra mật khẩu
+    var passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
+    if (!passwordRegex.test(password)) {
+      $('#passwordError').show();
+      return false;
+    } else {
+      $('#passwordError').hide();
+    }
+
+    return true;
+  }
 </script>
