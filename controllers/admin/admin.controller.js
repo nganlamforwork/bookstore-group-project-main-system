@@ -123,10 +123,50 @@ const adminController = {
       next(error);
     }
   },
+  getOrdersFilter: async (req, res, next) => {
+    try {
+      let result = [];
+      let tmpOrder;
+      let orders = await OrderModel.getAll();
+      for (let index in orders){
+        let order = orders[index]
+        tmpOrder = {...order._doc};
+        // Fetch the customer information using customerId
+        const customer = await CustomerModel.getById(tmpOrder.customerId);
+        // Add customer email to the customerName field in the order
+        tmpOrder.customer_name = customer.email;
+
+        let tmpProductList = []
+        let tmpProduct;
+        for (const prod of tmpOrder.products) {
+          tmpProduct = {...prod._doc}
+          const book = await BooksModel.getById(prod.bookId);
+          tmpProduct.book = book;
+          
+          tmpProductList.push(tmpProduct)
+        }
+
+        tmpOrder.products = tmpProductList
+        tmpOrder.index = parseInt(index) + 1;
+        result.push(tmpOrder)
+      }
+
+      const PER_PAGE = 3;
+      const page = parseInt(req.query?.page) || 1;
+      const offset = (page - 1) * PER_PAGE;
+      const totalPages = Math.ceil(result.length / PER_PAGE);
+      result = result.slice(offset, offset + PER_PAGE);
+
+      res.status(200).json({ orders: result, page, totalPages });
+    } catch (error) {
+      next(error);
+    }
+  },
   getOrdersList: async (req, res, next) => {
     try {
-      const orders = await OrderModel.getAll();
-      for (const order of orders) {
+      let orders = await OrderModel.getAll();
+      for (let index in orders){
+        let order = orders[index]
         // Fetch the customer information using customerId
         const customer = await CustomerModel.getById(order.customerId);
 
@@ -137,11 +177,21 @@ const adminController = {
           const book = await BooksModel.getById(prod.bookId);
           prod["book"] = book;
         }
+        order.index = parseInt(index) + 1;
       }
+
+      const PER_PAGE = 3;
+      const page = 1;
+      const offset = (page - 1) * PER_PAGE;
+      const totalPages = Math.ceil(orders.length / PER_PAGE);
+      orders = orders.slice(offset, offset + PER_PAGE);
+
       res.render("admin/orders", {
         title: "Orders List",
         layout: "admin",
-        orders: orders,
+        orders,
+        page,
+        totalPages
       });
     } catch (error) {
       next(err);
