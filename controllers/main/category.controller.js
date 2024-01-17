@@ -7,6 +7,10 @@ const CategoryController = {
   displayCategories: async (req, res, next) => {
     try {
       let categories = await CategoriesModel.getAll();
+      for (let category of categories) {
+        let books = await BooksModel.getByCategory(category._id);
+        category.bookCount = books.length;
+      }
       res.render("main/categories", {
         title: "Categories Page",
         layout: "main",
