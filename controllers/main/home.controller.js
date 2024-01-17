@@ -36,6 +36,28 @@ const HomeController = {
 			next(error);
 		}
 	},
+	displaySearchPage: async (req, res, next) => {
+		try {
+			const searchQuery = req.query.query;
+			if (!searchQuery) {
+				res.status(400).render('error', {
+					layout: false,
+					code: 400,
+					msg: 'An error has occurred',
+					description: 'Invalid search query',
+				});
+			}
+			const books = await BooksModel.search(searchQuery);
+
+			res.render('main/search', {
+				title: 'Search Page',
+				searchQuery,
+				books,
+			});
+		} catch (error) {
+			next(error);
+		}
+	},
 };
 
 const getAllArrivalBooks = async () => {

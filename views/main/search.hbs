@@ -1,0 +1,89 @@
+<style>
+    .img-container {
+        position: relative;
+        overflow: hidden;
+    }
+
+    .img-container .thumbnail {
+        transition: all 0.4s ease-in-out;
+    }
+
+    .img-container:hover .thumbnail {
+        transform: scale(1.1);
+    }
+
+    .overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.5);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .overlay:hover {
+        opacity: 1;
+    }
+
+    .page-item.active .page-link {
+        background-color: var(--palette-02);
+        border-color: var(--palette-02);
+    }
+
+    .page-link {
+        color: var(--palette-02);
+    }
+
+    .page-link:hover {
+        color: var(--palette-02);
+    }
+</style>
+<div class="container p-4 mb-3">
+    <!-- Display the search query above the books -->
+    <div class="text-center" style="margin-top: 40px; margin-bottom: 90px;">
+        <h2>You search for: {{searchQuery}}</h2>
+    </div>
+    {{#if books.length}}
+    <div class="row">
+        {{#each books}}
+        <div class="col-4 mb-4">
+            <a class="w-100" style="display: block;" href="/product/{{this._id}}">
+                <div class="img-container" style="width: 100%;
+                            padding-top: 150%;
+                            position: relative">
+                    <div class="thumbnail" style="
+                                position: absolute;
+                                top: 0;
+                                left:0;
+                                right:0;
+                                bottom:0;
+                                background-image: url('{{this.thumbnail}}');
+                                background-size: cover;"></div>
+                    <div class="overlay fs-2">
+                        <i class="fa-solid fa-eye"></i>
+                    </div>
+                </div>
+                <div class="card-body text-start py-4 text-center">
+                    <p class="text-secondary m-0 text-uppercase">{{this.author_name}}</p>
+                    <h1 class="fs-3 header-font fw-bold">{{this.title}}</h1>
+                    <p class="text-secondary fs-5">${{this.price}}</p>
+                </div>
+            </a>
+        </div>
+        {{/each}}
+    </div>
+    {{else}}
+    <div class="d-flex justify-content-center align-items-center flex-column">
+        There is no available books for keyword {{searchQuery}}
+        <a href="/">
+            <div class='btn btn-primary rounded-0 border-0 shopping-btn mt-3 shopping-btn'
+                style='background-color: var(--palette-02); padding: 0.75rem 6rem;'>Continue Shopping</div>
+        </a>
+    </div>
+    {{/if}}
+</div>
