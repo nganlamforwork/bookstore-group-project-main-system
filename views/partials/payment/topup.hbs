@@ -83,7 +83,6 @@
         if (amount > 1000) {
             alert("Maximum amount is $1,000.");
             amountInput.value = 1000;
-            return;
         }
 
         balanceLink.href = `/balance/${userId}/recharge?amount=${amountInput.value}`;

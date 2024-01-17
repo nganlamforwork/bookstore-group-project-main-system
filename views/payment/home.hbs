@@ -67,8 +67,8 @@
                   <p class="text mb-1">
                     Cardholder Name*
                   </p>
-                  <input class="form-control mb-3 text-uppercase" type="text" name="cardholderName" placeholder="FULL NAME"
-                    value="{{balance.cardholderName}}" disabled />
+                  <input class="form-control mb-3 text-uppercase" type="text" name="cardholderName"
+                    placeholder="FULL NAME" value="{{balance.cardholderName}}" disabled />
                 </div>
               </div>
               <div class="col-12">
@@ -301,16 +301,16 @@
 
   </div>
 
-    <nav id="paginationWrapper" aria-label="...">
-      <ul class="pagination" style="margin-top: 1rem; padding-left: 0.3rem">
-        {{#loopTill totalPages}}
-        <li class="page-item {{#ifEquals ../currentPage index}}active{{/ifEquals}}">
-          <a class="page-link" style="cursor: pointer; border-radius: 0.3125rem;"
-            onclick="paging({{index}})">{{index}}</a>
-        </li>
-        {{/loopTill}}
-      </ul>
-    </nav>
+  <nav id="paginationWrapper" aria-label="...">
+    <ul class="pagination" style="margin-top: 1rem; padding-left: 0.3rem">
+      {{#loopTill totalPages}}
+      <li class="page-item {{#ifEquals ../currentPage index}}active{{/ifEquals}}">
+        <a class="page-link" style="cursor: pointer; border-radius: 0.3125rem;"
+          onclick="paging({{index}})">{{index}}</a>
+      </li>
+      {{/loopTill}}
+    </ul>
+  </nav>
 </div>
 
 <!-- Payment Method modal -->
@@ -387,22 +387,25 @@
       formData.forEach((value, key) => {
         data[key] = value;
       });
-      fetch("/payments/{{session.user._id}}", {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-      }).then(async (res) => {
-        const data = await res.json();
-        if (data.success) {
-          alert(data.message);
-          window.location.reload();
-        }
-      }).catch(err => {
-        console.error(err)
-        alert('Add new payment method failed');
-      });
+      if (validateForm()) {
+
+        fetch("/payments/{{session.user._id}}", {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data)
+        }).then(async (res) => {
+          const data = await res.json();
+          if (data.success) {
+            alert(data.message);
+            window.location.reload();
+          }
+        }).catch(err => {
+          console.error(err)
+          alert('Add new payment method failed');
+        });
+      }
     });
 
     function validateForm() {
@@ -426,13 +429,6 @@
         alert('Please enter a valid 16-digit Card Number');
         return false;
       }
-
-      // Assuming MM/YY format for expires
-      if (!/^(0[1-9]|1[0-2])\/\d{2}$/.test(expires)) {
-        alert('Please enter a valid Expires date in MM/YY format');
-        return false;
-      }
-
       if (!/^\d{3}$/.test(cvv)) {
         alert('Please enter a valid 3-digit CVV');
         return false;
