@@ -37,10 +37,12 @@
               </div>
             </div>
             <div class="form-floating mb-3">
-              <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" name="email"
-                required />
+              <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" name="email" />
               <label for="floatingInput">Email address</label>
             </div>
+              <div id="emailError" class="alert alert-danger" role="alert" style="display: none;">
+                Please include an '@' in the email address.
+              </div>
 
             <div class="form-floating mb-3">
               <input type="password" class="form-control" id="floatingPassword" placeholder="Password" name="password"
@@ -48,9 +50,9 @@
               <label for="floatingPassword">Password</label>
             </div>
             <div id="passwordError" class="alert alert-danger" role="alert" style="display: none;">
+
               Password must be at least 8 characters long and contain at least one number and one special character.
             </div>
-
 
             <div class="d-grid">
               <button class="btn btn-primary btn-login text-capitalize w-10 m-auto px-4 border-0"
@@ -70,9 +72,18 @@
 
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script>
+
+  document.addEventListener('DOMContentLoaded', function () {
+    const error_str = '{{#if error}}{{error}}{{/if}}';
+    const error = "{{error}}"
+    if (error === "true") {
+      toastr.error(error_str);
+    }
+  });
   function validateForm() {
     var email = $('#floatingInput').val();
     var password = $('#floatingPassword').val();
+    var cfpassword = $('#floatingCfPassword').val();
 
     // Kiểm tra email
     if (email.indexOf('@') === -1) {
