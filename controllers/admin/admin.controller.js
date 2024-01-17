@@ -66,17 +66,52 @@ const adminController = {
   getSubscribers: async (req, res, next) => {
     try {
       const subscribers = await SubscriberModel.getAll();
-      const sanitizedSubscribers = subscribers.map((subscriber) => {
+      let sanitizedSubscribers = subscribers.map((subscriber, index) => {
         return {
           email: subscriber.email || "",
           created_at: subscriber.created_at.toLocaleString(),
+          index: index + 1
         };
       });
+
+      const page = 1;
+      const offset = (page - 1) * 4;
+      const totalPages = Math.ceil(sanitizedSubscribers.length / 4);
+
+      sanitizedSubscribers = sanitizedSubscribers.slice(offset, offset + 4);
 
       res.render("admin/subscribers", {
         title: "Subscribers",
         layout: "admin",
         subscribers: sanitizedSubscribers,
+        page,
+        totalPages
+      });
+    } catch (error) {
+      next(err);
+    }
+  },
+  getSubscribersFilter: async (req, res, next) => {
+    try {
+      const subscribers = await SubscriberModel.getAll();
+      let sanitizedSubscribers = subscribers.map((subscriber, index) => {
+        return {
+          email: subscriber.email || "",
+          created_at: subscriber.created_at.toLocaleString(),
+          index: index + 1
+        };
+      });
+
+      const page = parseInt(req.query?.page) || 1;
+      const offset = (page - 1) * 4;
+      const totalPages = Math.ceil(sanitizedSubscribers.length / 4);
+
+      sanitizedSubscribers = sanitizedSubscribers.slice(offset, offset + 4);
+
+      res.json({
+        subscribers: sanitizedSubscribers,
+        page,
+        totalPages
       });
     } catch (error) {
       next(err);
