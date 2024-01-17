@@ -37,10 +37,10 @@
           <th>Created</th>
         </tr>
       </thead>
-      <tbody class="table-border-bottom-0">
+      <tbody id="admin-order-table" class="table-border-bottom-0">
         {{#each orders}}
         <tr>
-          <td>{{inc @index}}</td>
+          <td>{{this.index}}</td>
           <td>{{this.customer_name}}</td>
           <td>
             {{#each products}}
@@ -64,4 +64,17 @@
       </tbody>
     </table>
   </div>
+
+  <nav id="paginationWrapper" aria-label="...">
+    <ul class="pagination" style="margin-top: 1rem; padding-left: 0.3rem">
+      {{#loopTill totalPages}}
+      <li class="page-item {{#ifEquals ../page index}}active{{/ifEquals}}">
+        <a class="page-link" style="cursor: pointer; border-radius: 0.3125rem;"
+          onclick="paging({{index}})">{{index}}</a>
+      </li>
+      {{/loopTill}}
+    </ul>
+  </nav>
 </div>
+
+<script src='/js/admin/orders.js'></script>
