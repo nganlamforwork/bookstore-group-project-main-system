@@ -103,7 +103,6 @@ app.get("/faq", (req, res) => {
     data: FAQContent,
   });
 });
-// Using routes
 
 // Handling invalid routes
 app.use((req, res, next) => {
