@@ -35,6 +35,7 @@ router.get("/subscribers/filter", adminController.getSubscribersFilter);
 router.get("/books/filter", adminController.getBooksFilter);
 router.use("/categories", require("./categories.route"));
 router.use("/books", require("./books.route"));
+router.get("/customers/filter", adminController.getCustomersFilter);
 router.use("/customers", require("./customers.route"));
 
 // Admin

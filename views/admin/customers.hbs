@@ -52,11 +52,11 @@
             </th>
           </tr>
         </thead>
-        <tbody>
+        <tbody id="admin-customers-table">
           {{#each users}}
             <tr>
               <td class="text-truncate">
-                {{inc @index}}
+                {{this.index}}
               </td>
               <td class="text-truncate">
                 {{this.first_name}}
@@ -92,6 +92,19 @@
           {{/each}}
         </tbody>
       </table>
+
+      <nav id="paginationWrapper" aria-label="...">
+        <ul class="pagination" style="margin-top: 1rem; padding-left: 0.3rem">
+          {{#loopTill totalPages}}
+          <li class="page-item {{#ifEquals ../page index}}active{{/ifEquals}}">
+            <a class="page-link" style="cursor: pointer; border-radius: 0.3125rem;"
+              onclick="paging({{index}})">{{index}}</a>
+          </li>
+          {{/loopTill}}
+        </ul>
+      </nav>
     </div>
   </div>
 </div>
+
+<script src='/js/admin/customers.js'></script>
