@@ -83,6 +83,7 @@ const subscribersRoutes = require("./routers/main/subscribers.route.js");
 const productRoutes = require("./routers/main/product.route.js");
 const categoryRoutes = require("./routers/main/category.route.js");
 const homeRoutes = require("./routers/main/home.route.js");
+const searchRoutes = require("./routers/main/search.route.js");
 const cartRoutes = require("./routers/main/cart.route.js");
 const checkoutRoutes = require("./routers/main/checkout.route.js");
 const loginsRoutes = require("./routers/main/loginsTracker.route.js");
@@ -97,6 +98,7 @@ app.use("/categories", categoryRoutes);
 app.use("/cart", cartRoutes);
 app.use("/checkout", checkoutRoutes);
 app.use("/logins", loginsRoutes);
+app.use("/search", searchRoutes);
 app.get("/faq", (req, res) => {
   res.render("main/faq", {
     title: "FAQ",
