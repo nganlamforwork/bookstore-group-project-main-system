@@ -42,6 +42,13 @@ a:hover {
 .darkmode-toggle {
 	z-index: 999;
 }
+
+.button {
+	isolation: isolate;
+}
+img {
+	isolation: isolate;
+}
 .darkmode--activated .logo {
 	mix-blend-mode: difference;
 }

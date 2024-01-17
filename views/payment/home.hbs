@@ -43,7 +43,7 @@
             <i class="fa-solid fa-arrow-right"></i>
           </button>
           {{else}}
-          {{#if balance}}
+          {{#if available}}
           <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#balanceModal" type="button">
             Top-up
             <i class="fa-solid fa-arrow-right"></i>
@@ -192,10 +192,7 @@
             <td class="text-danger"> ${{formatNumber this.amount}} <i class="fa fa-arrow-down"></i></td>
             <td class="text-success"><i class="fa-regular fa-circle-check"></i></td>
             {{else}}
-            <td class="text-secondary">
-              <i class="fa-regular fa-face-sad-tear"></i>
-              <i class="fa-solid fa-dollar-sign"></i>
-            </td>
+            <td class="text-danger"> ${{formatNumber this.amount}} <i class="fa fa-arrow-down"></i></td>
             <td class="text-danger"><i class="fa-regular fa-circle-xmark"></i></td>
             {{/if}}
           </tr>
@@ -248,17 +245,10 @@
               {{this.date}}
             </td>
             {{#if this.success}}
-            {{#if this.income}}
-            <td class="text-danger"> ${{formatNumber this.amount}} <i class="fa fa-arrow-down"></i></td>
-            {{else}}
             <td class="text-success"> ${{formatNumber this.amount}} <i class="fa fa-arrow-up"></i></td>
-            {{/if}}
             <td class="text-success"><i class="fa-regular fa-circle-check"></i></td>
             {{else}}
-            <td class="text-secondary">
-              <i class="fa-regular fa-face-sad-tear"></i>
-              <i class="fa-solid fa-dollar-sign"></i>
-            </td>
+            <td class="text-success"> ${{formatNumber this.amount}} <i class="fa fa-arrow-up"></i></td>
             <td class="text-danger"><i class="fa-regular fa-circle-xmark"></i></td>
             {{/if}}
           </tr>
@@ -313,10 +303,11 @@
             {{/if}}
             <td class="text-success"><i class="fa-regular fa-circle-check"></i></td>
             {{else}}
-            <td class="text-secondary">
-              <i class="fa-regular fa-face-sad-tear"></i>
-              <i class="fa-solid fa-dollar-sign"></i>
-            </td>
+            {{#if this.income}}
+            <td class="text-success"> ${{formatNumber this.amount}} <i class="fa fa-arrow-up"></i></td>
+            {{else}}
+            <td class="text-danger"> ${{formatNumber this.amount}} <i class="fa fa-arrow-down"></i></td>
+            {{/if}}
             <td class="text-danger"><i class="fa-regular fa-circle-xmark"></i></td>
             {{/if}}
           </tr>
@@ -387,10 +378,10 @@
 <script>
   document.addEventListener('DOMContentLoaded', function () {
     // Displaying toastr
-    const success = '{{#if success}}{{success}}{{/if}}';
-    console.log(success)
-    if (success) {
-      toastr.success(success);
+    const success_str = '{{#if success}}{{success}}{{/if}}';
+    const success = "{{success}}"
+    if (success === "true") {
+      toastr.success(success_str);
     }
 
     const form = document.getElementById('paymentMethodForm');

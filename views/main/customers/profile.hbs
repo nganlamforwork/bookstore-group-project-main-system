@@ -315,15 +315,17 @@
 <script>
   document.addEventListener('DOMContentLoaded', function () {
     // Check for error message and display toastr
-    const error = '{{#if error}}{{error}}{{/if}}';
-    if (error) {
-      toastr.error(error);
+    const error_str = '{{#if error}}{{error}}{{/if}}';
+    const error = "{{error}}"
+    if (error === "true") {
+      toastr.error(error_str);
     }
 
     // Check for success message and display toastr
-    const success = '{{#if success}}{{success}}{{/if}}';
-    if (success) {
-      toastr.success(success);
+    const success_str = '{{#if success}}{{success}}{{/if}}';
+    const success = "{{success}}"
+    if (success === "true") {
+      toastr.success(success_str);
     }
 
     const fileInput = document.getElementById('avatar-upload');

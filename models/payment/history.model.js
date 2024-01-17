@@ -20,7 +20,6 @@ const PaymentHistoryModel = {
 	getAll: async () => {
 		try {
 			const query = {
-				success: true,
 				income: false,
 			};
 			const transactions = await db.getAllQuery(schema, query);
@@ -32,7 +31,6 @@ const PaymentHistoryModel = {
 	getBankTransactions: async () => {
 		try {
 			const query = {
-				success: true,
 				income: true,
 			};
 			const transactions = await db.getAllQuery(schema, query);

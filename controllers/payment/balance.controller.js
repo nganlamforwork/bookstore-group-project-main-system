@@ -30,20 +30,34 @@ const BalanceController = {
 				const updatedAmount =
 					parseInt(existingBalance.amount) + parseInt(amount);
 
+				if (updatedAmount < 0 && parseInt(amount) < 0) {
+					await PaymentHistoryModel.add({
+						customerId: userId,
+						activity: 'Withdrawal',
+						amount: parseInt(amount),
+						income: true,
+						success: false,
+					});
+					return res.status(400).send({
+						success: false,
+						message: 'Not enough money to withdraw',
+					});
+				}
+
 				const result = await CardModel.updateBalance(
 					existingBalance._id,
 					updatedAmount
 				);
 				if (result.acknowledged) {
-					if (amount >= 0) {
+					if (parseInt(amount) >= 0) {
 						await PaymentHistoryModel.add({
 							customerId: userId,
 							activity: 'Top-up Visa card',
-							amount: amount,
+							amount: parseInt(amount),
 							income: true,
 							success: true,
 						});
-						res.status(200).send({
+						return res.status(200).send({
 							success: true,
 							message: 'Recharge balance successfully',
 						});
@@ -51,25 +65,25 @@ const BalanceController = {
 						await PaymentHistoryModel.add({
 							customerId: userId,
 							activity: 'Withdrawal',
-							amount: amount,
+							amount: parseInt(amount),
 							income: true,
 							success: true,
 						});
-						res.status(200).send({
+						return res.status(200).send({
 							success: true,
 							message: 'Withdraw money successfully',
 						});
 					}
 				} else {
-					if (amount > 0) {
+					if (parseInt(amount) >= 0) {
 						await PaymentHistoryModel.add({
 							customerId: userId,
 							activity: 'Top-up Visa card',
-							amount: amount,
+							amount: parseInt(amount),
 							income: true,
 							success: false,
 						});
-						res.status(400).send({
+						return res.status(400).send({
 							succes: false,
 							message: 'Recharge balance failed',
 						});
@@ -77,11 +91,11 @@ const BalanceController = {
 						await PaymentHistoryModel.add({
 							customerId: userId,
 							activity: 'Withdrawal',
-							amount: amount,
+							amount: parseInt(amount),
 							income: true,
 							success: false,
 						});
-						res.status(400).send({
+						return res.status(400).send({
 							succes: false,
 							message: 'Withdraw money failed',
 						});

@@ -10,9 +10,10 @@
 
 <script>
 	document.addEventListener('DOMContentLoaded', function () {
-		const success = '{{#if success}}{{success}}{{/if}}';
-		if (success) {
-			toastr.success(success);
+		const success_str = '{{#if success}}{{success}}{{/if}}';
+		const success = "{{success}}"
+		if (success === "true") {
+			toastr.success(success_str);
 		}
 	});
 </script>

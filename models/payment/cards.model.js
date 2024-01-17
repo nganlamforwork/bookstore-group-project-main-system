@@ -27,7 +27,6 @@ const CardModel = {
 		try {
 			const updateData = { amount: updatedBalance };
 			const result = await db.update(schema, '_id', balanceId, updateData);
-			console.log('🚀 ~ updateBalance: ~ updateData:', updateData);
 			return result;
 		} catch (err) {
 			console.log(err);

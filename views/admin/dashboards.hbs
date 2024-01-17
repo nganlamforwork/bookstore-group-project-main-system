@@ -184,9 +184,10 @@
 <!-- / Content -->
 <script>
   document.addEventListener('DOMContentLoaded', function () {
-    const success = '{{#if success}}{{success}}{{/if}}';
-    if (success) {
-      toastr.success(success);
+    const success_str = '{{#if success}}{{success}}{{/if}}';
+    const success = "{{success}}"
+    if (success === "true") {
+      toastr.success(success_str);
     }
     const fetchOrders = () => {
       return $.ajax({
@@ -270,7 +271,7 @@
         data.forEach(log => {
           const ngay = new Date(log.date);
           const dd = String(ngay.getDate()).padStart(2, '0');
-          const mm = String(ngay.getMonth() + 1).padStart(2, '0'); 
+          const mm = String(ngay.getMonth() + 1).padStart(2, '0');
           const yyyy = ngay.getFullYear();
           const date = `${dd}/${mm}/${yyyy}`
 
@@ -364,7 +365,7 @@
         data.forEach(log => {
           const ngay = new Date(log.created_at);
           const dd = String(ngay.getDate()).padStart(2, '0');
-          const mm = String(ngay.getMonth() + 1).padStart(2, '0'); 
+          const mm = String(ngay.getMonth() + 1).padStart(2, '0');
           const yyyy = ngay.getFullYear();
           const date = `${dd}/${mm}/${yyyy}`
 

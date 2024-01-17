@@ -3,7 +3,7 @@
     <h1 class="text-uppercase mb-2 fw-bold header-font fs-2">Best Selling</h1>
     <p style="height: 2px; width: 56px; background-color: var(--palette-02)"></p>
   </div>
-  <div class="bestselling-section w-100"style="overflow: hidden">
+  <div class="bestselling-section w-100" style="overflow: hidden">
     <div class="owl-carousel custom-carousel owl-theme">
       {{#each newArrivalBooks}}
       <a href="/product/{{this._id}}" class="item" style="background-image: url({{this.thumbnail}});">
@@ -86,7 +86,7 @@
     width: 100%;
   }
 
-  .bestselling-section .item-desc .hidden-title{
+  .bestselling-section .item-desc .hidden-title {
     opacity: 0;
     transform: translateY(48px);
     transition: all 0.4s ease-in-out 0.2s;
@@ -111,6 +111,7 @@
   .bestselling-section .owl-theme.custom-carousel .owl-nav {
     display: none;
   }
+
   .bestselling-section .owl-theme.custom-carousel .owl-dot {
     height: 10px;
     width: 10px;
@@ -119,6 +120,7 @@
     transition: all 0.3s ease-in-out;
     border: 0px;
   }
+
   .bestselling-section .owl-theme.custom-carousel .owl-dot:hover {
     background-color: rgba(0, 0, 0, 0.5);
   }
@@ -136,9 +138,10 @@
   crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
   document.addEventListener('DOMContentLoaded', function () {
-    const success = '{{#if success}}{{success}}{{/if}}';
-    if (success) {
-      toastr.success(success);
+    const success_str = '{{#if success}}{{success}}{{/if}}';
+    const success = "{{success}}"
+    if (success === "true") {
+      toastr.success(success_str);
     }
   });
   $(".custom-carousel").owlCarousel({

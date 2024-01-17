@@ -118,7 +118,7 @@
       event.preventDefault();
       if (validateForm()) {
         const formData = new FormData(form);
-        if (admin) {
+        if (admin === "true") {
           formData.append('amount', amount * -1);
         } else {
           formData.append('amount', amount);

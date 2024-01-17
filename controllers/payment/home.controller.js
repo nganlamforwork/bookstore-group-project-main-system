@@ -33,7 +33,7 @@ const HomeController = {
 						expense += trans.amount * -1;
 				});
 				withdraw_transactions = bank_transactions
-					.filter((trans) => trans.success && trans.income && trans.amount < 0)
+					.filter((trans) => trans.income && trans.amount < 0)
 					.map((trans) => {
 						if (trans.amount < 0) {
 							return {
@@ -76,6 +76,11 @@ const HomeController = {
 				error: req.flash('error'),
 				success: req.flash('success'),
 				admin: user.role === 'superadmin',
+				available:
+					balance.cardNumber &&
+					balance.cardholderName &&
+					balance.cvv &&
+					balance.expires,
 			});
 		} catch (error) {
 			next(error);
