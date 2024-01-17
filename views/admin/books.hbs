@@ -79,7 +79,7 @@
           </th>
         </tr>
       </thead>
-      <tbody class="table-border-bottom-0">
+      <tbody id="admin-book-table" class="table-border-bottom-0">
         {{#each books}}
           <tr>
             <td>
@@ -127,6 +127,17 @@
         {{/each}}
       </tbody>
     </table>
+
+    <nav id="paginationWrapper" aria-label="...">
+    <ul class="pagination" style="margin-top: 1rem; padding-left: 0.3rem">
+      {{#loopTill totalPages}}
+      <li class="page-item {{#ifEquals ../page index}}active{{/ifEquals}}">
+        <a class="page-link" style="cursor: pointer; border-radius: 0.3125rem;"
+          onclick="paging({{index}})">{{index}}</a>
+      </li>
+      {{/loopTill}}
+    </ul>
+  </nav>
   </div>
 </div>
 
@@ -366,3 +377,5 @@
     </div>
   </div>
 </div>
+
+<script src='/js/admin/books.js'></script>

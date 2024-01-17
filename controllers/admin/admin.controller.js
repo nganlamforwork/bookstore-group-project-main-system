@@ -96,6 +96,27 @@ const adminController = {
       next(err);
     }
   },
+  getBooksFilter: async (req, res, next) => {
+    try {
+      let books = await BooksModel.getAll();
+      let filters = req.query;
+
+      const page = parseInt(filters?.page) || 1;
+      const offset = (page - 1) * 4;
+      const totalPages = Math.ceil(books.length / 4);
+
+      books = books.slice(offset, offset + 4);
+
+      res.json({
+        books,
+        page,
+        totalPages,
+      });
+    } catch (err) {
+      res.status(500).json(err);
+      console.log(err);
+    }
+  },
   getReviews: async (req, res, next) => {
     try {
       res.render("admin/reviews", {
