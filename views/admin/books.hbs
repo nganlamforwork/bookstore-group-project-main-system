@@ -26,23 +26,14 @@
 <div class="card">
   <div class="card-header">
     <div class="d-flex flex justify-content-between align-items-start">
-      <button
-        type="button"
-        class="btn btn-primary text-capitalize fw-bold"
-        data-bs-toggle="modal"
-        data-bs-target="#addNewModal"
-      >
+      <button type="button" class="btn btn-primary text-capitalize fw-bold" data-bs-toggle="modal"
+        data-bs-target="#addNewModal">
         <i class="fa-solid fa-plus me-2"></i>
         Add new book
       </button>
       <!-- Search -->
       <form class="d-flex" role="search">
-        <input
-          class="form-control me-2"
-          type="search"
-          placeholder="Search books"
-          aria-label="Search"
-        />
+        <input class="form-control me-2" type="search" placeholder="Search books" aria-label="Search" />
         <button class="btn btn-outline-secondary" type="submit">
           <i class="fa-solid fa-magnifying-glass"></i>
         </button>
@@ -79,54 +70,61 @@
           </th>
         </tr>
       </thead>
-      <tbody class="table-border-bottom-0">
+      <tbody id="admin-book-table" class="table-border-bottom-0">
         {{#each books}}
-          <tr>
-            <td>
-              <img
-                src="{{this.thumbnail}}"
-                alt="{{this.title}}"
-                style="width: 100px"
-              />
-            </td>
-            <td class="text-wrap">
-              <div style="max-width: 300px !important;">
-                {{this.title}}
-              </div>
-            </td>
-            <td>
-              {{this.category_title}}
-            </td>
-            <td class="text-wrap">
-              <div style="max-width: 200px !important;">
+        <tr>
+          <td>
+            <img src="{{this.thumbnail}}" alt="{{this.title}}" style="width: 100px" />
+          </td>
+          <td class="text-wrap">
+            <div style="max-width: 300px !important;">
+              {{this.title}}
+            </div>
+          </td>
+          <td>
+            {{this.category_title}}
+          </td>
+          <td class="text-wrap">
+            <div style="max-width: 200px !important;">
               {{this.author_name}}
-              </div>
-            </td>
-            <td>
-              {{this.inventory}}
-            </td>
-            <td>
-              ${{this.price}}
-            </td>
-            <td>
-              {{this.last_updated}}
-            </td>
-            <td>
-              <div class="flex d-flex justify-content-start gap-4">
-                <a href="/admin/books/{{this._id}}" class="btn p-0">
-                  <i class="fa-solid fa-eye"></i>
-                </a>
-                <form action="/admin/books/delete/{{this._id}}" method="POST">
-                  <button type="submit" class="btn text-danger p-0">
-                    <i class="fa-solid fa-trash"></i>
-                  </button>
-                </form>
-              </div>
-            </td>
-          </tr>
+            </div>
+          </td>
+          <td>
+            {{this.inventory}}
+          </td>
+          <td>
+            ${{this.price}}
+          </td>
+          <td>
+            {{this.last_updated}}
+          </td>
+          <td>
+            <div class="flex d-flex justify-content-start gap-4">
+              <a href="/admin/books/{{this._id}}" class="btn p-0">
+                <i class="fa-solid fa-eye"></i>
+              </a>
+              <form action="/admin/books/delete/{{this._id}}" method="POST">
+                <button type="submit" class="btn text-danger p-0">
+                  <i class="fa-solid fa-trash"></i>
+                </button>
+              </form>
+            </div>
+          </td>
+        </tr>
         {{/each}}
       </tbody>
     </table>
+
+    <nav id="paginationWrapper" aria-label="...">
+      <ul class="pagination" style="margin-top: 1rem; padding-left: 0.3rem">
+        {{#loopTill totalPages}}
+        <li class="page-item {{#ifEquals ../page index}}active{{/ifEquals}}">
+          <a class="page-link" style="cursor: pointer; border-radius: 0.3125rem;"
+            onclick="paging({{index}})">{{index}}</a>
+        </li>
+        {{/loopTill}}
+      </ul>
+    </nav>
   </div>
 </div>
 
@@ -138,25 +136,13 @@
         <h1 class="modal-title fs-5" id="exampleModalLabel">
           Add new book
         </h1>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-        ></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <form action="/admin/books/new" method="POST">
         <div class="modal-body">
           <div class="form-floating mb-3">
-            <input
-              type="text"
-              name="title"
-              class="form-control"
-              id="title"
-              placeholder="Input book title"
-              required
-              style="height: 56px"
-            />
+            <input type="text" name="title" class="form-control" id="title" placeholder="Input book title" required
+              style="height: 56px" />
             <label for="title">
               Title
             </label>
@@ -164,14 +150,8 @@
           <div class="row">
             <div class="col-4">
               <div class="form-floating mb-3">
-                <input
-                  type="text"
-                  name="language"
-                  class="form-control"
-                  id="language"
-                  placeholder="Input book language"
-                  style="height: 56px"
-                />
+                <input type="text" name="language" class="form-control" id="language" placeholder="Input book language"
+                  style="height: 56px" />
                 <label for="language">
                   Language
                 </label>
@@ -179,14 +159,8 @@
             </div>
             <div class="col-4">
               <div class="form-floating mb-3">
-                <input
-                  type="number"
-                  name="pages"
-                  class="form-control"
-                  id="pages"
-                  placeholder="Input number of pages"
-                  style="height: 56px"
-                />
+                <input type="number" name="pages" class="form-control" id="pages" placeholder="Input number of pages"
+                  style="height: 56px" />
                 <label for="pages">
                   Pages
                 </label>
@@ -194,14 +168,8 @@
             </div>
             <div class="col-4">
               <div class="form-floating mb-3">
-                <input
-                  type="text"
-                  name="age"
-                  class="form-control"
-                  id="age"
-                  placeholder="Input target age group"
-                  style="height: 56px"
-                />
+                <input type="text" name="age" class="form-control" id="age" placeholder="Input target age group"
+                  style="height: 56px" />
                 <label for="age">
                   Age Group
                 </label>
@@ -209,26 +177,15 @@
             </div>
           </div>
           <div class="form-floating mb-3">
-            <input
-              type="text"
-              name="brief_des"
-              class="form-control"
-              id="brief_des"
-              placeholder="Input brief description"
-              style="height: 56px"
-            />
+            <input type="text" name="brief_des" class="form-control" id="brief_des"
+              placeholder="Input brief description" style="height: 56px" />
             <label for="brief_des">
               Brief Description
             </label>
           </div>
           <div class="form-floating mb-3">
-            <textarea
-              name="full_des"
-              class="form-control"
-              id="full_des"
-              placeholder="Input full description"
-              rows="4"
-            ></textarea>
+            <textarea name="full_des" class="form-control" id="full_des" placeholder="Input full description"
+              rows="4"></textarea>
             <label for="full_des">
               Full Description
             </label>
@@ -236,14 +193,8 @@
           <div class="row">
             <div class="col-4">
               <div class="form-floating mb-3">
-                <input
-                  type="number"
-                  name="price"
-                  class="form-control"
-                  id="price"
-                  placeholder="Input book price"
-                  style="height: 56px"
-                />
+                <input type="number" name="price" class="form-control" id="price" placeholder="Input book price"
+                  style="height: 56px" />
                 <label for="price">
                   Price
                 </label>
@@ -251,14 +202,8 @@
             </div>
             <div class="col-4">
               <div class="form-floating mb-3">
-                <input
-                  type="number"
-                  name="inventory"
-                  class="form-control"
-                  id="inventory"
-                  placeholder="Input book inventory"
-                  style="height: 56px"
-                />
+                <input type="number" name="inventory" class="form-control" id="inventory"
+                  placeholder="Input book inventory" style="height: 56px" />
                 <label for="inventory">
                   Inventory
                 </label>
@@ -266,14 +211,8 @@
             </div>
             <div class="col-4">
               <div class="form-floating mb-3">
-                <input
-                  type="text"
-                  name="vendor"
-                  class="form-control"
-                  id="vendor"
-                  placeholder="Input book vendor"
-                  style="height: 56px"
-                />
+                <input type="text" name="vendor" class="form-control" id="vendor" placeholder="Input book vendor"
+                  style="height: 56px" />
                 <label for="vendor">
                   Vendor
                 </label>
@@ -283,14 +222,8 @@
           <div class="row">
             <div class="col-4">
               <div class="form-floating mb-3">
-                <input
-                  type="text"
-                  name="author_name"
-                  class="form-control"
-                  id="vendor"
-                  placeholder="Input book vendor"
-                  style="height: 56px"
-                />
+                <input type="text" name="author_name" class="form-control" id="vendor" placeholder="Input book vendor"
+                  style="height: 56px" />
                 <label for="author">
                   Author
                 </label>
@@ -298,20 +231,14 @@
             </div>
             <div class="col-4">
               <div class="form-floating mb-3">
-                <select
-                  name="category_id"
-                  class="form-select"
-                  id="category_id"
-                  style="height: 56px"
-                  required
-                >
+                <select name="category_id" class="form-select" id="category_id" style="height: 56px" required>
                   <option value="" disabled selected>
                     Select a category
                   </option>
                   {{#each categories}}
-                    <option value="{{this._id}}">
-                      {{this.title}}
-                    </option>
+                  <option value="{{this._id}}">
+                    {{this.title}}
+                  </option>
                   {{/each}}
                 </select>
                 <label for="category_id">
@@ -321,14 +248,8 @@
             </div>
             <div class="col-4">
               <div class="form-floating mb-3">
-                <input
-                  type="date"
-                  name="published_at"
-                  class="form-control"
-                  id="published_at"
-                  placeholder="Input publication date"
-                  style="height: 56px"
-                />
+                <input type="date" name="published_at" class="form-control" id="published_at"
+                  placeholder="Input publication date" style="height: 56px" />
                 <label for="published_at">
                   Published At
                 </label>
@@ -337,25 +258,15 @@
           </div>
 
           <div class="form-floating mb-3">
-            <input
-              type="text"
-              name="thumbnail"
-              class="form-control"
-              id="thumbnail"
-              placeholder="Input thumbnail URL"
-              style="height: 56px"
-            />
+            <input type="text" name="thumbnail" class="form-control" id="thumbnail" placeholder="Input thumbnail URL"
+              style="height: 56px" />
             <label for="thumbnail">
               Thumbnail URL
             </label>
           </div>
         </div>
         <div class="modal-footer">
-          <button
-            type="button"
-            class="btn btn-secondary"
-            data-bs-dismiss="modal"
-          >
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
             Close
           </button>
           <button type="submit" class="btn btn-primary">
@@ -366,3 +277,5 @@
     </div>
   </div>
 </div>
+
+<script src='/js/admin/books.js'></script>

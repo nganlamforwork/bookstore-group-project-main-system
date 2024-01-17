@@ -5,7 +5,7 @@ const CustomerController = {
   getAll: async (req, res, next) => {
     try {
       const users = await CustomerModel.getAllWithAddresses();
-      const sanitizedUsers = users.map((user) => {
+      let sanitizedUsers = users.map((user, index) => {
         return {
           first_name: user.first_name || "",
           last_name: user.last_name || "",
@@ -18,13 +18,22 @@ const CustomerController = {
           created_at: user.created_at || "",
           last_updated: user.last_updated || "",
           _id: user._id || "",
+          index: index + 1
         };
       });
+
+      const PER_PAGE = 3;
+      const page = 1;
+      const offset = (page - 1) * PER_PAGE;
+      const totalPages = Math.ceil(sanitizedUsers.length / PER_PAGE);
+
+      sanitizedUsers = sanitizedUsers.slice(offset, offset + PER_PAGE);
 
       res.render("admin/customers", {
         title: "Customers",
         layout: "admin",
         users: sanitizedUsers,
+        page, totalPages
       });
     } catch (error) {
       next(err);
